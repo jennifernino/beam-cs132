@@ -1,0 +1,52 @@
+import React, { Component } from 'react';
+import PageOption from './PageOption'
+import './style/style.css';
+
+class Home extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: 'Bob',
+      inProgress:[],
+      published:[]
+    }
+  }
+
+  componentDidMount() {
+    // when opening?
+  }
+
+  render() {
+    return (
+      <div className="homeContainer">
+        <h1>Welcome {this.state.username}!</h1>
+        <div className="inProgressContainer">
+          <h2>In Progress</h2>
+          <div className="optionContainer">
+            {this.state.inProgress.map(item =>
+              <PageOption key="TODO insert here" item={item}/>
+            )}
+          </div>
+        </div>
+        <div className="publishedContainer">
+          <div className="publishedHeaderContainer">
+            <div className="leftSideContainer">
+              <h2>Published</h2>
+            </div>
+            <div className="rightSideContainer">
+              <button>add reflection</button>
+            </div>
+          </div>
+          <div className="optionContainer">
+            {this.state.published.map(item =>
+              <PageOption key="TODO insert here" item={item}/>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Home;
