@@ -33,8 +33,9 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
  */
 app.get('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
 
+  response.status(200).type('html');
+  response.send("hi")
 });
 
 app.get('/:user_id', (request, response) => {
@@ -47,6 +48,9 @@ app.get('/:user_id', (request, response) => {
 app.get('/signup', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
+  //response.send('hi');
+
+
 
 });
 
