@@ -9,6 +9,9 @@ class SignUp extends Component {
       password: '',
 
     };
+    this.handleUserChange = this.handleUserChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
@@ -17,7 +20,7 @@ class SignUp extends Component {
   }
 
   handlePasswordChange(event){
-    this.setState({password: event.taget.value});
+    this.setState({password: event.target.value});
   }
 
   handleSubmit(event){
@@ -27,22 +30,58 @@ class SignUp extends Component {
 
   render() {
     return (
+      <div className="layout">
+      <div className="layoutItem"></div>
       <div className="SignUpContainer">
+        <div> <h1>Create Account</h1> </div>
         <form onSubmit={this.handleSubmit}>
+
+        <div className="inputItem">
+        <label>
+        First Name
+        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
+        </label>
+        </div>
+
+        <div className="inputItem">
+        <label>
+        Last Name
+        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
+        </label>
+        </div>
+
+        <div className="inputItem">
         <label>
         Email
         <input type="text" value={this.state.email} onChange={this.handleUserChange} />
         </label>
+        </div>
 
+        <div className="inputItem">
         <label>
         Password
         <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         </label>
+        </div>
 
-        <input type="submit" value="Sign up" />
+        <div className="inputItem">
+        <label>
+        Retype password
+        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
+        </label>
+        </div>
+
+        <div className="inputItem">
+        <input type="submit" value="Sign up" className="submitButton" />
+        </div>
 
         </form>
+
+
       </div>
+      <div className="layoutItem"></div>
+      </div>
+
     );
   }
 }

@@ -35,7 +35,7 @@ app.get('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
 
   response.status(200).type('html');
-  response.send("hi")
+  response.render
 });
 
 app.get('/:user_id', (request, response) => {
