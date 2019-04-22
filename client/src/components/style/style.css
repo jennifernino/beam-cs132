@@ -3,6 +3,9 @@ html, body {
   width: 100%;
   display: flex;
 }
+h1 {
+  color: #49009E;
+}
 
 #root {
   display: flex;
@@ -19,12 +22,12 @@ html, body {
 
 }
 .leftContainer {
-  background-color: #85C1E9;
+  background-color: #00A9D7;
+
 }
 .rightContainer {
   width: 100%;
   display: flex;
-
   flex: 1;
 }
 
@@ -57,6 +60,26 @@ html, body {
 .submitButton{
   margin-left: 15px;
 }
+.searchContainer {
+  width: 100%;
+  padding: 20px;
+}
+.searchBarContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 20px; */
+  padding: 5px 10px 10px 20px;
+}
+.searchButton{
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 12px;
+  background-color: #49009E;
+}
 
 input{
   border-style:none;
@@ -67,6 +90,29 @@ input{
   margin-top: 5px;
 }
 
+ #searchBar {
+  border-color: black;
+  border-style: solid;
+  border-radius: 8px;
+  border-width: 1px;
+  font-size: 16px;
+  padding: 4px 10px;
+  margin-right: 10px;
+  width: 60%;
+}
+
+.allDropDownContainer {
+  /* margin: auto; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+/* .dropDownContainer { */
+  /* display: flex;
+  justify-content: space-between; */
+/* } */
+
 .menuContainer{
   display: flex;
   flex-flow: column;
@@ -76,6 +122,7 @@ input{
 
 ul {
   list-style-type: none;
+  padding: 30px;
 }
 
 .navButton{
@@ -84,7 +131,12 @@ ul {
   font-size: 20px;
   color: black;
   border: none;
-  padding: 15px 32px;
+  width: 160px;
+  height: 50px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.navButton:hover{
+  background-color: #49009E;
+  color: white;
 }
