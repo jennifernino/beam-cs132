@@ -49,7 +49,6 @@ class NewPage extends Component {
           <input id="searchBar" type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
 
           <div className="headerDropDownContainer">
-
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.semester}</DropdownToggle>
               <DropdownMenu>
@@ -61,6 +60,7 @@ class NewPage extends Component {
               </DropdownMenu>
             </Dropdown>
           </div>
+
           <div className="inputContainer">
             <label>Goals of the Day</label>
             <textarea></textarea>

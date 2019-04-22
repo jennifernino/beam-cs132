@@ -8,13 +8,24 @@ class Home extends Component {
     super(props);
     this.state = {
       username: 'Bob',
+      session: '',
       inProgress:[],
       published:[]
     }
   }
 
   componentDidMount() {
-    // when opening?
+    this.homeSetUp()
+  }
+
+  homeSetUp = () => {
+    const session = this.props.session;
+    const uri = 'http://localhost:8080/' + session + '/home'
+    fetch(uri)
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+      });
   }
 
   render() {
