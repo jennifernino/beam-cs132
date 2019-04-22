@@ -69,7 +69,6 @@ h1 {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  /* margin-top: 20px; */
   padding: 5px 10px 10px 20px;
 }
 .searchButton{
@@ -102,16 +101,11 @@ input{
 }
 
 .allDropDownContainer {
-  /* margin: auto; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
 }
-/* .dropDownContainer { */
-  /* display: flex;
-  justify-content: space-between; */
-/* } */
 
 .menuContainer{
   display: flex;
