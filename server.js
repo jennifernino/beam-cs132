@@ -4,17 +4,25 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
+/*
+ * Database credentials
+ */
 const username = "beam_manager";
 const password = "1320csci";
 const url = "mongodb+srv://" + username + ":" + password + "@cluster0-auldt.mongodb.net/cs132beam";
 
+/*
+ * Schemas!
+ */
 const schemas = require('./schemas.js');
 
 const usersSchema = new mongoose.Schema(schemas[0], schemas[1]);
 const lessonsSchema = new mongoose.Schema(schemas[2], schemas[3]);
 
 const Users = mongoose.model('Users', usersSchema);
-const Lessons = mongoose.model('Lessons', lessonsSchema);
+// INDEX NEEDED FOR FULL TEXT QUERIES
+const Lessons = mongoose.model('Lessons', lessonsSchema.index({'$**': 'text'}));
+
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,8 +42,9 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
 const sessions = new Map(); // session to USER_ID
 const names = new Map(); // session to NAME
 
-sessions.set("abc123","1")
-names.set("abc123","Jennifer")
+sessions.set("abc123","1") // fake user REMOVE once login is made
+names.set("abc123","Jennifer") // ^^^
+
 /*
  * Generates a random character sequence to use as session ID
  */
@@ -48,6 +57,10 @@ function genID() {
   return result;
 }
 
+/*
+ * Adds session to map
+ * TODO: Figure out how to remove once done
+ */
 function session(name, user_id) {
   let sesh = genID()
   while (sessions.has(sesh)) {
@@ -57,69 +70,23 @@ function session(name, user_id) {
   return sesh;
 }
 
-// ADD TO LESSONS
 // const { users, lessons } = require('./pre_info.js');
-//
-// Lessons.create(lessons[0], {}, (error, data) => {
+// Users.insertMany(users, {}, (error, data) => {
+//   if (error) {
+//     console.log(error.red);
+//   } else {
+//     let message = "Users Added to database!"
+//     console.log(message.green);
+//   }
+// })
+// Lessons.insertMany(lessons, {}, (error, data) => {
 //   if (error) {
 //     console.log(error.red);
 //   } else {
 //     let message = "Lesson Added to database!"
-//     console.log(message.green, lessons[0].lesson_id);
+//     console.log(message.green);
 //   }
-// })
-// Lessons.create(lessons[1], {}, (error, data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "Lesson Added to database!"
-//     console.log(message.green, lessons[1].lesson_id);
-//   }
-// })
-// Lessons.create(lessons[2], {}, (error, data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "Lesson Added to database!"
-//     console.log(message.green, lessons[2].lesson_id);
-//   }
-// })
-// Lessons.create(lessons[3], {}, (error, data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "Lesson Added to database!"
-//     console.log(message.green, lessons[3].lesson_id);
-//   }
-// })
-
-
-// ADD TO USERS
-// Users.create(users[0], {}, (error,data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "User Added to database!"
-//     console.log(message.green, users[0].user_id);
-//   }
-// })
-// Users.create(users[1], {}, (error,data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "User Added to database!"
-//     console.log(message.green, users[1].user_id);
-//   }
-// })
-// Users.create(users[2], {}, (error,data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "User Added to database!"
-//     console.log(message.green, users[2].user_id);
-//   }
-// })
-
+// });
 
 // Query to check/get password
 app.post('/', (request, response) => {
@@ -196,6 +163,7 @@ app.post('/:session/newPage', (request, response) => {
 
   // TODO: Clean input  - consider save VS publish
   const created = {}
+
   Lessons.create(created, {}, (error, data) => {
     if (error) {
       console.log(error.red)
@@ -207,30 +175,39 @@ app.post('/:session/newPage', (request, response) => {
   })
 })
 
-function buildQuery(input) {
-  let obj = {
+function buildQuery(searchString, fltr) {
+  // TODO: make sure to check that gradeStart <= gradeEnd
+  const textQuery = { $text: { $search: searchString } };
+
+  const userYear = (fltr.year === "") ? {$exists: true} : fltr.year;
+  const userMonth = (fltr.month === "") ? {$exists: true} : fltr.month;
+  const userTheme = (fltr.theme === "") ? {$exists: true} : fltr.theme;
+  const userUnit = (fltr.unit === "") ? {$exists: true} : fltr.unit;
+
+  const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
+  const userGradeEnd = (fltr.unit === "") ? {$exists: true} :
+    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+    // may cause issues IDK if AND or OR
+  const userGradeStart = (fltr.unit === "") ? {$exists: true} :
+    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+
+  const filterQuery = {
     published: 1, // 1 is true or 0 is false
+    year: userYear,
+    month: userMonth,
+    gradeStart: userGradeStart,
+    gradeEnd: userGradeEnd,
+    theme: userTheme,
+    unit: userUnit,
+  };
 
-    date: {$exists: true}, // UNIX time
-    gradeStart: {$exists: true},
-    gradeEnd: {$exists: true},
-    theme: {$exists: true},
-    unit: {$exists: true},
-    subunit: {$exists: true},
-    goal: {$exists: true},
-    intro: {$exists: true},
-    warmup: {$exists: true},
-    reflection: {$exists: true},
-    backup: {$exists: true},
-    additional_game: {$exists: true},
-    quote: {$exists: true},
-    materials: [{
-      item: {$exists: true},
-      quantity: {$exists: true}
-    }]
+  if (typeof searchString === "undefined" || searchString === "" ) {
+    return filterQuery;
+  } else if (fltr.hasResponses) {
+    return { $and : [ textQuery, filterQuery ] };
+  } else {
+    return textQuery;
   }
-
-  return obj;
 }
 
 app.post('/:session/search', (request, response) => {
@@ -238,6 +215,7 @@ app.post('/:session/search', (request, response) => {
   response.status(200).type('html');
   const session = request.params.session;
   const user_id = sessions.get(session);
+  const input = "sadness"
   // TODO: Clean input - query by whats given
   const finalQuery = buildQuery(input);
 
@@ -245,43 +223,11 @@ app.post('/:session/search', (request, response) => {
     if (error) {
       console.log(error.red)
     } else {
-      let published = [];
-      let unpublished = [];
-      for (let i = 0; i < data.length; i += 1) {
-        if (data[i].published) { // 0 is not published, 1 is published
-          published.push(data[i]);
-        } else {
-          unpublished.push(data[i]);
-        }
-      }
-      console.log("Published: ", published)
-      console.log("Unpublished: ", unpublished)
+
       // TODO: Wrap and send back!
     }
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

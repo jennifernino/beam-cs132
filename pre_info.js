@@ -17,15 +17,28 @@ module.exports = {
       password: "pass3",
       email: "3@email.com",
       name: "3User"
+    },
+    {
+      user_id: 4,
+      password: "pass4",
+      email: "4@email.com",
+      name: "4User"
+    },
+    {
+      user_id: 5,
+      password: "pass5",
+      email: "5@email.com",
+      name: "5User"
     }
   ],
   lessons:[
     {
-      lesson_id: "lesson1",
-      published: false,
+      lesson_id: "lesson1z",
+      published: 1,
       creator: 1,
-
-      date: 1555892429,
+      year: 2010,
+      month:"October",
+      date: 1555892460,
       gradeStart: 1,
       gradeEnd: 5,
       theme: "Happiness",
@@ -44,10 +57,59 @@ module.exports = {
       }]
     },
     {
+      lesson_id: "lesson1a",
+      published: 1,
+      creator: 1,
+      year: 2010,
+      month:"October",
+      date: 1555892429,
+      gradeStart: 1,
+      gradeEnd: 5,
+      theme: "Happiness 1a",
+      unit: "One 1a",
+      subunit: "and a half 1a",
+      goal: "nothing",
+      intro: "hello",
+      warmup: "nopnopnop",
+      reflection: "naoo",
+      backup: "naii",
+      additional_game: "nahh",
+      quote: "nall",
+      materials: [{
+        item: "nasfdsd",
+        quantity: 10000
+      }]
+    },
+    {
+      lesson_id: "lesson1b",
+      published: 1,
+      creator: 1,
+      year: 2010,
+      month:"October",
+      date: 1555892429,
+      gradeStart: 1,
+      gradeEnd: 5,
+      theme: "Happiness",
+      unit: "One 1b",
+      subunit: "and a half",
+      goal: "nothing",
+      intro: "hello",
+      warmup: "nopnopnop",
+      reflection: "naoo 1b",
+      backup: "naii",
+      additional_game: "nahh",
+      quote: "nall",
+      materials: [{
+        item: "nasfdsd",
+        quantity: 10000
+      }]
+    },
+    {
       lesson_id: "lesson2",
-      published: true,
+      published: 1,
       creator: 2,
-
+      year: 2010,
+      month:"October",
       date: 1555892429,
       gradeStart: 4,
       gradeEnd: 4,
@@ -68,9 +130,10 @@ module.exports = {
     },
     {
       lesson_id: "lesson1",
-      published: true,
+      published: 1,
       creator: 1,
-
+      year: 2010,
+      month:"October",
       date: 1555898429,
       gradeStart: 4,
       gradeEnd: 5,
@@ -91,9 +154,10 @@ module.exports = {
     },
     {
       lesson_id: "lesson3",
-      published: false,
+      published: 0,
       creator: 3,
-
+      year: 2010,
+      month:"October",
       date: 1556892429,
       gradeStart: 2,
       gradeEnd: 4,

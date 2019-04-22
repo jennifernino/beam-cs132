@@ -24,6 +24,10 @@ class Home extends Component {
     fetch(uri)
       .then(res => res.json())
       .then(info => {
+        this.setState({
+          inProgress:info.unpublished,
+          published:info.published
+        })
         console.log(info)
       });
   }
@@ -35,8 +39,9 @@ class Home extends Component {
         <div className="inProgressContainer">
           <h2>In Progress</h2>
           <div className="optionContainer">
-            {this.state.inProgress.map(item =>
-              <PageOption key="TODO insert here" item={item}/>
+            {this.state.inProgress.map((index, item) => {
+                <PageOption key={item.lesson_id} item={item} />
+              }
             )}
           </div>
         </div>
@@ -51,7 +56,7 @@ class Home extends Component {
           </div>
           <div className="optionContainer">
             {this.state.published.map(item =>
-              <PageOption key="TODO insert here" item={item}/>
+              <PageOption key={item.lesson_id} item={item} />
             )}
           </div>
         </div>
