@@ -18,14 +18,22 @@ html, body {
   width: 100%;
 
 }
+
 .leftContainer {
   background-color: #85C1E9;
 }
+
 .rightContainer {
   width: 100%;
   display: flex;
 
   flex: 1;
+}
+
+.homeContainer {
+  display: flex;
+  flex: 1;
+  width: 100%
 }
 
 .SignUpContainer{
