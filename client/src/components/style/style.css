@@ -3,6 +3,7 @@ html, body {
   width: 100%;
   display: flex;
 }
+
 #root {
   display: flex;
   flex: 1;
