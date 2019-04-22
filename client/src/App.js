@@ -14,7 +14,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : true
+      loggedIn : true,
+      session: 'abc123'
     };
   }
   render () {
@@ -31,7 +32,8 @@ class App extends Component {
               <Route exact path='/forgotpassword' component={Forgot} />
               <Route exact path='/search' component={Search} />
               <Route exact path='/newlesson' component={NewPage} />
-              <Route exact path='/:user_id' component={Home} />
+              <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
+
             </Switch>
           </div>
         </div>

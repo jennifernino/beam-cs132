@@ -34,13 +34,13 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
 const sessions = new Map(); // session to USER_ID
 const names = new Map(); // session to NAME
 
-sessions.set("ABC123","111111")
-names.set("ABC123","Jennifer")
+sessions.set("abc123","1")
+names.set("abc123","Jennifer")
 /*
  * Generates a random character sequence to use as session ID
  */
 function genID() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
   let result = '';
   for (let i = 0; i < 6; i++) {
     result += chars[(Math.floor(Math.random() * chars.length))];
@@ -157,8 +157,7 @@ app.get('/:session/home', (request, response) => {
           unpublished.push(data[i]);
         }
       }
-      console.log("Published: ", published)
-      console.log("Unpublished: ", unpublished)
+      response.json({published:published, unpublished:unpublished});
       // TODO: Wrap and send back!
     }
   })
