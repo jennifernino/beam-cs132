@@ -1,5 +1,5 @@
 
-
+/* signup styling */
 .SignUpContainer{
   display: flex;
   flex-flow: column;
@@ -41,11 +41,12 @@ input{
   margin-top: 5px;
 }
 
+/*menu bar styling*/
 .menuContainer{
   display: flex;
   flex-flow: column;
   background-color: #85C1E9;
-  
+
 }
 
 ul{

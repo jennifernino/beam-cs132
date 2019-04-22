@@ -11,8 +11,15 @@ class SignUp extends Component {
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleFirstChange = this.handle
     this.handleSubmit = this.handleSubmit.bind(this);
 
+  }
+
+  handleChange(event){
+    const target = event.target;
+    const name = target.name;
+    this.setState({[name]: target.value})
   }
 
   handleUserChange(event){
