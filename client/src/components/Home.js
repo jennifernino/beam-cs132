@@ -50,7 +50,7 @@ class Home extends Component {
               <h2>Published</h2>
             </div>
             <div className="rightSideContainer">
-              <button>add reflection</button>
+              <button className="addButton">add reflection</button>
             </div>
           </div>
           <div className="optionContainer">
