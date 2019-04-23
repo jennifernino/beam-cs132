@@ -155,6 +155,8 @@ app.get('/:session/home', (request, response) => {
 // }
 
 
+
+
 app.post('/:session/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
@@ -163,6 +165,18 @@ app.post('/:session/newPage', (request, response) => {
 
   // TODO: Clean input  - consider save VS publish
   const created = {}
+
+  Lessons.find({}, {lesson_id:1},(error,data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      const nums = data.map(x => x.lesson_id);
+      created.lesson_id = Math.max(...nums) + 1;
+    }
+  })
+
+  console.log(created); // TODO: Check if it works! May not return created value
+
 
   Lessons.create(created, {}, (error, data) => {
     if (error) {
@@ -215,18 +229,18 @@ app.post('/:session/search', (request, response) => {
   response.status(200).type('html');
   const session = request.params.session;
   const user_id = sessions.get(session);
-  const input = "sadness"
+  console.log(response.body)
   // TODO: Clean input - query by whats given
   const finalQuery = buildQuery(input);
-
-  Lessons.find(finalQuery, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-
-      // TODO: Wrap and send back!
-    }
-  })
+  response.json({})
+  // Lessons.find(finalQuery, (error, data) => {
+  //   if (error) {
+  //     console.log(error.red)
+  //   } else {
+  //
+  //     // TODO: Wrap and send back!
+  //   }
+  // })
 })
 
 

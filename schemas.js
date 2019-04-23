@@ -9,10 +9,12 @@ module.exports = [
     collection : 'users'
   },
   {
-    lesson_id: String, // unique id for lesson
+    lesson_id: Number, // unique id # for lesson
     published: Number, // 1 is true or 0 is false
     creator: Number, // user ID
 
+    semester: String,
+    dayOfWeek:String,
     date: Number, // UNIX time
     gradeStart: Number,
     gradeEnd: Number,

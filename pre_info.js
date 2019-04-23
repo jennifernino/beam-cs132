@@ -1,5 +1,5 @@
 module.exports = {
-  users:[
+  users: [
     {
       user_id: 1,
       password: "pass1",
@@ -31,12 +31,14 @@ module.exports = {
       name: "5User"
     }
   ],
-  lessons:[
+  lessons: [
     {
-      lesson_id: "lesson1z",
+      lesson_id: 1,
       published: 1,
       creator: 1,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1555892460,
       gradeStart: 1,
@@ -57,10 +59,12 @@ module.exports = {
       }]
     },
     {
-      lesson_id: "lesson1a",
+      lesson_id: 2,
       published: 1,
       creator: 1,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1555892429,
       gradeStart: 1,
@@ -81,10 +85,12 @@ module.exports = {
       }]
     },
     {
-      lesson_id: "lesson1b",
+      lesson_id: 3,
       published: 1,
       creator: 1,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1555892429,
       gradeStart: 1,
@@ -105,10 +111,12 @@ module.exports = {
       }]
     },
     {
-      lesson_id: "lesson2",
+      lesson_id: 4,
       published: 1,
       creator: 2,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1555892429,
       gradeStart: 4,
@@ -129,10 +137,12 @@ module.exports = {
       }]
     },
     {
-      lesson_id: "lesson1",
+      lesson_id: 5,
       published: 1,
       creator: 1,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1555898429,
       gradeStart: 4,
@@ -153,10 +163,12 @@ module.exports = {
       }]
     },
     {
-      lesson_id: "lesson3",
+      lesson_id: 6,
       published: 0,
       creator: 3,
       year: 2010,
+      semester: "Fall 2018",
+      dayOfWeek:"Monday",
       month:"October",
       date: 1556892429,
       gradeStart: 2,

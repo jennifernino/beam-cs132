@@ -115,6 +115,15 @@ input{
   justify-content: space-around;
 }
 
+
+/*
+ * NEEDED IN CASE DROPDOWN HAS TOO MANY OPTIONS
+ */
+.ddMenu {
+  max-height: 200px;
+  overflow: scroll;
+}
+
 .menuContainer{
   display: flex;
   flex-flow: column;

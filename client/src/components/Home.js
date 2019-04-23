@@ -39,9 +39,8 @@ class Home extends Component {
         <div className="inProgressContainer">
           <h2>In Progress</h2>
           <div className="optionContainer">
-            {this.state.inProgress.map((index, item) => {
-                <PageOption key={item.lesson_id} item={item} />
-              }
+            {this.state.inProgress.map(item =>
+              <PageOption key={item.lesson_id} item={item} />
             )}
           </div>
         </div>

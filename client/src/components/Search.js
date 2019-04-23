@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Checkbox } from 'react-bootstrap';
 import Dropdown from './Dropdown';
 import PageOption from './PageOption'
 import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown'
@@ -12,14 +12,66 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      session: "",
       started: false, // So no results doesn't show up until there is actually a search made
+
       results:[], // array of page options that are recieved from the db
+
       searchValue: "", // saving the search input
       semester:"None", // saving semester input
       day: "None", //saving day input
       grade: "None", // saving grade input
-      subject: "None"
+      subject: "None",
+      year: "",
+      month: "",
+      gradeStart: "",
+      gradeEnd:"",
+      theme: "",
+      unit: ""
     }
+  }
+  componentDidMount() {
+    this.setUp();
+  }
+
+  setUp = () => {
+    this.setState({session:this.props.session})
+  }
+
+  searchStuff = () => {
+    const year = "";
+    const month = "";
+    const gradeStart = "";
+    const gradeEnd = "";
+    const theme = "";
+    const unit = "";
+
+    const body_str = JSON.stringify({
+      year: year,
+      month: month,
+      gradeStart: gradeStart,
+      gradeEnd: gradeEnd,
+      theme: theme,
+      unit: unit
+    });
+
+    const data = JSON.stringify({
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body_str
+    });
+
+    const session = this.state.session;
+    const uri = 'http://localhost:8080/' + session + '/search'
+
+    fetch(uri, data)
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+      });
   }
 
   /*
@@ -28,12 +80,10 @@ class Search extends Component {
 
   handleSearchValue(event) {
     this.setState({searchValue: event.target.value});
-    console.log(this.state.searchValue);
   }
 
   handleSearch(event) {
-    console.log("Clicked the search button")
-    console.log(this.state.searchValue)
+    this.searchStuff();
   }
 
   handleSelected(event) {
@@ -78,7 +128,7 @@ class Search extends Component {
             <label>Semester: </label>
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.semester}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "semester", "Fall 2018")}>Fall 2018</MenuItem>
                 <MenuItem divider></MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "semester", "Spring 2018")}>Spring 2018</MenuItem>
@@ -95,7 +145,7 @@ class Search extends Component {
             <label>Day: </label>
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.day}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "day", "Monday")}>Monday</MenuItem>
                 <MenuItem divider></MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "day", "Tuesday")}>Tuesday</MenuItem>
@@ -114,7 +164,7 @@ class Search extends Component {
             <label>Grade: </label>
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.grade}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "grade", "K")}>K</MenuItem>
                 <MenuItem divider></MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "grade", "1")}>1</MenuItem>
@@ -135,7 +185,7 @@ class Search extends Component {
             <label>Subject: </label>
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.subject}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "subject", "Math")}>Math</MenuItem>
                 <MenuItem divider></MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Science")}>Science</MenuItem>
@@ -145,10 +195,15 @@ class Search extends Component {
                 <MenuItem onClick={this.selected.bind(this, "subject", "Social Studies")}>Social Studies</MenuItem>
                 <MenuItem divider></MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "None")}>None</MenuItem>
+
               </DropdownMenu>
             </Dropdown>
             </div>
           </div>
+
+
+
+
 
 
           <div className="resultsContainer">
@@ -159,7 +214,7 @@ class Search extends Component {
                   this.state.results.length ?
                     (
                       this.state.results.map(item =>
-                        <PageOption key="TODO insert here" item={item}/>
+                        <PageOption key={item.lesson_id} item={item}/>
                       )
                     ) : (
                       <h3>No results found</h3>
