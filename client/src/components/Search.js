@@ -63,10 +63,6 @@ class Search extends Component {
 
     const data = JSON.stringify({
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
       body: body_str
     });
 
@@ -97,7 +93,6 @@ class Search extends Component {
   }
 
   selected(type, value, event) {
-    console.log(type)
     if (type === "semester") {
       this.setState({started:true,semester:value})
       console.log(type)
