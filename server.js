@@ -46,7 +46,7 @@ sessions.set("abc123","1") // fake user REMOVE once login is made
 names.set("abc123","Jennifer") // ^^^
 
 /*
- * Generates a random character sequence to use as session ID
+ * Gets all the current chatrooms
  */
 function genID() {
   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
@@ -91,22 +91,12 @@ function session(name, user_id) {
 // Query to check/get password
 app.post('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
+
   response.status(200).type('html');
-  const email = response.body.email;
-  User.find({email:email}, {password:true}, (error, data) => {
-    if (error) {
-      console.log(err.red);
-    } else {
-      // data is the password object received
-      // verify
-      // add to session
-      console.log(data);
-      // response.json({data : data});
-    }
-  })
+  response.render
 });
 
-app.get('/:session/home', (request, response) => {
+app.get('/:user_id', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session;
@@ -154,10 +144,15 @@ app.get('/:session/home', (request, response) => {
 //   }]
 // }
 
+// });
 
+<<<<<<< HEAD
 
 
 app.post('/:session/newPage', (request, response) => {
+=======
+app.get('/signup', (request, response) => {
+>>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session;
@@ -224,7 +219,7 @@ function buildQuery(searchString, fltr) {
   }
 }
 
-app.post('/:session/search', (request, response) => {
+app.get('/forgotpassword', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session;
@@ -253,6 +248,7 @@ app.get('*', function(request, response){
     console.log('- request received:', request.method.red, request.url.underline);
     console.log('404 - Not Found'.red)
     response.status(404).type('html');
+
 });
 
 

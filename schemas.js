@@ -1,11 +1,9 @@
 module.exports = [
   {
-    user_id: Number, // Should be secret
-    password: String, // Should never be in plain text
-    email: String, // visible
-    name: String // meh
+    // ...
   },
   {
+<<<<<<< HEAD
     collection : 'users'
   },
   {
@@ -35,5 +33,8 @@ module.exports = [
   },
   {
     collection : 'lessons'
+=======
+    // ... 
+>>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
   }
 ];
