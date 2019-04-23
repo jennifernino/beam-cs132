@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style/style.css';
+import { Link } from "react-router-dom";
 
 class Menu extends Component {
   constructor(props){
@@ -11,18 +12,21 @@ class Menu extends Component {
     return (
       <div className="menuContainer">
         <ul>
-          <div>
-          <li><button className = "navButton">Home</button></li>
-          </div>
-
-          <div>
-          <li><button className = "navButton">Search</button></li>
-          </div>
-
-          <div>
-          <li><button className = "navButton">New Lesson</button></li>
-          </div>
-
+          <li>
+            <Link to={'/home'}>
+            <button className="navButton">Home</button>
+          </Link>
+          </li>
+          <li>
+            <Link to={'/search'}>
+            <button className="navButton">Search</button>
+            </Link>
+          </li>
+          <li>
+            <Link to={'/newlesson'}>
+            <button className="navButton">New Lesson</button>
+            </Link>
+          </li>
         </ul>
       </div>
     );

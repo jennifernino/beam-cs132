@@ -14,9 +14,29 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : true
+      loggedIn : true,
+      session: 'abc123'
     };
   }
+
+  /*
+   * Log out a user when they leave (remove from session map)
+   */
+  // componentDidMount() {
+  //   window.addEventListener("beforeunload", (ev) =>
+  //   {
+  //     ev.preventDefault();
+  //     return ev.returnValue = 'Are you sure you want to close?';
+  //   });
+  // }
+
+  /*
+   * In the case that its refreshed - no because it will log you out
+   */
+  shouldComponentUpdate(nextProps, nextState) {
+    return false;
+  }
+
   render () {
     return (
       <BrowserRouter>
@@ -29,9 +49,10 @@ class App extends Component {
               <Route exact path='/' component={Login} />
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forgotpassword' component={Forgot} />
-              <Route exact path='/search' component={Search} />
-              <Route exact path='/newlesson' component={NewPage} />
-              <Route exact path='/:user_id' component={Home} />
+              <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
+              <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
+              <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
+
             </Switch>
           </div>
         </div>

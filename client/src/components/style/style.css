@@ -1,5 +1,43 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+h1 {
+  color: #49009E;
+}
 
-/* signup styling */
+#root {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+.fullContainer {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+
+}
+
+.leftContainer {
+  background-color: #00A9D7;
+}
+
+.rightContainer {
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+
+.homeContainer {
+  display: flex;
+  flex: 1;
+  width: 100%
+}
+
 .SignUpContainer{
   display: flex;
   flex-flow: column;
@@ -9,8 +47,6 @@
   align-items: center;
   border-radius: 10px;
   font-size: 18px;
-
-
 }
 
 .layout{
@@ -25,11 +61,56 @@
 .inputItem{
   padding-top: 10px;
   padding-bottom: 10px;
-
 }
 
 .submitButton{
   margin-left: 15px;
+}
+/* styling for the home page */
+.homeContainer{
+  width: 100%;
+  padding: 20px;
+}
+/* styling for the navigation bar / menu */
+ul {
+  list-style-type: none;
+  padding: 30px;
+}
+.navButton{
+  background-color: white;
+  border-radius: 5px;
+  font-size: 20px;
+  color: black;
+  border: none;
+  width: 160px;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.navButton:hover{
+  background-color: #49009E;
+  color: white;
+}
+
+/* styling for search page */
+.searchContainer {
+  width: 100%;
+  padding: 20px;
+}
+.searchBarContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px 10px 20px;
+}
+.searchButton, .saveButton, .submitButton{
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 12px;
+  background-color: #49009E;
 }
 
 input{
@@ -41,25 +122,76 @@ input{
   margin-top: 5px;
 }
 
-/*menu bar styling*/
+ #searchBar {
+  border-color: black;
+  border-style: solid;
+  border-radius: 8px;
+  border-width: 1px;
+  font-size: 16px;
+  padding: 4px 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  width: 60%;
+}
+.allDropDownContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
 .menuContainer{
   display: flex;
   flex-flow: column;
-  background-color: #85C1E9;
-
+  height: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+  /* width: 100%; */
 }
 
-ul{
-  list-style-type: none;
+/* styling for the new lesson page */
+.newPageContainer{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
 }
-
-.navButton{
-  background-color: white;
-  border-radius: 5px;
-  font-size: 20px;
-  color: black;
-  border: none;
-  padding: 15px 32px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.headerTextContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+.headerDropDownContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px;
+}
+.inputContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+textarea {
+  width: 350px;
+  height: 200px;
+}
+.box1, .box2{
+  flex:1;
+  width: 50%;
+  padding: 20px;
+}
+.box3, .box4{
+  flex:2;
+  width: 50%;
+  padding: 20px;
+}
+.footerContainer{
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
 }
