@@ -28,7 +28,7 @@ class Search extends Component {
       gradeStart: "",
       gradeEnd:"",
       theme: "",
-      unit: ""
+      unit: "",
 
       monthOfLesson: "None",
       dayOfLesson: "None",

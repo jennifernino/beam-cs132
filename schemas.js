@@ -1,18 +1,18 @@
 module.exports = [
   {
-    // ...
+    user_id: Number, // Should be secret
+    password: String, // Should never be in plain text
+    email: String, // visible
+    name: String // meh
   },
   {
-<<<<<<< HEAD
     collection : 'users'
   },
   {
-    lesson_id: Number, // unique id # for lesson
+    lesson_id: String, // unique id for lesson
     published: Number, // 1 is true or 0 is false
     creator: Number, // user ID
 
-    semester: String,
-    dayOfWeek:String,
     date: Number, // UNIX time
     gradeStart: Number,
     gradeEnd: Number,
@@ -33,8 +33,5 @@ module.exports = [
   },
   {
     collection : 'lessons'
-=======
-    // ... 
->>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
   }
 ];
