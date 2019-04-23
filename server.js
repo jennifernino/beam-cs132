@@ -146,13 +146,7 @@ app.get('/:user_id', (request, response) => {
 
 // });
 
-<<<<<<< HEAD
-
-
 app.post('/:session/newPage', (request, response) => {
-=======
-app.get('/signup', (request, response) => {
->>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session;
