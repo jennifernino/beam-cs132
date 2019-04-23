@@ -29,9 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-const url = "mongodb+srv://cs132_user:cs132@cluster0-qymmk." +
-  "mongodb.net/Assignment3";
-
 mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
   if (error) {
     let err = 'ERROR: Unable to connect to ' + url;
@@ -147,7 +144,7 @@ app.get('/:user_id', (request, response) => {
 //   }]
 // }
 
-});
+// });
 
 app.get('/signup', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
