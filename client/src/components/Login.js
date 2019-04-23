@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style/style.css';
+//import logo from 'beamLogo.png'
 
 class Login extends Component {
   constructor(props){
@@ -24,29 +25,48 @@ class Login extends Component {
   }
 
   handleSubmit(event){
-    alert('credentials'+ this.state.email + this.state.password);
     event.preventDefault();
+    fetch('/', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: {
+        "first_name": this.firstName.value
+      }
+    });
+
   }
 
   render() {
     return (
       <div className="LoginContainer">
+        <div className="inputItem">
+        <img src={logo} />
+        </div>
         <form onSubmit={this.handleSubmit}>
-        <div>
+        <div className="inputItem">
         <label>
         Email
         <input type="text" value={this.state.email} onChange={this.handleUserChange} />
         </label>
         </div>
 
-        <div>
+        <div className="inputItem">
         <label>
         Password
         <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         </label>
         </div>
 
+        <div className="inputItem">
         <input type="submit" value="Log in" />
+        </div>
+        <div className="inputItem">
+        <a href="/forgotpassword"> Forgot password? </a>
+        </div>
+
+        <div className="inputItem">
+        <a href="/signup"> Create an account </a>
+        </div>
 
         </form>
       </div>

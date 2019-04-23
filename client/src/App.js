@@ -17,6 +17,8 @@ class App extends Component {
       loggedIn : true
     };
   }
+
+
   render () {
     return (
       <BrowserRouter>
@@ -39,5 +41,8 @@ class App extends Component {
     );
   }
 }
+
+const domContainer = document.querySelector('#cs1320id');
+ReactDOM.render(e(LikeButton), domContainer);
 
 export default App;
