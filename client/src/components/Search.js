@@ -22,18 +22,18 @@ class Search extends Component {
       day: "None", //saving day input
       grade: "None", // saving grade input
       subject: "None",
-<<<<<<< HEAD
+
       year: "",
       month: "",
       gradeStart: "",
       gradeEnd:"",
       theme: "",
       unit: ""
-=======
+
       monthOfLesson: "None",
       dayOfLesson: "None",
       yearOfLesson: "None"
->>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
+
     }
   }
   componentDidMount() {
