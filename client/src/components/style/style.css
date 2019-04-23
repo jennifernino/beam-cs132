@@ -139,8 +139,6 @@ input{
   align-items: center;
   justify-content: space-around;
 }
-<<<<<<< HEAD
-
 
 /*
  * NEEDED IN CASE DROPDOWN HAS TOO MANY OPTIONS
@@ -150,8 +148,6 @@ input{
   overflow: scroll;
 }
 
-=======
->>>>>>> b071c092ca0efb2de9f79801c953b5e12d3e61ec
 .menuContainer{
   display: flex;
   flex-flow: column;

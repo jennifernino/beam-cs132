@@ -19,9 +19,17 @@ class NewPage extends Component {
       yearOfLesson:"Year",
 
       subject:"Subject",
-      grade:"Grade",
+      gradeStart: "None",
+      gradeEnd:"None",
       semester:"Semester",
-      dayOfWeek:"Weekday"
+      dayOfWeek:"Weekday",
+
+      theme: "",
+      unit: "",
+      subunit: "",
+      warmup: "",
+      additional_game: "",
+      materials: ""
     };
   }
 
@@ -36,8 +44,10 @@ class NewPage extends Component {
       this.setState({started:true,semester:value})
     }if (type === "dayOfWeek") {
       this.setState({started:true, dayOfWeek: value})
-    } if (type ==="grade") {
-      this.setState({started:true, grade: value})
+    } if (type ==="gradeStart") {
+      this.setState({started:true, gradeStart: value})
+    } if (type ==="gradeEnd") {
+      this.setState({started:true, gradeEnd: value})
     } if(type === "subject"){
       this.setState({started:true, subject: value})
     } if(type === "monthOfLesson"){
@@ -107,43 +117,6 @@ class NewPage extends Component {
             </DropdownMenu>
           </Dropdown>
           <Dropdown className="dropDownContainer">
-            <DropdownToggle btnStyle="flat">{this.state.dayOfLesson}</DropdownToggle>
-            <DropdownMenu>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "1")}>1</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "2")}>2</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "3")}>3</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "4")}>4</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "5")}>5</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "6")}>6</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "7")}>7</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "8")}>8</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "9")}>9</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "10")}>10</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "11")}>11</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "12")}>12</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "13")}>13</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "14")}>14</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "15")}>15</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "16")}>16</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "17")}>17</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "18")}>18</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "19")}>19</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "20")}>20</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "21")}>21</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "22")}>22</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "23")}>23</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "24")}>24</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "25")}>25</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "26")}>26</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "27")}>27</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "28")}>28</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "29")}>29</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "30")}>30</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "31")}>31</MenuItem>
-              <MenuItem onClick={this.selected.bind(this, "dayOfLesson", "None")}>None</MenuItem>
-            </DropdownMenu>
-          </Dropdown>
-          <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.yearOfLesson}</DropdownToggle>
             <DropdownMenu>
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "2019")}>2019</MenuItem>
@@ -170,21 +143,36 @@ class NewPage extends Component {
             </DropdownMenu>
           </Dropdown>
         </div>
-            <div>
-            <label>Grade: </label>
-            <Dropdown className="dropDownContainer">
-              <DropdownToggle btnStyle="flat">{this.state.grade}</DropdownToggle>
-              <DropdownMenu>
-                <MenuItem onClick={this.selected.bind(this, "grade", "K")}>K</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "1")}>1</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "2")}>2</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "3")}>3</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "4")}>4</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "5")}>5</MenuItem>
-                <MenuItem onClick={this.selected.bind(this, "grade", "None")}>None</MenuItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+        <div>
+        <label>Grade Start: </label>
+        <Dropdown className="dropDownContainer">
+          <DropdownToggle btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
+          <DropdownMenu className="ddMenu">
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>K</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "None")}>None</MenuItem>
+          </DropdownMenu>
+        </Dropdown>
+        </div>
+        <div>
+        <label>Grade End: </label>
+        <Dropdown className="dropDownContainer">
+          <DropdownToggle btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
+          <DropdownMenu className="ddMenu">
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>K</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "None")}>None</MenuItem>
+          </DropdownMenu>
+        </Dropdown>
+        </div>
           <div>
             <label>Subject: </label>
             <Dropdown className="dropDownContainer">
