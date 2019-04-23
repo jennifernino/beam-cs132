@@ -42,7 +42,7 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
 const sessions = new Map(); // session to USER_ID
 const names = new Map(); // session to NAME
 
-sessions.set("abc123","1") // fake user REMOVE once login is made
+sessions.set("abc123",1) // fake user REMOVE once login is made
 names.set("abc123","Jennifer") // ^^^
 
 /*
@@ -96,12 +96,15 @@ app.post('/', (request, response) => {
   response.render
 });
 
-app.get('/:user_id', (request, response) => {
+app.get('/:session_id/home', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  const session = request.params.session;
+  const session = request.params.session_id;
+  console.log(session)
   const user_id = sessions.get(session);
+  console.log(user_id)
   Lessons.find({creator:user_id}, (error, data) => {
+    console.log(data)
     if (error) {
       console.log(error.red)
     } else {
@@ -212,7 +215,7 @@ function buildQuery(searchString, fltr) {
   }
 }
 
-app.get('/forgotpassword', (request, response) => {
+app.get('/:session/search', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session;

@@ -61,15 +61,14 @@ class Search extends Component {
       unit: unit
     });
 
-    const data = JSON.stringify({
-      method: 'POST',
-      body: body_str
-    });
-
     const session = this.state.session;
     const uri = 'http://localhost:8080/' + session + '/search'
 
-    fetch(uri, data)
+    fetch(uri, {
+      method: 'POST',
+      //protocol:'http:',
+      body: body_str
+    })
       .then(res => res.json())
       .then(info => {
         console.log(info)

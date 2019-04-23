@@ -11,6 +11,7 @@ class PageOption extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.item); // information to work on
     // when opening?
   }
 
