@@ -11,16 +11,20 @@ import './style/style.css';
 class NewPage extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      lessonName: "",
+    this.state =
+    {
+      lesson_id: String, // TODO: unique id for lesson - handle in server
+      published: Number, // 1 is true or 0 is false
+      creator: Number, // TODO: return session number to get user ID - handle in server
+      datePublished: "", // Number, UNIX time
 
-      monthOfLesson:"Month",
-      dayOfLesson:"Day",
-      yearOfLesson:"Year",
+      lessonName: "", // String
+      monthOfLesson:"Month", // String
+      yearOfLesson:"Year", // Number
 
       subject:"Subject",
-      gradeStart: "Grade Start",
-      gradeEnd:"Grade End",
+      gradeStart: "Grade Start", // Number
+      gradeEnd:"Grade End", // Number
       semester:"Semester",
       dayOfWeek:"Weekday",
 
@@ -34,66 +38,91 @@ class NewPage extends Component {
       backupActivity: "",
       reflection: "",
       additionalGame: "",
-      materials: ""
+      quote: String, // TODO: Not yet implemented
+      materials: "", // TODO: Revise implementation
+      // materials: [{
+      //   item: String,
+      //   quantity: Number
+      // }]
     };
   }
 
   handleLessonName(event) {
     this.setState({lessonName:event.target.value});
   }
-  handleTheme(event){
+
+  handleTheme(event) {
     this.setState({theme:event.target.value});
   }
-  handleUnit(event){
+
+  handleUnit(event) {
     this.setState({unit:event.target.value});
   }
-  handleSubunit(event){
+
+  handleSubunit(event) {
     this.setState({subunit:event.target.value});
   }
-  handleGoals(event){
+
+  handleGoals(event) {
     this.setState({goal:event.target.value});
   }
-  handleIntro(event){
+
+  handleIntro(event) {
     this.setState({introduction:event.target.value});
   }
-  handleWarmUp(event){
+
+  handleWarmUp(event) {
     this.setState({warmup:event.target.value});
   }
-  handleMainActivity(event){
+
+  handleMainActivity(event) {
     this.setState({mainActivity:event.target.value});
   }
-  handleBackupActivity(event){
+
+  handleBackupActivity(event) {
     this.setState({backupActivity:event.target.value});
   }
-  handleReflection(event){
+
+  handleReflection(event) {
     this.setState({reflection:event.target.value});
   }
-  handleAdditionalGame(event){
+
+  handleAdditionalGame(event) {
     this.setState({additionalGame:event.target.value});
   }
-  handleMaterials(event){
+
+  handleMaterials(event) {
     this.setState({materials:event.target.value});
   }
 
   selected(type, value, event) {
-    console.log(type)
     if (type === "semester") {
-      this.setState({started:true,semester:value})
+      this.setState({semester:value})
     }if (type === "dayOfWeek") {
-      this.setState({started:true, dayOfWeek: value})
+      this.setState({dayOfWeek: value})
     } if (type ==="gradeStart") {
-      this.setState({started:true, gradeStart: value})
+      this.setState({gradeStart: value})
     } if (type ==="gradeEnd") {
-      this.setState({started:true, gradeEnd: value})
+      this.setState({gradeEnd: value})
     } if(type === "subject"){
-      this.setState({started:true, subject: value})
+      this.setState({subject: value})
     } if(type === "monthOfLesson"){
-      this.setState({started:true, monthOfLesson: value})
+      this.setState({monthOfLesson: value})
     } if(type === "dayOfLesson"){
-      this.setState({started:true, dayOfLesson: value})
+      this.setState({dayOfLesson: value})
     } if(type === "yearOfLesson"){
-      this.setState({started:true, yearOfLesson: value})
+      this.setState({yearOfLesson: value})
     }
+  }
+
+  saveLesson() {
+    // save to database
+    // Whenever unpublished lessons are sent to the server,
+    // make sure the users are able to edit them
+  }
+
+  publishLesson() {
+    // Verify everything is ok, if not throw error
   }
 
   render () {
@@ -284,8 +313,8 @@ class NewPage extends Component {
             </div>
           </div>
           <div className="footerContainer">
-            <Button className="saveButton">Save</Button>
-            <Button className="submitButton">Submit</Button>
+            <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
+            <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>
         {/* </div> */}
       </div>

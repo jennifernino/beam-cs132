@@ -132,6 +132,7 @@ app.post('/:session_id/newPage', (request, response) => {
       created.lesson_id = Math.max(...nums) + 1;
     }
   })
+
   console.log(created); // TODO: Check if it works! May not return created value
 
   Lessons.create(created, {}, (error, data) => {
@@ -146,57 +147,60 @@ app.post('/:session_id/newPage', (request, response) => {
 })
 
 function buildQuery(fltr) {
-  // TODO: make sure to check that gradeStart <= gradeEnd
-
   const textQuery = { $text: { $search: fltr.textSearch } };
-
-  const userYear = (fltr.year === "") ? {$exists: true} : fltr.year;
-  const userMonth = (fltr.month === "") ? {$exists: true} : fltr.month;
-  const userTheme = (fltr.theme === "") ? {$exists: true} : fltr.theme;
-  const userUnit = (fltr.unit === "") ? {$exists: true} : fltr.unit;
-  // What if one or the other
-  const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
-  const userGradeEnd = (fltr.unit === "") ? {$exists: true} :
-    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
-    // may cause issues IDK if AND or OR
-  const userGradeStart = (fltr.unit === "") ? {$exists: true} :
-    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
-
-  const filterQuery = {
-    published: 1, // 1 is true or 0 is false
-    year: userYear,
-    month: userMonth,
-    gradeStart: userGradeStart,
-    gradeEnd: userGradeEnd,
-    theme: userTheme,
-    unit: userUnit,
-  };
-
-  if (typeof fltr.textSearch === "undefined" || fltr.textSearch === "" ) {
-    //console.log("A")
-    return filterQuery;
-  } else if (fltr.hasResponses) {
-    console.log("B")
-    return { $and : [ textQuery, filterQuery ] };
-  } else {
-    console.log("c")
+  if (fltr.hasResponses) {
     return textQuery;
+  }
+  const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
+  const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
+  const month = (fltr.month === "") ? {$exists: true} : fltr.month;
+  const year = (fltr.year === "") ? {$exists: true} : fltr.year;
+  const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
+  // gradeStart: gStart,
+  // gradeEnd: gEnd,
+  // TODO: make sure to check that gradeStart <= gradeEnd
+  //
+  // // What if one or the other
+  // const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
+  //
+  // const userGradeEnd = (fltr.gradeEnd === "") ? {$exists: true} :
+  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+  //   // may cause issues IDK if AND or OR
+  // const userGradeStart = (fltr.unit === "") ? {$exists: true} :
+  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+
+  const filterQuery =
+    {
+      published: 1, // 1 is true or 0 is false
+      semester: semester,
+      dayOfWeek: weekday,
+      monthOfLesson: month,
+      yearOfLesson: year,
+      subject: subject
+    };
+
+  if (fltr.textSearch === "" ) {
+    return filterQuery;
+  } else {
+    return { $and : [ textQuery, filterQuery ] };
   }
 }
 
 app.post('/:session_id/search', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
+
   const session = request.params.session_id;
   const user_id = sessions.get(session);
 
   // TODO: Clean input - query by whats given
   const finalQuery = buildQuery(request.body);
-  
+  console.log(finalQuery)
   Lessons.find(finalQuery, (error, data) => {
     if (error) {
       console.log(error.red)
     } else {
+      console.log(data)
       response.json(data)
     }
   })
