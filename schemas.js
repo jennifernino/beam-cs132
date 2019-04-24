@@ -1,5 +1,6 @@
 module.exports = [
   {
+    verified: Number, 
     user_id: Number, // Should be secret
     password: String, // Should never be in plain text
     email: String, // visible
@@ -35,10 +36,11 @@ module.exports = [
     reflection: String,
     additionalGame: String,
     quote: String,
-    materials: [{
-      item: String,
-      quantity: Number
-    }]
+    materials: String
+    // materials: [{
+    //   item: String,
+    //   quantity: Number
+    // }]
   },
   {
     collection : 'lessons'

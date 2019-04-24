@@ -13,9 +13,12 @@ class NewPage extends Component {
     super(props);
     this.state =
     {
-      lesson_id: String, // TODO: unique id for lesson - handle in server
-      published: Number, // 1 is true or 0 is false
-      creator: Number, // TODO: return session number to get user ID - handle in server
+      userMessage:"", // TODO inspect
+      userError: "", // TODO Style green
+      session:"",
+      // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
+      published: 0, // 1 is true or 0 is false
+      // creator: Number, // TODO: return session number to get user ID - handle in server
       datePublished: "", // Number, UNIX time
 
       lessonName: "", // String
@@ -38,7 +41,7 @@ class NewPage extends Component {
       backupActivity: "",
       reflection: "",
       additionalGame: "",
-      quote: String, // TODO: Not yet implemented
+      quote: "", // TODO: Not yet implemented
       materials: "", // TODO: Revise implementation
       // materials: [{
       //   item: String,
@@ -46,53 +49,112 @@ class NewPage extends Component {
       // }]
     };
   }
+  componentDidMount() {
+    this.setUp();
+  }
+
+  setUp = () => {
+    this.setState({
+      userMessage: "",
+      userError: "",
+      session:this.props.session
+    })
+  }
 
   handleLessonName(event) {
-    this.setState({lessonName:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      lessonName:event.target.value
+    });
   }
 
   handleTheme(event) {
-    this.setState({theme:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      theme:event.target.value
+    });
   }
 
   handleUnit(event) {
-    this.setState({unit:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      unit:event.target.value
+    });
   }
 
   handleSubunit(event) {
-    this.setState({subunit:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      subunit:event.target.value
+    });
   }
 
   handleGoals(event) {
-    this.setState({goal:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      goal:event.target.value
+    });
   }
 
   handleIntro(event) {
-    this.setState({introduction:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      introduction:event.target.value
+    });
   }
 
   handleWarmUp(event) {
-    this.setState({warmup:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      warmup:event.target.value
+    });
   }
 
   handleMainActivity(event) {
-    this.setState({mainActivity:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      mainActivity:event.target.value
+    });
   }
 
   handleBackupActivity(event) {
-    this.setState({backupActivity:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      backupActivity:event.target.value
+    });
   }
 
   handleReflection(event) {
-    this.setState({reflection:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      reflection:event.target.value
+    });
   }
 
   handleAdditionalGame(event) {
-    this.setState({additionalGame:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      additionalGame:event.target.value
+    });
   }
 
   handleMaterials(event) {
-    this.setState({materials:event.target.value});
+    this.setState({
+      userMessage: "",
+      userError: "",
+      materials:event.target.value
+    });
   }
 
   selected(type, value, event) {
@@ -123,6 +185,100 @@ class NewPage extends Component {
 
   publishLesson() {
     // Verify everything is ok, if not throw error
+    this.postLesson(1);
+  }
+
+  resetStuff() {
+    console.log("ji")
+  }
+ //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
+  postLesson = (num) => {
+
+    const body_str = JSON.stringify({
+      lesson_id: -1, // unique id for lesson
+      published: num, // 1 is true or 0 is false
+      creator: -1, // user ID
+      datePublished: Date.now(), //UNIX time
+
+      lessonName: this.state.lessonName,
+      monthOfLesson:this.state.monthOfLesson,
+      yearOfLesson: "0000", //this.state.yearOfLesson,
+
+      subject:this.state.subject,
+      gradeStart: "1", //this.state.gradeStart,
+      gradeEnd: "1", // this.state.gradeEnd,
+      semester:this.state.semester,
+      dayOfWeek:this.state.dayOfWeek,
+
+      theme: this.state.theme,
+      unit: this.state.unit,
+      subunit: this.state.subunit,
+      goal: this.state.goal,
+      introduction: this.state.introduction,
+      warmup: this.state.warmup,
+      mainActivity: this.state.mainActivity,
+      backupActivity: this.state.backupActivity,
+      reflection: this.state.reflection,
+      additionalGame: this.state.additionalGame,
+      quote: "No quote",
+      materials: ""
+    });
+
+    const req = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body_str
+    }
+
+    const session = this.state.session;
+    const uri = 'http://localhost:8080/' + session + '/newPage'
+
+    fetch(uri, req)
+      .then(res => res.json())
+      .then(info => {
+        if (info.received) {
+          this.setState({
+            userMessage:info.message, // TODO inspect
+            userError: "", // TODO Style green
+            session:this.state.session,
+            // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
+            published: 0, // 1 is true or 0 is false
+            // creator: Number, // TODO: return session number to get user ID - handle in server
+            datePublished: "", // Number, UNIX time
+
+            lessonName: "", // String
+            monthOfLesson:"Month", // String
+            yearOfLesson:"Year", // Number
+
+            subject:"Subject",
+            gradeStart: "Grade Start", // Number
+            gradeEnd:"Grade End", // Number
+            semester:"Semester",
+            dayOfWeek:"Weekday",
+
+            theme: "",
+            unit: "",
+            subunit: "",
+            goal: "",
+            introduction: "",
+            warmup: "",
+            mainActivity: "",
+            backupActivity: "",
+            reflection: "",
+            additionalGame: "",
+            quote: "", // TODO: Not yet implemented
+            materials: "", // TODO: Update as needed (array?)
+          });
+          this.resetStuff();
+        } else {
+          this.setState({
+            userError: info.message
+          });
+        }
+      });
   }
 
   render () {
@@ -132,7 +288,19 @@ class NewPage extends Component {
           <h1>Basic Info</h1>
           <div className="headerTextContainer">
           <label>Lesson Name: </label>
-          <input id="searchBar" type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
+          <input id="searchBar" value={this.state.lessonName} type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
+          {this.state.userMessage ?
+            (
+              <p className="userMessage">{this.state.userMessage}</p>
+            ) : (
+              this.state.userError ?
+               (
+                 <p className="userMessage">{this.state.userError}</p>
+               ) :
+               (
+                 null
+               )
+            )}
         </div>
           <div className="headerDropDownContainer">
             <div>
@@ -255,61 +423,61 @@ class NewPage extends Component {
           </div>
           <h1>Details</h1>
         </div>
-          <div className="inputContainer">
+          <div id="inputStuffCollection" className="inputContainer">
             <div className="smallBox">
               <label>Theme</label>
               <br></br>
-              <input className="shortBox" type="text" onChange={this.handleTheme.bind(this)}></input>
+              <input className="shortBox" type="text" value={this.state.theme} onChange={this.handleTheme.bind(this)}></input>
             </div>
             <div className="smallBox">
               <label>Unit</label>
               <br></br>
-              <input className="shortBox" type="text" onChange={this.handleUnit.bind(this)}></input>
+              <input className="shortBox" type="text" value={this.state.unit} onChange={this.handleUnit.bind(this)}></input>
             </div>
             <div className="smallBox">
               <label>Subunit</label>
               <br></br>
-              <input className="shortBox" type="text" onChange={this.handleSubunit.bind(this)}></input>
+              <input className="shortBox" type="text" value={this.state.subunit} onChange={this.handleSubunit.bind(this)}></input>
             </div>
             <div className="box">
               <label>Goals of the Day</label>
               <br></br>
-              <textarea onChange={this.handleGoals.bind(this)}></textarea>
+              <textarea value={this.state.goal} onChange={this.handleGoals.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Introduction</label>
               <br></br>
-              <textarea onChange={this.handleIntro.bind(this)}></textarea>
+              <textarea value={this.state.introduction} onChange={this.handleIntro.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Warm Up</label>
               <br></br>
-              <textarea onChange={this.handleWarmUp.bind(this)}></textarea>
+              <textarea value={this.state.warmup} onChange={this.handleWarmUp.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Main Activity</label>
               <br></br>
-              <textarea onChange={this.handleMainActivity.bind(this)}></textarea>
+              <textarea value={this.state.mainActivity} onChange={this.handleMainActivity.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Backup Activity</label>
               <br></br>
-              <textarea onChange={this.handleBackupActivity.bind(this)}></textarea>
+              <textarea value={this.state.backupActivity} onChange={this.handleBackupActivity.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Reflection</label>
               <br></br>
-              <textarea onChange={this.handleReflection.bind(this)}></textarea>
+              <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Additional Game</label>
               <br></br>
-              <textarea onChange={this.handleAdditionalGame.bind(this)}></textarea>
+              <textarea value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
             </div>
             <div className="box">
               <label>Materials</label>
               <br></br>
-              <textarea onChange={this.handleMaterials.bind(this)}></textarea>
+              <textarea value={this.state.materials} onChange={this.handleMaterials.bind(this)}></textarea>
             </div>
           </div>
           <div className="footerContainer">

@@ -40,9 +40,11 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
 });
 
 const sessions = new Map(); // session to USER_ID
+const ids = new Map();
 const names = new Map(); // session to NAME
 
 sessions.set("abc123",1) // fake user REMOVE once login is made
+ids.set(1,"abc123")
 names.set("abc123","Jennifer") // ^^^
 
 /*
@@ -92,11 +94,11 @@ app.get('/:session_id/home', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session_id;
-  console.log(session)
+
   const user_id = sessions.get(session);
-  console.log(user_id)
+
   Lessons.find({creator:user_id}, (error, data) => {
-    console.log(data)
+    // console.log(data)
     if (error) {
       console.log(error.red)
     } else {
@@ -119,32 +121,40 @@ app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session_id;
+
   const user_id = sessions.get(session);
 
   // TODO: Clean input  - consider save VS publish
-  const created = {}
+  const created = request.body;
+  created.yearOfLesson = 1000; // TODO Change to numbers?
+  created.creator = user_id;
+  Lessons.find({}, {lesson_id:1})
+    .then((res) => {
+      if (res.length < 1) {
+        created.lesson_id = 0;
+        return Lessons.create(created)
+      } else {
+        let arr = res.map(x => x.lesson_id)
+        const new_id = Math.max(...arr) + 1;
+        created.lesson_id = new_id;
+        return Lessons.create(created) // TODO: Change to null to see error!
+      }
+    })
+    .then((res, error) => {
+      if (typeof res === "undefined") {
+        response.json({
+          received:false,
+          message:"Unable to submit lesson"
+        })
+      } else {
+        response.json({
+          received:true,
+          message:"Lesson was submitted!"
+         })
+      }
+    })
 
-  Lessons.find({}, {lesson_id:1},(error,data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      const nums = data.map(x => x.lesson_id);
-      created.lesson_id = Math.max(...nums) + 1;
-    }
   })
-
-  console.log(created); // TODO: Check if it works! May not return created value
-
-  Lessons.create(created, {}, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      let message = "Successfully uploaded the lesson!";
-      console.log(message.green);
-      // TODO: Send back confirmation
-    }
-  })
-})
 
 function buildQuery(fltr) {
   const textQuery = { $text: { $search: fltr.textSearch } };
