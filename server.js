@@ -88,14 +88,6 @@ function session(name, user_id) {
 //   }
 // });
 
-// Query to check/get password
-app.post('/', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-
-  response.status(200).type('html');
-  response.render
-});
-
 app.get('/:session_id/home', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
@@ -123,35 +115,10 @@ app.get('/:session_id/home', (request, response) => {
   })
 })
 
-// const temp = {
-//   lesson_id: "lesson6",
-//   published: false,
-//   creator: 1,
-//
-//   date: 1555892429,
-//   gradeStart: 2,
-//   gradeEnd: 5,
-//   theme: "Sadness",
-//   unit: "Two",
-//   subunit: "and a third",
-//   goal: "everything",
-//   intro: "bye",
-//   warmup: "yayaya",
-//   reflection: "noooo",
-//   backup: "nope",
-//   additional_game: "yes",
-//   quote: "hahahha",
-//   materials: [{
-//     item: "crayons",
-//     quantity: 10000000
-//   }]
-// }
-// });
-
-app.post('/:session/newPage', (request, response) => {
+app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  const session = request.params.session;
+  const session = request.params.session_id;
   const user_id = sessions.get(session);
 
   // TODO: Clean input  - consider save VS publish
@@ -165,9 +132,7 @@ app.post('/:session/newPage', (request, response) => {
       created.lesson_id = Math.max(...nums) + 1;
     }
   })
-
   console.log(created); // TODO: Check if it works! May not return created value
-
 
   Lessons.create(created, {}, (error, data) => {
     if (error) {
@@ -180,15 +145,16 @@ app.post('/:session/newPage', (request, response) => {
   })
 })
 
-function buildQuery(searchString, fltr) {
+function buildQuery(fltr) {
   // TODO: make sure to check that gradeStart <= gradeEnd
-  const textQuery = { $text: { $search: searchString } };
+
+  const textQuery = { $text: { $search: fltr.textSearch } };
 
   const userYear = (fltr.year === "") ? {$exists: true} : fltr.year;
   const userMonth = (fltr.month === "") ? {$exists: true} : fltr.month;
   const userTheme = (fltr.theme === "") ? {$exists: true} : fltr.theme;
   const userUnit = (fltr.unit === "") ? {$exists: true} : fltr.unit;
-
+  // What if one or the other
   const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
   const userGradeEnd = (fltr.unit === "") ? {$exists: true} :
     ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
@@ -206,35 +172,42 @@ function buildQuery(searchString, fltr) {
     unit: userUnit,
   };
 
-  if (typeof searchString === "undefined" || searchString === "" ) {
+  if (typeof fltr.textSearch === "undefined" || fltr.textSearch === "" ) {
+    //console.log("A")
     return filterQuery;
   } else if (fltr.hasResponses) {
+    console.log("B")
     return { $and : [ textQuery, filterQuery ] };
   } else {
+    console.log("c")
     return textQuery;
   }
 }
 
-app.get('/:session/search', (request, response) => {
+app.post('/:session_id/search', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  const session = request.params.session;
+  const session = request.params.session_id;
   const user_id = sessions.get(session);
-  console.log(response.body)
+
   // TODO: Clean input - query by whats given
-  const finalQuery = buildQuery(input);
-  response.json({})
-  // Lessons.find(finalQuery, (error, data) => {
-  //   if (error) {
-  //     console.log(error.red)
-  //   } else {
-  //
-  //     // TODO: Wrap and send back!
-  //   }
-  // })
+  const finalQuery = buildQuery(request.body);
+  
+  Lessons.find(finalQuery, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      response.json(data)
+    }
+  })
 })
 
+app.post('/', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
 
+  response.status(200).type('html');
+  response.render
+});
 
 /*
  * Gets all the current chatrooms

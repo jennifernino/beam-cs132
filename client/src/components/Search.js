@@ -18,21 +18,18 @@ class Search extends Component {
       results:[], // array of page options that are recieved from the db
 
       searchValue: "", // saving the search input
-      semester:"None", // saving semester input
-      day: "None", //saving day input
-      // grade: "None", // saving grade input
-      subject: "None",
+      semester:"Semester", // saving semester input
+      day: "Day", //saving day input
+      subject: "Subject",
 
-      year: "",
-      month: "",
-      gradeStart: "",
-      gradeEnd:"",
-      // theme: "",
-      // unit: "",
+      gradeStart: "Grade Start",
+      gradeEnd:"Grade End",
 
-      monthOfLesson: "None",
-      // dayOfLesson: "None",
-      yearOfLesson: "None"
+      monthOfLesson: "Month",
+      yearOfLesson: "Year",
+
+      error:false,
+      errorMessage:""
 
     }
   }
@@ -44,6 +41,15 @@ class Search extends Component {
     this.setState({session:this.props.session})
   }
 
+  clean_str(str) {
+    if (typeof str === 'undefined' || str === null) {
+      return ''
+    }
+    return str.toString().replace(/[^\x00-\x7F]/g, "").trim();
+  }
+  checkFilters() {
+    return false;
+  }
   searchStuff = () => {
     const year = "";
     const month = "";
@@ -51,8 +57,11 @@ class Search extends Component {
     const gradeEnd = "";
     const theme = "";
     const unit = "";
+    const text = this.clean_str(this.state.searchValue);
 
     const body_str = JSON.stringify({
+      hasResponse: this.checkFilters(),
+      textSearch: text,
       year: year,
       month: month,
       gradeStart: gradeStart,
@@ -61,14 +70,19 @@ class Search extends Component {
       unit: unit
     });
 
+    const req = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body_str
+    }
+
     const session = this.state.session;
     const uri = 'http://localhost:8080/' + session + '/search'
 
-    fetch(uri, {
-      method: 'POST',
-      //protocol:'http:',
-      body: body_str
-    })
+    fetch(uri, req)
       .then(res => res.json())
       .then(info => {
         console.log(info)
