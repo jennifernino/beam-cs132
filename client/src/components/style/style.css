@@ -51,6 +51,21 @@ h1 {
   font-size: 18px;
 }
 
+.LoginContainer{
+  display: flex;
+  flex-flow: column;
+  background-color: #85C1E9;
+  width: 400px;
+  height: 400px;
+  margin-top: 100px;
+  margin-left: 150px;
+  padding-right: 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
 .layout{
   display: flex;
   flex-flow: row;
