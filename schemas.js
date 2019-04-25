@@ -1,5 +1,6 @@
 module.exports = [
   {
+    verified: Number, 
     user_id: Number, // Should be secret
     password: String, // Should never be in plain text
     email: String, // visible
@@ -9,27 +10,37 @@ module.exports = [
     collection : 'users'
   },
   {
-    lesson_id: String, // unique id for lesson
+    lesson_id: Number, // unique id for lesson
     published: Number, // 1 is true or 0 is false
     creator: Number, // user ID
+    datePublished: Number, //UNIX time
 
-    date: Number, // UNIX time
+    lessonName: String,
+    monthOfLesson:String,
+    yearOfLesson:Number,
+
+    subject:String,
     gradeStart: Number,
     gradeEnd: Number,
+    semester:String,
+    dayOfWeek:String,
+
     theme: String,
     unit: String,
     subunit: String,
     goal: String,
-    intro: String,
+    introduction: String,
     warmup: String,
+    mainActivity: String,
+    backupActivity: String,
     reflection: String,
-    backup: String,
-    additional_game: String,
+    additionalGame: String,
     quote: String,
-    materials: [{
-      item: String,
-      quantity: Number
-    }]
+    materials: String
+    // materials: [{
+    //   item: String,
+    //   quantity: Number
+    // }]
   },
   {
     collection : 'lessons'

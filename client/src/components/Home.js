@@ -39,9 +39,14 @@ class Home extends Component {
         <div className="inProgressContainer">
           <h2>In Progress</h2>
           <div className="optionContainer">
-            {this.state.inProgress.map(item =>
-              <PageOption key={item.lesson_id} item={item} />
-            )}
+            {!this.state.inProgress.length ? (
+                <p>No lessons in progress found!</p>
+              ):(
+                this.state.inProgress.map(item =>
+                  <PageOption key={item.lesson_id} item={item} />
+                )
+              )
+            }
           </div>
         </div>
         <div className="publishedContainer">
@@ -54,9 +59,14 @@ class Home extends Component {
             </div>
           </div>
           <div className="optionContainer">
-            {this.state.published.map(item =>
-              <PageOption key={item.lesson_id} item={item} />
-            )}
+            {!this.state.published.length ? (
+                <p>No published lessons in progress found!</p>
+              ):(
+                this.state.published.map(item =>
+                  <PageOption key={item.lesson_id} item={item} />
+                )
+              )
+            }
           </div>
         </div>
       </div>

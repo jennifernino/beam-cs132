@@ -40,9 +40,11 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
 });
 
 const sessions = new Map(); // session to USER_ID
+const ids = new Map();
 const names = new Map(); // session to NAME
 
 sessions.set("abc123",1) // fake user REMOVE once login is made
+ids.set(1,"abc123")
 names.set("abc123","Jennifer") // ^^^
 
 /*
@@ -88,23 +90,15 @@ function session(name, user_id) {
 //   }
 // });
 
-// Query to check/get password
-app.post('/', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-
-  response.status(200).type('html');
-  response.render
-});
-
 app.get('/:session_id/home', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session_id;
-  console.log(session)
+
   const user_id = sessions.get(session);
-  console.log(user_id)
+
   Lessons.find({creator:user_id}, (error, data) => {
-    console.log(data)
+    // console.log(data)
     if (error) {
       console.log(error.red)
     } else {
@@ -123,118 +117,111 @@ app.get('/:session_id/home', (request, response) => {
   })
 })
 
-// const temp = {
-//   lesson_id: "lesson6",
-//   published: false,
-//   creator: 1,
-//
-//   date: 1555892429,
-//   gradeStart: 2,
-//   gradeEnd: 5,
-//   theme: "Sadness",
-//   unit: "Two",
-//   subunit: "and a third",
-//   goal: "everything",
-//   intro: "bye",
-//   warmup: "yayaya",
-//   reflection: "noooo",
-//   backup: "nope",
-//   additional_game: "yes",
-//   quote: "hahahha",
-//   materials: [{
-//     item: "crayons",
-//     quantity: 10000000
-//   }]
-// }
-// });
-
-app.post('/:session/newPage', (request, response) => {
+app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  const session = request.params.session;
+  const session = request.params.session_id;
+
   const user_id = sessions.get(session);
 
   // TODO: Clean input  - consider save VS publish
-  const created = {}
+  const created = request.body;
+  created.yearOfLesson = 1000; // TODO Change to numbers?
+  created.creator = user_id;
+  Lessons.find({}, {lesson_id:1})
+    .then((res) => {
+      if (res.length < 1) {
+        created.lesson_id = 0;
+        return Lessons.create(created)
+      } else {
+        let arr = res.map(x => x.lesson_id)
+        const new_id = Math.max(...arr) + 1;
+        created.lesson_id = new_id;
+        return Lessons.create(created) // TODO: Change to null to see error!
+      }
+    })
+    .then((res, error) => {
+      if (typeof res === "undefined") {
+        response.json({
+          received:false,
+          message:"Unable to submit lesson"
+        })
+      } else {
+        response.json({
+          received:true,
+          message:"Lesson was submitted!"
+         })
+      }
+    })
 
-  Lessons.find({}, {lesson_id:1},(error,data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      const nums = data.map(x => x.lesson_id);
-      created.lesson_id = Math.max(...nums) + 1;
-    }
   })
 
-  console.log(created); // TODO: Check if it works! May not return created value
-
-
-  Lessons.create(created, {}, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      let message = "Successfully uploaded the lesson!";
-      console.log(message.green);
-      // TODO: Send back confirmation
-    }
-  })
-})
-
-function buildQuery(searchString, fltr) {
-  // TODO: make sure to check that gradeStart <= gradeEnd
-  const textQuery = { $text: { $search: searchString } };
-
-  const userYear = (fltr.year === "") ? {$exists: true} : fltr.year;
-  const userMonth = (fltr.month === "") ? {$exists: true} : fltr.month;
-  const userTheme = (fltr.theme === "") ? {$exists: true} : fltr.theme;
-  const userUnit = (fltr.unit === "") ? {$exists: true} : fltr.unit;
-
-  const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
-  const userGradeEnd = (fltr.unit === "") ? {$exists: true} :
-    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
-    // may cause issues IDK if AND or OR
-  const userGradeStart = (fltr.unit === "") ? {$exists: true} :
-    ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
-
-  const filterQuery = {
-    published: 1, // 1 is true or 0 is false
-    year: userYear,
-    month: userMonth,
-    gradeStart: userGradeStart,
-    gradeEnd: userGradeEnd,
-    theme: userTheme,
-    unit: userUnit,
-  };
-
-  if (typeof searchString === "undefined" || searchString === "" ) {
-    return filterQuery;
-  } else if (fltr.hasResponses) {
-    return { $and : [ textQuery, filterQuery ] };
-  } else {
+function buildQuery(fltr) {
+  const textQuery = { $text: { $search: fltr.textSearch } };
+  if (fltr.hasResponses) {
     return textQuery;
+  }
+  const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
+  const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
+  const month = (fltr.month === "") ? {$exists: true} : fltr.month;
+  const year = (fltr.year === "") ? {$exists: true} : fltr.year;
+  const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
+  // gradeStart: gStart,
+  // gradeEnd: gEnd,
+  // TODO: make sure to check that gradeStart <= gradeEnd
+  //
+  // // What if one or the other
+  // const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
+  //
+  // const userGradeEnd = (fltr.gradeEnd === "") ? {$exists: true} :
+  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+  //   // may cause issues IDK if AND or OR
+  // const userGradeStart = (fltr.unit === "") ? {$exists: true} :
+  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+
+  const filterQuery =
+    {
+      published: 1, // 1 is true or 0 is false
+      semester: semester,
+      dayOfWeek: weekday,
+      monthOfLesson: month,
+      yearOfLesson: year,
+      subject: subject
+    };
+
+  if (fltr.textSearch === "" ) {
+    return filterQuery;
+  } else {
+    return { $and : [ textQuery, filterQuery ] };
   }
 }
 
-app.get('/:session/search', (request, response) => {
+app.post('/:session_id/search', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  const session = request.params.session;
+
+  const session = request.params.session_id;
   const user_id = sessions.get(session);
-  console.log(response.body)
+
   // TODO: Clean input - query by whats given
-  const finalQuery = buildQuery(input);
-  response.json({})
-  // Lessons.find(finalQuery, (error, data) => {
-  //   if (error) {
-  //     console.log(error.red)
-  //   } else {
-  //
-  //     // TODO: Wrap and send back!
-  //   }
-  // })
+  const finalQuery = buildQuery(request.body);
+  console.log(finalQuery)
+  Lessons.find(finalQuery, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      console.log(data)
+      response.json(data)
+    }
+  })
 })
 
+app.post('/', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
 
+  response.status(200).type('html');
+  response.render
+});
 
 /*
  * Gets all the current chatrooms

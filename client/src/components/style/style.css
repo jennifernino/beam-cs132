@@ -7,6 +7,7 @@ h1 {
   color: #49009E;
 }
 
+
 #root {
   display: flex;
   flex: 1;
@@ -211,11 +212,14 @@ input{
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
+
 }
+
 
 /*
  * NEEDED IN CASE DROPDOWN HAS TOO MANY OPTIONS
  */
+
 .ddMenu {
   max-height: 200px;
   overflow: scroll;
