@@ -26,13 +26,26 @@ class Login extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-    fetch('/', {
-      method: 'post',
-      headers: {'Content-Type':'application/json'},
-      body: {
-        "username": "test"
-      }
+    const body_str = JSON.stringify({
+      email: this.state.email,
+      password: this.state.password
     });
+    console.log(body_str)
+
+    const req = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body_str
+    }
+
+    fetch("http://localhost:8080/", req)
+      .then(function(response) {
+        return response.json();
+      })
+
 
   }
 
