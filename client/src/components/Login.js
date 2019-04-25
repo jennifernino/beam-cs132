@@ -26,23 +26,13 @@ class Login extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-
-    const body_str = JSON.stringify({
-      username: this.state.username,
+    fetch('/', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: {
+        "username": "test"
+      }
     });
-
-    const data = JSON.stringify({
-      method: 'POST',
-      body: body_str
-    });
-
-    const url = 'http://localhost:8080/'
-
-    fetch(url, data)
-      .then(res => res.json())
-      .then(info => {
-        console.log(info)
-      });
 
   }
 
@@ -50,6 +40,7 @@ class Login extends Component {
     return (
       <div className="LoginContainer">
         <div className="inputItem">
+        <h1> BEAM Lesson Planner </h1>
         </div>
         <form onSubmit={this.handleSubmit}>
         <div className="inputItem">
@@ -67,7 +58,7 @@ class Login extends Component {
         </div>
 
         <div className="inputItem">
-        <input type="submit" value="Log in" />
+        <input type="submit" value="Log in" className="submitButton" />
         </div>
         <div className="inputItem">
         <a href="/forgotpassword"> Forgot password? </a>
