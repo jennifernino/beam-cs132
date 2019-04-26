@@ -42,9 +42,11 @@ class Login extends Component {
     }
 
     fetch("http://localhost:8080/", req)
-      .then(function(response) {
-        return response.json();
-      })
+      // .then(function(response) {
+      //   return response.json();
+      // })
+      .then(res => res.text())          // convert to plain text
+      .then(text => console.log(text))  // then log it out
 
 
   }

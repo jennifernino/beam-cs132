@@ -19,7 +19,7 @@ class Menu extends Component {
           </li>
           <li>
             <Link to={'/search'}>
-            <button className="navButton">Search</button>
+            <button className="searchButton">Search</button>
             </Link>
           </li>
           <li>

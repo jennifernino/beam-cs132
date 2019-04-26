@@ -4,17 +4,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const bcrypt = require('bcrypt');
-var passport = require('passport')
+const passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 
 
-/*
- * passport setup
- */
-//  app.use(passport.initialize());
-//  app.use(passport.session());
-//
+
 //  passport.serializeUser(function(user, cb) {
 //   cb(null, user.id);
 //   });
@@ -55,6 +50,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+/*
+ * passport setup
+ */
+ app.use(passport.initialize());
+ app.use(passport.session());
+
 
 mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
   if (error) {
@@ -275,23 +276,18 @@ app.post('/signup', (request, response) => {
   response.render
 });
 
-app.post('/', (request, response) => {
+app.post('/',passport.authenticate(LocalStrategy), (request, response) => {
+  console.log('post req still worksj ')
   console.log('- request received:', request.method.cyan, request.url.underline);
 
   const password = request.body.password
-  console.log(forgotpassword)
-  Users.find({ 'email': request.body.email }, 'email password', function (err, user) {
-  if (err) return handleError(err);
-  // 'email' contains the list of athletes that match the criteria.
-
-  user[0].password; //correct password
   passport.use(new LocalStrategy(function(username, password, cb) {
-
-  // Locate user first here
+    console.log('got inside passport fn')
+  //Locate user first here
   bcrypt.compare(password, user[0].password, function(err, res) {
 
     if (err) return cb(err);
-    
+
     if (res === false) {
       return cb(null, false);
       console.log('error')
@@ -301,6 +297,15 @@ app.post('/', (request, response) => {
     }
   });
 }));
+console.log('is it just skipping it')
+  Users.find({ 'email': request.body.email }, 'email password', function (err, user) {
+  if (err) return handleError(err);
+  // 'email' contains the list of athletes that match the criteria.
+
+  user[0].password; //correct password
+
+
+
 
 
   })
