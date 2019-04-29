@@ -7,6 +7,7 @@ class Admin extends Component {
   constructor(props){
     super(props);
     this.state = {
+      session:'',
       requests:[],
       users:[] // sort by team
     };
@@ -25,9 +26,9 @@ class Admin extends Component {
       .then(info => {
         this.setState({
           requests:info.requests,
-          users:info.users
+          users:info.users,
+          session:session
         })
-        console.log(info)
       });
   }
 
@@ -41,7 +42,7 @@ class Admin extends Component {
               <p>No pending requests...</p>
             ) : (
               this.state.requests.map(item =>
-                <UserOption key={item.name} item={item} />
+                <UserOption key={item.name} session={this.state.session} item={item} />
               )
             )}
         <h2>Current Teams</h2>
@@ -50,7 +51,7 @@ class Admin extends Component {
               <p>No teams found...</p>
             ) : (
               this.state.users.map(item =>
-                <UserOption key={item.name} item={item} />
+                <UserOption key={item.name} session={this.state.session} item={item} />
               )
             )}
       </div>

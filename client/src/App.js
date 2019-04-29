@@ -6,7 +6,9 @@ import Forgot from './components/Forgot'
 import PasswordReset from './components/PasswordReset'
 import Home from './components/Home'
 import Menu from './components/Menu'
+import Admin from './components/Admin'
 import Search from './components/Search'
+import EditLesson from './components/EditLesson'
 import NewPage from './components/NewPage'
 import logo from './logo.svg';
 import './App.css';

@@ -11,8 +11,9 @@ class UserOption extends Component {
   constructor(props){
     super(props);
     this.state = {
-      session: '',
-      position:'Volunteer',
+      name:'',
+      email:'',
+      position:'',
       team:'None',
       verified:''
     };
@@ -20,37 +21,14 @@ class UserOption extends Component {
   }
 
   componentDidMount() {
-    this.adminSetUp()
-  }
-
-  adminSetUp = () => {
-    const session = this.props.session;
-    const uri = 'http://localhost:8080/' + session + '/adminsetup'
-    fetch(uri)
-      .then(res => res.json())
-      .then(info => {
-        console.log(info)
-      });
-  }
-
-  selected(value, event) {
-    this.setState({position:value});
-  }
-
-  assignTeam(value, event) {
-    this.setState({team:value})
-  }
-
-  verify() {
-    // TODO: check if everything needed is here!!
-    const body_str = JSON.stringify({
-      toUpdate: {
-        position:this.state.position,
-        team:this.state.team,
-        verified:this.state.verified
-      }
-    });
-    adminUpdate(body_str);
+    this.setState({
+      session:this.props.session,
+      name:this.props.item.name,
+      email:this.props.item.email,
+      verified:this.props.item.verified,
+      position:this.props.item.leader ? ("Volunteer") : ("Leader"),
+    })
+    console.log(this.props.item)
   }
 
   adminUpdate = (str) => {
@@ -71,21 +49,44 @@ class UserOption extends Component {
       });
   }
 
+  selected(value, event) {
+    this.setState({position:value});
+  }
+
+  assignTeam(value, event) {
+    this.setState({team:value})
+  }
+
+  verify() {
+    // TODO: check if everything needed is here!!
+    const body_str = JSON.stringify({
+      toUpdate: {
+        position:this.state.position,
+        team:this.state.team,
+        verified:1
+      },
+      email: this.state.email
+    });
+    this.adminUpdate(body_str);
+  }
+
   update() {
     const body_str = JSON.stringify({
       toUpdate: {
         position:this.state.position,
         team:this.state.team,
-      }
+      },
+      email: this.state.email
     });
-    adminUpdate(body_str)
+    this.adminUpdate(body_str)
   }
 
   render() {
     return (
       <div className="UserOptionContainer">
-        <p>Person Name</p>
-        <p>someemail@email.email</p>
+        <p>{this.state.name}</p>
+        <p>{this.state.email}</p>
+        <p>{this.state.position}</p>
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.position}</DropdownToggle>
             <DropdownMenu>

@@ -7,7 +7,6 @@ h1 {
   color: #49009E;
 }
 
-
 #root {
   display: flex;
   flex: 1;
@@ -237,7 +236,7 @@ input{
  */
 
 .ddMenu {
-  max-height: 200px;
+  max-height: 150px;
   overflow: scroll;
 }
 

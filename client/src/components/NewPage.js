@@ -307,7 +307,7 @@ class NewPage extends Component {
               {/* <label>Semester: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.semester}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "semester", "Semester")}>Semester</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "semester", "Fall 2018")}>Fall 2018</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "semester", "Spring 2018")}>Spring 2018</MenuItem>
@@ -320,7 +320,7 @@ class NewPage extends Component {
             {/* <label>Day: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.dayOfWeek}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "dayOfWeek", "Weekday")}>Weekday</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "dayOfWeek", "Monday")}>Monday</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "dayOfWeek", "Tuesday")}>Tuesday</MenuItem>
@@ -334,7 +334,7 @@ class NewPage extends Component {
           {/* <label>Date: </label> */}
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.monthOfLesson}</DropdownToggle>
-            <DropdownMenu>
+            <DropdownMenu className="ddMenu">
               <MenuItem onClick={this.selected.bind(this, "monthOfLesson", "Month")}>Month</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "monthOfLesson", "January")}>January</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "monthOfLesson", "February")}>February</MenuItem>
@@ -352,7 +352,7 @@ class NewPage extends Component {
           </Dropdown>
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.yearOfLesson}</DropdownToggle>
-            <DropdownMenu>
+            <DropdownMenu className="ddMenu">
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "Year")}>Year</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "2019")}>2019</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "2018")}>2018</MenuItem>
@@ -411,7 +411,7 @@ class NewPage extends Component {
             {/* <label>Subject: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle btnStyle="flat">{this.state.subject}</DropdownToggle>
-              <DropdownMenu>
+              <DropdownMenu className="ddMenu">
                 <MenuItem onClick={this.selected.bind(this, "subject", "Subject")}>Subject</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Math")}>Math</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Science")}>Science</MenuItem>

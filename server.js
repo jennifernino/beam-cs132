@@ -44,8 +44,6 @@ app.use(cors());
 
 
 
-
-
 mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
   if (error) {
     let err = 'ERROR: Unable to connect to ' + url;
@@ -153,7 +151,9 @@ app.get('/:session_id/adminsetup', (request, response) => {
     group:1,
     name:1,
     verified:1,
-    leader:1
+    leader:1,
+    email:1,
+    position:1
   }
   // future send email with update
   Users.find(query, ret, (error, data) => {
@@ -417,7 +417,29 @@ app.post('/', (request, response) => {
 //   response.status(200).type('html');
 //   response.render
 });
+app.post('/:session_id/adminupdate', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
 
+  const session = request.params.session_id;
+  const user_id = sessions.get(session);
+  const query = { email: request.body.email }
+  const update= { $set: request.body.toUpdate }
+  console.log(query, update)
+  Users.findOneAndUpdate(query, update, {new: true}, (error, data) => {
+    if (error) {
+      console.log(error, red, 'FALSE')
+      response.json({
+        resolved:false
+      })
+    } else {
+      console.log(data, "TRUE");
+      response.json({
+        resolved:true
+      })
+    }
+  })
+})
 /*
  * Gets all the current chatrooms
  */

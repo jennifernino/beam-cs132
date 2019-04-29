@@ -8,7 +8,8 @@ module.exports = [
     password: String, // Should never be in plain text
     email: String, // visible
     name: String, // meh
-    confirmationID: String
+    confirmationID: String,
+    position: String
   },
   {
     collection : 'users'
