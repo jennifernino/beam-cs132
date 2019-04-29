@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import PageOption from './PageOption'
 import './style/style.css';
 
@@ -8,6 +9,7 @@ class Home extends Component {
     super(props);
     this.state = {
       username: 'Bob',
+      isAdmin:true,
       session: '',
       inProgress:[],
       published:[]
@@ -26,16 +28,27 @@ class Home extends Component {
       .then(info => {
         this.setState({
           inProgress:info.unpublished,
-          published:info.published
+          published:info.published,
+          isAdmin:true//(info.isAdmin === 1) ? true : false
         })
         console.log(info)
       });
   }
 
+
+
   render() {
     return (
       <div className="homeContainer">
         <h1>Welcome {this.state.username}!</h1>
+        {this.state.isAdmin ?
+          (
+            <Link to={'/admin'}>
+              <button>Admin</button>
+            </Link>
+          ):(
+            null
+          )}
         <div className="inProgressContainer">
           <h2>In Progress</h2>
           <div className="optionContainer">

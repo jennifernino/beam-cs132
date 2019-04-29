@@ -48,15 +48,14 @@ class App extends Component {
           <div className="rightContainer">
             <Switch>
               <Route exact path='/' component={Login} />
-
+              <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forgotpassword' component={Forgot} />
-              <Route exact path='/resetpassword' component={PasswordReset} />
-
               <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
               <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
               <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
-
+              <Route exact path='/edit' render={(props) => <EditLesson {...props} session={this.state.session}/>}/>
+              <Route exact path='/resetpassword' component={PasswordReset} />
             </Switch>
           </div>
         </div>

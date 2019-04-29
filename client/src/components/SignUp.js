@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './style/style.css';
 
-var validator = require("email-validator");
-var passwordValidator = require('password-validator');
+// var validator = require("email-validator");
+// var passwordValidator = require('password-validator');
 
-var schema = new passwordValidator();
+// var schema = new passwordValidator();
 
-schema
-.is().min(8);
+// schema
+// .is().min(8);
 
 
 class SignUp extends Component {

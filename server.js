@@ -8,18 +8,10 @@ const passport = require("passport");
 const uuidv1 = require('uuid/v1');
 const nodemailer = require('nodemailer');
 
-
-
-
-
-
-
 /*
  * bcrypt constants
  */
 const saltRounds = 10;
-
-
 
 
 /*
@@ -319,8 +311,6 @@ app.post('/signup', (request, response) => {
     });
 
 });
-
-
   response.status(200).type('html');
   response.render
 });
@@ -350,12 +340,6 @@ app.post('/', (request, response) => {
     });
     console.log(plainText);
     console.log(correctPass);
-
-
-
-
-
-
 
   });
 
