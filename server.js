@@ -141,6 +141,44 @@ app.get('/:session_id/home', (request, response) => {
   })
 })
 
+app.get('/:session_id/adminsetup', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+
+  const session = request.params.session_id;
+  const user_id = sessions.get(session);
+  const query = {}
+  const ret = {
+    user_id:1,
+    group:1,
+    name:1,
+    verified:1,
+    leader:1
+  }
+  // future send email with update
+  Users.find(query, ret, (error, data) => {
+    if (error) {
+      console.log(error, red)
+    } else {
+
+      let requests = [];
+      let users = [];
+      for (let i = 0; i < data.length; i += 1) {
+        if (data[i].verified === 0) {
+          requests.push(data[i])
+        } else {
+          users.push(data[i])
+        }
+      }
+
+      response.json({
+        requests:requests,
+        users:users
+      })
+    }
+  })
+})
+
 app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
