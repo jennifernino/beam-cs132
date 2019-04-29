@@ -1,7 +1,7 @@
 module.exports = [
   {
-    verified: Number, 
-    user_id: Number, // Should be secret
+    verified: Number,
+    user_id: String, // Should be secret
     password: String, // Should never be in plain text
     email: String, // visible
     name: String // meh
