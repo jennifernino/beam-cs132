@@ -4,7 +4,8 @@ module.exports = [
     user_id: String, // Should be secret
     password: String, // Should never be in plain text
     email: String, // visible
-    name: String // meh
+    name: String, // meh
+    confirmationID: String
   },
   {
     collection : 'users'

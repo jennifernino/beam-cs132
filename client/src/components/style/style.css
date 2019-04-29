@@ -70,6 +70,21 @@ h1 {
   font-size: 18px;
 }
 
+.ForgotContainer{
+  display: flex;
+  flex-flow: column;
+  background-color: #00A9D7;
+  width: 400px;
+  height: 450px;
+  margin-top: 100px;
+  margin-left: 150px;
+  padding-right: 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
 .layout{
   display: flex;
   flex-flow: row;

@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Forgot from './components/Forgot'
+import PasswordReset from './components/PasswordReset'
 import Home from './components/Home'
 import Menu from './components/Menu'
 import Search from './components/Search'
@@ -50,6 +51,7 @@ class App extends Component {
 
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forgotpassword' component={Forgot} />
+              <Route exact path='/resetpassword' component={PasswordReset} />
 
               <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
               <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>

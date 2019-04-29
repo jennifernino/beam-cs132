@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const bcrypt = require('bcrypt');
 const passport = require("passport");
 const uuidv1 = require('uuid/v1');
+const nodemailer = require('nodemailer');
 
 
 
@@ -40,33 +41,15 @@ const Users = mongoose.model('Users', usersSchema);
 // INDEX NEEDED FOR FULL TEXT QUERIES
 const Lessons = mongoose.model('Lessons', lessonsSchema.index({'$**': 'text'}));
 
-/*
- * passport setup
- */
 
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
 
-passport.deserializeUser(function(userId, done) {
-  Users.findById(userId, (err, user) => done(err, user));
-});
-
-usersSchema.methods.validPassword = function (password) {
-  if (password === this.password) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 
 
@@ -265,6 +248,46 @@ app.post('/:session_id/search', (request, response) => {
   })
 })
 
+
+app.post('/forgotpassword', (request, response) => {
+  confirmationID = genID();
+  Users.find({ 'email': request.body.email }, 'email confirmationID', function (err, user) {
+    console.log(user[0].confirmationID);
+
+
+  });
+
+  // console.log('request-received');
+  // var transporter = nodemailer.createTransport({
+  // service: 'gmail',
+  // auth: {
+  //   user: 'beamapptestemail@gmail.com',
+  //   pass: 'beambeambeam'
+  // }
+  // });
+  //
+  //
+  //
+  // var mailOptions = {
+  // from: 'beamapptestemail@gmail.com',
+  // to: request.body.email,
+  // subject: 'BEAM Password Reset',
+  // text: 'Click the following link http://localhost:3000/resetpassword and enter the following code: ' + confirmationID
+  // };
+  //
+  // transporter.sendMail(mailOptions, function(error, info){
+  // if (error) {
+  //   console.log(error);
+  // } else {
+  //   console.log('Email sent: ' + info.response);
+  // }
+  // });
+
+
+
+});
+
+
 app.post('/signup', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   const first_name = request.body.first
@@ -273,6 +296,7 @@ app.post('/signup', (request, response) => {
   const password = request.body.password
   const sesh = genUUID();
   const user_id = genUUID();
+  const confirmationID = genID();
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(password, salt, function(err, hash) {
         //store hash in db

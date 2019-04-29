@@ -20,8 +20,27 @@ class Forgot extends Component {
   }
 
   handleSubmit(event){
-    alert('credentials'+ this.state.email);
+
     event.preventDefault();
+    const body_str = JSON.stringify({
+      email: this.state.email,
+    });
+
+    const req = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body_str
+    }
+
+    fetch("http://localhost:8080/forgotpassword", req)
+      // .then(function(response) {
+      //   return response.json();
+      // })
+      .then(res => res.text())          // convert to plain text
+      .then(text => console.log(text))  // then log it out
   }
 
 
