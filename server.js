@@ -344,11 +344,26 @@ app.post('/forgotpassword', (request, response) => {
 
 app.post('/passwordreset', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
-  const confirmationID = request.body.confirmationID
-  const password = request.body.password
+  var confirmationID = request.body.confirmationID
+
   Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
-    confirmationID = user[0].confirmationID;
-    console.log(confirmationID);
+    trueID = user[0].confirmationID;
+    userEmail = user[0].email;
+    console.log('true: '+confirmationID)
+    console.log(request.body.confirmationID)
+    var inputID = request.body.confirmationID;
+    if(inputID === trueID){
+      console.log('its a match')
+      newConfirmationID = genID();
+      Users.updateOne(
+        {email: userEmail},
+        {
+        $set: {password: request.body.password, confirmationID: newConfirmationID}
+        }
+      );
+    }else{
+      console.log('no match')
+    }
 
   });
 

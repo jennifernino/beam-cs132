@@ -39,6 +39,7 @@ class PasswordReset extends Component {
     event.preventDefault();
     const body_str = JSON.stringify({
       confirmationID: this.state.confirmationID,
+      password: this.state.password
     });
 
     const req = {
