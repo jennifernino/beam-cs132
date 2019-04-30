@@ -18,7 +18,7 @@ class PageOption extends Component {
   componentDidMount() {
     console.log(this.props.item); // information to work on
     if(this.props.item.published){
-     this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+     this.setState({color: "#27fa00", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
    } else {
      this.setState({color: "red", type:"Not Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
    }
@@ -27,11 +27,11 @@ class PageOption extends Component {
 
   render() {
     return (
-      <Link to={'/viewpage/' + this.props.item.lesson_id}>
+      <Link className="link" to={'/viewpage/' + this.props.item.lesson_id}>
       <div className="pageOptionContainer">
         <div className="pageHeaderContainer">
           <div className="leftPageHeaderContainer">
-            <p>{this.state.lessonName}</p>
+            <p id="changeFont">{this.state.lessonName}</p>
           </div>
           <div className="rightPageHeaderContainer">
             <p style={{color: this.state.color}} >{this.state.type}</p>

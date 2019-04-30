@@ -284,23 +284,24 @@ class NewPage extends Component {
   render () {
     return (
       <div className="newPageContainer">
+        {this.state.userMessage ?
+          (
+            <p className="userMessage">{this.state.userMessage}</p>
+          ) : (
+            this.state.userError ?
+             (
+               <p className="userMessage">{this.state.userError}</p>
+             ) :
+             (
+               null
+             )
+          )}
         <div className="headerContainer">
           <h1>Basic Info</h1>
           <div className="headerTextContainer">
           <label>Lesson Name: </label>
           <input id="searchBar" value={this.state.lessonName} type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
-          {this.state.userMessage ?
-            (
-              <p className="userMessage">{this.state.userMessage}</p>
-            ) : (
-              this.state.userError ?
-               (
-                 <p className="userMessage">{this.state.userError}</p>
-               ) :
-               (
-                 null
-               )
-            )}
+
         </div>
           <div className="headerDropDownContainer">
             <div>
