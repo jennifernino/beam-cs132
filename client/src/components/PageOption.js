@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './style/style.css';
+import { Link } from "react-router-dom";
+import PublishedPage from './PublishedPage';
 
 class PageOption extends Component {
 
@@ -8,6 +10,7 @@ class PageOption extends Component {
     this.state = {
       type:"",
       color: "",
+      lessonName: "",
       reflection: ""
     }
   }
@@ -15,23 +18,20 @@ class PageOption extends Component {
   componentDidMount() {
     console.log(this.props.item); // information to work on
     if(this.props.item.published){
-      this.setState({color: "green", type:"Published", reflection: this.props.item.reflection});
-      //missing lesson name from the server ..
-      // add lessonName: this.props.item.lessonName to state when added
-    } else {
-      this.setState({color: "red", type:"Not Published", reflection: this.props.item.reflection});
-      //missing lesson name from the server ..
-      // add lessonName: this.props.item.lessonName to state when added
-    }
+     this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+   } else {
+     this.setState({color: "red", type:"Not Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+   }
     // when opening?
   }
 
   render() {
     return (
+      <Link to={'/viewpage/' + this.props.item.lesson_id}>
       <div className="pageOptionContainer">
         <div className="pageHeaderContainer">
           <div className="leftPageHeaderContainer">
-            <p>Title</p>
+            <p>{this.state.lessonName}</p>
           </div>
           <div className="rightPageHeaderContainer">
             <p style={{color: this.state.color}} >{this.state.type}</p>
@@ -41,6 +41,7 @@ class PageOption extends Component {
           <p>{this.state.reflection}</p>
         </div>
       </div>
+    </Link>
     );
   }
 }

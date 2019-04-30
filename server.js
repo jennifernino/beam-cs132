@@ -218,6 +218,25 @@ app.post('/:session_id/newPage', (request, response) => {
 
   })
 
+  app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  Lessons.find({lesson_id:lesson_id}, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      console.log(data)
+      response.json({
+        pageInfo: data,
+        recieved:true
+      })
+    }
+  })
+})
+
 function buildQuery(fltr) {
   const textQuery = { $text: { $search: fltr.textSearch } };
   if (fltr.hasResponses) {

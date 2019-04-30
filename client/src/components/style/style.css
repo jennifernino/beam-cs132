@@ -6,6 +6,9 @@ html, body {
 h1 {
   color: #49009E;
 }
+label{
+  color: #49009E;
+}
 
 #root {
   display: flex;

@@ -10,6 +10,7 @@ import Admin from './components/Admin'
 import Search from './components/Search'
 import EditLesson from './components/EditLesson'
 import NewPage from './components/NewPage'
+import PublishedPage from './components/PublishedPage';
 import logo from './logo.svg';
 import './App.css';
 
@@ -58,6 +59,7 @@ class App extends Component {
               <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
               <Route exact path='/edit' render={(props) => <EditLesson {...props} session={this.state.session}/>}/>
               <Route exact path='/resetpassword' component={PasswordReset} />
+              <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
             </Switch>
           </div>
         </div>
