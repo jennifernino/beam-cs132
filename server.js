@@ -280,41 +280,63 @@ app.post('/:session_id/search', (request, response) => {
 
 
 app.post('/forgotpassword', (request, response) => {
-  confirmationID = genID();
+  var confirmationID = '';
   Users.find({ 'email': request.body.email }, 'email confirmationID', function (err, user) {
-    console.log(user[0].confirmationID);
+    confirmationID = user[0].confirmationID;
+
+    var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'beamapptestemail@gmail.com',
+      pass: 'beambeambeam'
+    }
+    });
+
+
+
+    var mailOptions = {
+    from: 'beamapptestemail@gmail.com',
+    to: request.body.email,
+    subject: 'BEAM Password Reset',
+    text: 'Click the following link http://localhost:3000/resetpassword and enter the following code: ' + confirmationID
+    };
+
+    console.log(mailOptions.text)
+
+    // transporter.sendMail(mailOptions, function(error, info){
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   console.log('Email sent: ' + info.response);
+    // }
+    // });
 
 
   });
 
-  // console.log('request-received');
-  // var transporter = nodemailer.createTransport({
-  // service: 'gmail',
-  // auth: {
-  //   user: 'beamapptestemail@gmail.com',
-  //   pass: 'beambeambeam'
-  // }
-  // });
-  //
-  //
-  //
-  // var mailOptions = {
-  // from: 'beamapptestemail@gmail.com',
-  // to: request.body.email,
-  // subject: 'BEAM Password Reset',
-  // text: 'Click the following link http://localhost:3000/resetpassword and enter the following code: ' + confirmationID
-  // };
-  //
-  // transporter.sendMail(mailOptions, function(error, info){
-  // if (error) {
-  //   console.log(error);
-  // } else {
-  //   console.log('Email sent: ' + info.response);
-  // }
-  // });
 
 
 
+
+
+
+});
+
+
+app.post('/passwordreset', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  const confirmationID = request.body.confirmationID
+  const password = request.body.password
+  Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
+    confirmationID = user[0].confirmationID;
+    console.log(confirmationID);
+
+  });
+
+
+
+  response.status(200).type('html');
+  response.render
 });
 
 
@@ -327,6 +349,7 @@ app.post('/signup', (request, response) => {
   const sesh = genUUID();
   const user_id = genUUID();
   const confirmationID = genID();
+
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(password, salt, function(err, hash) {
         //store hash in db
@@ -335,7 +358,8 @@ app.post('/signup', (request, response) => {
             user_id: user_id, // Should be secret
             password: hash, // Should never be in plain text
             email: email, // visible
-            name: last_name+","+first_name // meh
+            name: last_name+","+first_name, // meh
+            confirmationID: confirmationID
           });
           user.save(function(error) {
             console.log("Your user has been saved!");
