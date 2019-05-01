@@ -302,6 +302,7 @@ app.post('/forgotpassword', (request, response) => {
   var confirmationID = '';
   Users.find({ 'email': request.body.email }, 'email confirmationID', function (err, user) {
     confirmationID = user[0].confirmationID;
+    console.log(confirmationID);
 
     var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -345,22 +346,28 @@ app.post('/forgotpassword', (request, response) => {
 app.post('/passwordreset', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   var confirmationID = request.body.confirmationID
-
+  var newPassword = request.body.password
   Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
+
     trueID = user[0].confirmationID;
     userEmail = user[0].email;
-    console.log('true: '+confirmationID)
-    console.log(request.body.confirmationID)
+    console.log(userEmail)
+    console.log(user[0].password)
     var inputID = request.body.confirmationID;
+
     if(inputID === trueID){
       console.log('its a match')
       newConfirmationID = genID();
+      console.log(newConfirmationID);
+
       Users.updateOne(
-        {email: userEmail},
+        {'email': userEmail},
         {
-        $set: {password: request.body.password, confirmationID: newConfirmationID}
+        $set: {'password': newPassword, 'confirmationID': newConfirmationID}
         }
       );
+      console.log("password succesfully changed to: " + user[0].password)
+      console.log("confirmationID succesfully changed to: " + user[0].confirmationID)
     }else{
       console.log('no match')
     }
@@ -398,7 +405,7 @@ app.post('/signup', (request, response) => {
           user.save(function(error) {
             console.log("Your user has been saved!");
             sessions.set(sesh, user_id);
-            console.log(sessions);
+            console.log(user.password);
             if (error) {
               console.error(error);
             }
