@@ -13,7 +13,6 @@ const nodemailer = require('nodemailer');
  */
 const saltRounds = 10;
 
-
 /*
  * Database credentials
  */
