@@ -26,7 +26,7 @@ class UserOption extends Component {
       name:this.props.item.name,
       email:this.props.item.email,
       verified:this.props.item.verified,
-      position:this.props.item.leader ? ("Volunteer") : ("Leader"),
+      position:this.props.item.position
     })
     console.log(this.props.item)
   }
@@ -63,10 +63,14 @@ class UserOption extends Component {
       toUpdate: {
         position:this.state.position,
         team:this.state.team,
-        verified:1
+        leader:(this.state.position === 'Team Leader') ? 1 : 0,
+        verified:1,
+        isAdmin:(this.state.position === 'Admin') ? 1 : 0,
+        group: this.state.team
       },
       email: this.state.email
     });
+    
     this.adminUpdate(body_str);
   }
 
@@ -75,6 +79,9 @@ class UserOption extends Component {
       toUpdate: {
         position:this.state.position,
         team:this.state.team,
+        leader:(this.state.position === 'Team Leader') ? 1 : 0,
+        isAdmin:(this.state.position === 'Admin') ? 1 : 0,
+        group: this.state.team
       },
       email: this.state.email
     });

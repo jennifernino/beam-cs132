@@ -112,6 +112,24 @@ function session(name, user_id) {
 //   }
 // });
 
+app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  Lesson.find({lesson_id:lesson_id}, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      console.log(data)
+      response.json({
+        recieved:true
+      })
+    }
+  })
+})
+
 app.get('/:session_id/home', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
