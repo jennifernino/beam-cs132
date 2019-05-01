@@ -161,7 +161,7 @@ class Search extends Component {
   render () {
     return (
       <div className="searchContainer">
-        <h1>Search</h1><hr></hr>
+        <h1>Search</h1>
         <div className="searchOptionsContainer">
 
           <div className="searchBarContainer">
@@ -291,7 +291,7 @@ class Search extends Component {
 
 
           <div className="resultsContainer">
-            <h1>Results</h1><hr></hr>
+            <h1>Results</h1>
             {
               this.state.started ?
                 (
