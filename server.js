@@ -14,34 +14,20 @@ const nodemailer = require('nodemailer');
 const saltRounds = 10;
 
 /*
- * Database credentials
+ * Connecting to the database
+ * One database, 2 collections
+ *    -
  */
 const username = "beam_manager";
 const password = "1320csci";
 const url = "mongodb+srv://" + username + ":" + password + "@cluster0-auldt.mongodb.net/cs132beam";
 
-/*
- * Schemas!
- */
 const schemas = require('./schemas.js');
-
 const usersSchema = new mongoose.Schema(schemas[0], schemas[1]);
 const lessonsSchema = new mongoose.Schema(schemas[2], schemas[3]);
-
 const Users = mongoose.model('Users', usersSchema);
 // INDEX NEEDED FOR FULL TEXT QUERIES
 const Lessons = mongoose.model('Lessons', lessonsSchema.index({'$**': 'text'}));
-
-
-
-
-
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cors());
-
-
 
 mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
   if (error) {
@@ -53,147 +39,233 @@ mongoose.connect(url, { useNewUrlParser: true }, function (error, resolve) {
   }
 });
 
-const sessions = new Map(); // session to USER_ID
-const ids = new Map();
-const names = new Map(); // session to NAME
+/*
+ * Server set up
+ */
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
 
+
+/*
+ * Maps to keep track of people who've logged in
+ * sessions: a map from session_id -> user_id
+ * ids: a map from user_id -> session_id
+ * names: a map from session_id -> name
+ */
+const sessions = new Map();
+const ids = new Map();
+const names = new Map();
+
+/*
+ * Whenever a user signs in, this should happen
+ */
 sessions.set("abc123",1) // fake user REMOVE once login is made
 ids.set(1,"abc123")
-names.set("abc123","Jennifer") // ^^^
+names.set("abc123","Jennifer")
 
 /*
- * Generates UUID
+ *******************************************************************************
+ * Admin functionality
+ *******************************************************************************
  */
-function genUUID() {
-  return uuidv1();
-}
+
+ /*
+  * Whenever you go to the admin page, this is called
+  */
+ app.get('/:session_id/adminsetup', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
+
+   const session = request.params.session_id;
+   const user_id = sessions.get(session);
+   const query = {}
+   const ret = {
+     user_id:1,
+     group:1,
+     name:1,
+     verified:1,
+     leader:1,
+     email:1,
+     position:1
+   }
+   // future send email with update
+   Users.find(query, ret, (error, data) => {
+     if (error) {
+       console.log(error, red)
+     } else {
+
+       // Seperate people who've signed up from those who have
+       let requests = [];
+       let users = [];
+       for (let i = 0; i < data.length; i += 1) {
+         if (data[i].verified === 0) {
+           requests.push(data[i])
+         } else {
+           users.push(data[i])
+         }
+       }
+
+       response.json({
+         requests:requests,
+         users:users
+       })
+     }
+   })
+ })
 
 /*
- * Gets all the current chatrooms
+ * Anytime the admin accepts someones invitation to join or not
  */
-function genID() {
-  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
-  let result = '';
-  for (let i = 0; i < 6; i++) {
-    result += chars[(Math.floor(Math.random() * chars.length))];
-  }
-  return result;
-}
+app.post('/:session_id/adminupdate', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
 
+  const session = request.params.session_id;
+  const user_id = sessions.get(session);
+  const query = { email: request.body.email }
+  const update= { $set: request.body.toUpdate }
+  console.log(query, update)
+  Users.findOneAndUpdate(query, update, {new: true}, (error, data) => {
+    if (error) {
+      console.log(error, red, 'FALSE')
+      response.json({
+        resolved:false
+      })
+    } else {
+      console.log(data, "TRUE");
+      response.json({
+        resolved:true
+      })
+    }
+  })
+})
 /*
- * Adds session to map
- * TODO: Figure out how to remove once done
+ *******************************************************************************
+ * Homepage functionality
+ *******************************************************************************
  */
-function session(name, user_id) {
-  let sesh = genID()
-  while (sessions.has(sesh)) {
-    sesh = genID();
-  }
-  sessions.set(sesh, user_id);
-  return sesh;
-}
+ app.get('/:session_id/home', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
+   const session = request.params.session_id;
 
-// const { users, lessons } = require('./pre_info.js');
-// Users.insertMany(users, {}, (error, data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "Users Added to database!"
-//     console.log(message.green);
-//   }
-// })
-// Lessons.insertMany(lessons, {}, (error, data) => {
-//   if (error) {
-//     console.log(error.red);
-//   } else {
-//     let message = "Lesson Added to database!"
-//     console.log(message.green);
-//   }
-// });
+   const user_id = sessions.get(session);
+
+   Lessons.find({creator:user_id}, (error, data) => {
+     // console.log(data)
+     if (error) {
+       console.log(error.red)
+     } else {
+       let published = [];
+       let unpublished = [];
+       for (let i = 0; i < data.length; i += 1) {
+         if (data[i].published) { // 0 is not published, 1 is published
+           published.push(data[i]);
+         } else {
+           unpublished.push(data[i]);
+         }
+       }
+       response.json({published:published, unpublished:unpublished});
+       // TODO: Wrap and send back!
+     }
+   })
+ })
+/*
+ *******************************************************************************
+ * Search functionality
+ *******************************************************************************
+ */
+ function buildQuery(fltr) {
+   console.log(fltr)
+   const textQuery = { $text: { $search: fltr.textSearch } };
+   if (fltr.hasResponses) {
+     return textQuery;
+   }
+   const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
+   const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
+   const month = (fltr.month === "") ? {$exists: true} : fltr.month;
+   const year = (fltr.year === "") ? {$exists: true} : fltr.year;
+   const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
+
+   const lte = { gradeStart : { "$lte" : fltr.gradeEnd } };
+   const gte = { gradeEnd : { "$gte" : fltr.gradeStart } };
+   const empty = fltr.gradeStart === "" && fltr.gradeEnd === "";
+
+   const filterQuery =
+     {
+       published: 1, // 1 is true or 0 is false
+       semester: semester,
+       dayOfWeek: weekday,
+       monthOfLesson: month,
+       yearOfLesson: year,
+       subject: subject
+     };
+   const queries = [];
+   queries.push(filterQuery);
+
+   if (fltr.gradeEnd === "") {
+    queries.push(gte);
+   }
+
+   if (fltr.gradeStart === "") {
+    queries.push(lte)
+   }
+   // TODO: make sure to check that gradeStart <= gradeEnd
+   if (fltr.textSearch === "") {
+     if (empty) {
+       return filterQuery;
+     }
+   } else {
+     queries.push(textQuery);
+   // TODO can you have an $and in an $and
+   }
+   return { $and: queries };
+ }
+
+ app.post('/:session_id/search', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
+
+   const session = request.params.session_id;
+   const user_id = sessions.get(session);
+
+   // TODO: Clean input - query by whats given
+   const finalQuery = buildQuery(request.body);
+   console.log(finalQuery)
+   Lessons.find(finalQuery, (error, data) => {
+     if (error) {
+       console.log(error.red)
+     } else {
+       console.log(data)
+       response.json(data)
+     }
+   })
+ })
+/*
+ *******************************************************************************
+ * View/Edit page functionality
+ *******************************************************************************
+ */
 
 app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
-  const session = request.params.session_id;
-  const lesson_id = request.params.lesson_id;
-  const user_id = sessions.get(session);
-  Lesson.find({lesson_id:lesson_id}, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      console.log(data)
-      response.json({
-        recieved:true
-      })
-    }
-  })
-})
-
-app.get('/:session_id/home', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
-  const session = request.params.session_id;
-
-  const user_id = sessions.get(session);
-
-  Lessons.find({creator:user_id}, (error, data) => {
-    // console.log(data)
-    if (error) {
-      console.log(error.red)
-    } else {
-      let published = [];
-      let unpublished = [];
-      for (let i = 0; i < data.length; i += 1) {
-        if (data[i].published) { // 0 is not published, 1 is published
-          published.push(data[i]);
-        } else {
-          unpublished.push(data[i]);
-        }
-      }
-      response.json({published:published, unpublished:unpublished});
-      // TODO: Wrap and send back!
-    }
-  })
-})
-
-app.get('/:session_id/adminsetup', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
-
-  const session = request.params.session_id;
-  const user_id = sessions.get(session);
-  const query = {}
-  const ret = {
-    user_id:1,
-    group:1,
-    name:1,
-    verified:1,
-    leader:1,
-    email:1,
-    position:1
-  }
-  // future send email with update
-  Users.find(query, ret, (error, data) => {
-    if (error) {
-      console.log(error, red)
-    } else {
-
-      let requests = [];
-      let users = [];
-      for (let i = 0; i < data.length; i += 1) {
-        if (data[i].verified === 0) {
-          requests.push(data[i])
-        } else {
-          users.push(data[i])
-        }
-      }
-
-      response.json({
-        requests:requests,
-        users:users
-      })
-    }
-  })
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  Lessons.find({lesson_id:lesson_id}, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      // console.log(data)
+      response.json({
+        pageInfo: data,
+        recieved:true
+      })
+    }
+  })
 })
 
 app.post('/:session_id/newPage', (request, response) => {
@@ -235,85 +307,43 @@ app.post('/:session_id/newPage', (request, response) => {
 
   })
 
-  app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
-  const session = request.params.session_id;
-  const lesson_id = request.params.lesson_id;
-  const user_id = sessions.get(session);
-  Lessons.find({lesson_id:lesson_id}, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      console.log(data)
-      response.json({
-        pageInfo: data,
-        recieved:true
-      })
-    }
-  })
-})
+/*
+ *******************************************************************************
+ * Authentication functionality
+ *******************************************************************************
+ */
 
-function buildQuery(fltr) {
-  const textQuery = { $text: { $search: fltr.textSearch } };
-  if (fltr.hasResponses) {
-    return textQuery;
-  }
-  const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
-  const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
-  const month = (fltr.month === "") ? {$exists: true} : fltr.month;
-  const year = (fltr.year === "") ? {$exists: true} : fltr.year;
-  const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
-  // gradeStart: gStart,
-  // gradeEnd: gEnd,
-  // TODO: make sure to check that gradeStart <= gradeEnd
-  //
-  // // What if one or the other
-  // const rangeQuery = { $and: [ { $gte: fltr.gradeStart }, { $lte: fltr.gradeEnd } ] }
-  //
-  // const userGradeEnd = (fltr.gradeEnd === "") ? {$exists: true} :
-  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
-  //   // may cause issues IDK if AND or OR
-  // const userGradeStart = (fltr.unit === "") ? {$exists: true} :
-  //   ((fltr.gradeStart === fltr.gradeEnd) ? fltr.gradeStart : rangeQuery);
+ /*
+  * Gets all the current chatrooms
+  */
+ function genID() {
+   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
+   let result = '';
+   for (let i = 0; i < 6; i++) {
+     result += chars[(Math.floor(Math.random() * chars.length))];
+   }
+   return result;
+ }
 
-  const filterQuery =
-    {
-      published: 1, // 1 is true or 0 is false
-      semester: semester,
-      dayOfWeek: weekday,
-      monthOfLesson: month,
-      yearOfLesson: year,
-      subject: subject
-    };
+ /*
+  * Adds session to map
+  * TODO: Figure out how to remove once done
+  */
+ function session(name, user_id) {
+   let sesh = genID()
+   while (sessions.has(sesh)) {
+     sesh = genID();
+   }
+   sessions.set(sesh, user_id);
+   return sesh;
+ }
 
-  if (fltr.textSearch === "" ) {
-    return filterQuery;
-  } else {
-    return { $and : [ textQuery, filterQuery ] };
-  }
-}
-
-app.post('/:session_id/search', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
-
-  const session = request.params.session_id;
-  const user_id = sessions.get(session);
-
-  // TODO: Clean input - query by whats given
-  const finalQuery = buildQuery(request.body);
-  console.log(finalQuery)
-  Lessons.find(finalQuery, (error, data) => {
-    if (error) {
-      console.log(error.red)
-    } else {
-      console.log(data)
-      response.json(data)
-    }
-  })
-})
-
+ /*
+  * Generates UUID
+  */
+ function genUUID() {
+   return uuidv1();
+ }
 
 app.post('/forgotpassword', (request, response) => {
   var confirmationID = '';
@@ -328,8 +358,6 @@ app.post('/forgotpassword', (request, response) => {
       pass: 'beambeambeam'
     }
     });
-
-
 
     var mailOptions = {
     from: 'beamapptestemail@gmail.com',
@@ -351,14 +379,7 @@ app.post('/forgotpassword', (request, response) => {
 
   });
 
-
-
-
-
-
-
 });
-
 
 app.post('/passwordreset', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
@@ -391,13 +412,11 @@ app.post('/passwordreset', (request, response) => {
 
   });
 
-
-
   response.status(200).type('html');
   response.render
 });
 
-
+// TODO DOES NOT FOLLOW SCHEMA
 app.post('/signup', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   const first_name = request.body.first
@@ -429,8 +448,7 @@ app.post('/signup', (request, response) => {
           });
 
     });
-
-});
+  });
   response.status(200).type('html');
   response.render
 });
@@ -462,9 +480,6 @@ app.post('/', (request, response) => {
     console.log(correctPass);
 
   });
-
-
-
 
 //   const password = request.body.password
 //   passport.use(new LocalStrategy(function(username, password, cb) {
@@ -499,32 +514,8 @@ app.post('/', (request, response) => {
 //   response.status(200).type('html');
 //   response.render
 });
-app.post('/:session_id/adminupdate', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  response.status(200).type('html');
 
-  const session = request.params.session_id;
-  const user_id = sessions.get(session);
-  const query = { email: request.body.email }
-  const update= { $set: request.body.toUpdate }
-  console.log(query, update)
-  Users.findOneAndUpdate(query, update, {new: true}, (error, data) => {
-    if (error) {
-      console.log(error, red, 'FALSE')
-      response.json({
-        resolved:false
-      })
-    } else {
-      console.log(data, "TRUE");
-      response.json({
-        resolved:true
-      })
-    }
-  })
-})
-/*
- * Gets all the current chatrooms
- */
+
 
 app.get('*', function(request, response){
     console.log('- request received:', request.method.red, request.url.underline);
@@ -532,7 +523,5 @@ app.get('*', function(request, response){
     response.status(404).type('html');
 
 });
-
-
 app.listen(8080);
 console.log('App is listening on port 8080'.grey);

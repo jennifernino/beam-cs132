@@ -51,7 +51,7 @@ class Search extends Component {
   cleanStrFilter(str) {
     if (typeof str === 'undefined' || str === null || str === "Month"
         || str === "Year" || str === "Subject" || str === "Grade Start"
-        || str === "Semester" || str === "Weekday") {
+        || str === "Grade End" || str === "Semester" || str === "Weekday") {
       return "";
     }
     return str.toString().replace(/[^\x00-\x7F]/g, "").trim();
