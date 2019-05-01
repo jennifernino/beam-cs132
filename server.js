@@ -236,6 +236,25 @@ app.post('/:session_id/newPage', (request, response) => {
 
   })
 
+  app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  Lessons.find({lesson_id:lesson_id}, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      console.log(data)
+      response.json({
+        pageInfo: data,
+        recieved:true
+      })
+    }
+  })
+})
+
 function buildQuery(fltr) {
   const textQuery = { $text: { $search: fltr.textSearch } };
   if (fltr.hasResponses) {
@@ -298,41 +317,78 @@ app.post('/:session_id/search', (request, response) => {
 
 
 app.post('/forgotpassword', (request, response) => {
-  confirmationID = genID();
+  var confirmationID = '';
   Users.find({ 'email': request.body.email }, 'email confirmationID', function (err, user) {
-    console.log(user[0].confirmationID);
+    confirmationID = user[0].confirmationID;
+
+    var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'beamapptestemail@gmail.com',
+      pass: 'beambeambeam'
+    }
+    });
+
+
+
+    var mailOptions = {
+    from: 'beamapptestemail@gmail.com',
+    to: request.body.email,
+    subject: 'BEAM Password Reset',
+    text: 'Click the following link http://localhost:3000/resetpassword and enter the following code: ' + confirmationID
+    };
+
+    console.log(mailOptions.text)
+
+    // transporter.sendMail(mailOptions, function(error, info){
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   console.log('Email sent: ' + info.response);
+    // }
+    // });
 
 
   });
 
-  // console.log('request-received');
-  // var transporter = nodemailer.createTransport({
-  // service: 'gmail',
-  // auth: {
-  //   user: 'beamapptestemail@gmail.com',
-  //   pass: 'beambeambeam'
-  // }
-  // });
-  //
-  //
-  //
-  // var mailOptions = {
-  // from: 'beamapptestemail@gmail.com',
-  // to: request.body.email,
-  // subject: 'BEAM Password Reset',
-  // text: 'Click the following link http://localhost:3000/resetpassword and enter the following code: ' + confirmationID
-  // };
-  //
-  // transporter.sendMail(mailOptions, function(error, info){
-  // if (error) {
-  //   console.log(error);
-  // } else {
-  //   console.log('Email sent: ' + info.response);
-  // }
-  // });
 
 
 
+
+
+
+});
+
+
+app.post('/passwordreset', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  var confirmationID = request.body.confirmationID
+
+  Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
+    trueID = user[0].confirmationID;
+    userEmail = user[0].email;
+    console.log('true: '+confirmationID)
+    console.log(request.body.confirmationID)
+    var inputID = request.body.confirmationID;
+    if(inputID === trueID){
+      console.log('its a match')
+      newConfirmationID = genID();
+      Users.updateOne(
+        {email: userEmail},
+        {
+        $set: {password: request.body.password, confirmationID: newConfirmationID}
+        }
+      );
+    }else{
+      console.log('no match')
+    }
+
+  });
+
+
+
+  response.status(200).type('html');
+  response.render
 });
 
 
@@ -345,6 +401,7 @@ app.post('/signup', (request, response) => {
   const sesh = genUUID();
   const user_id = genUUID();
   const confirmationID = genID();
+
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(password, salt, function(err, hash) {
         //store hash in db
@@ -353,7 +410,8 @@ app.post('/signup', (request, response) => {
             user_id: user_id, // Should be secret
             password: hash, // Should never be in plain text
             email: email, // visible
-            name: last_name+","+first_name // meh
+            name: last_name+","+first_name, // meh
+            confirmationID: confirmationID
           });
           user.save(function(error) {
             console.log("Your user has been saved!");
