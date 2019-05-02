@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Forgot from './components/Forgot'
@@ -18,9 +18,16 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : false,
-      session: 'abc123'
+      loggedIn : (localStorage.getItem('loggedIn') === null) ? (false) : (true),
+      session : 'abc123'
     };
+    //this.login = this.login.bind(this);
+  }
+
+  componentDidMount() {
+    // window.onbeforeunload = function() {
+    //   localStorage.clear();
+    // }
   }
 
   /*
@@ -33,13 +40,34 @@ class App extends Component {
   //     return ev.returnValue = 'Are you sure you want to close?';
   //   });
   // }
+  login() {
+    //localStorage.setItem('loggedIn', true);
+    this.setState({
+      loggedIn : true
+    });
+    //this.props.history.push('/home');
+    //console.log(this.state)
+  }
 
+  logout() {
+    console.log('hey')
+    this.setState({
+      loggedIn:false
+    })
+    //this.props.history.push('/');
+    return <Link to={"/"} />
+    // remove session
+  }
   /*
    * In the case that its refreshed - no because it will log you out
    */
-  shouldComponentUpdate(nextProps, nextState) {
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.loggedIn === this.state.loggedIn) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   render () {
     return (
@@ -48,11 +76,11 @@ class App extends Component {
             (
               <div className="fullContainer">
                 <div className="leftContainer">
-                  <Menu />
+                  <Menu logout={this.logout.bind(this)}/>
                 </div>
                 <div className="rightContainer">
                   <Switch>
-                    <Route exact path='/' component={Login} />
+                    <Route exact path='/' component={Home} />
                     <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
                     <Route exact path='/signup' component={SignUp} />
                     <Route exact path='/forgotpassword' component={Forgot} />
@@ -68,7 +96,7 @@ class App extends Component {
           ):(
             <div className="fullContainer">
               <Switch>
-                <Route exact path='/' component={Login} />
+                <Route exact path='/' render={(props) => <Login {...props} session={this.state.session} login={this.login.bind(this)}/>}/>
                 <Route exact path='/signup' component={SignUp} />
                 <Route exact path='/forgotpassword' component={Forgot} />
                 <Route exact path='/:whatever' component={SignUp} />

@@ -5,10 +5,10 @@ import './style/style.css';
 class Login extends Component {
   constructor(props){
     super(props);
+    
     this.state = {
       username: '',
       password: '',
-
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -39,12 +39,20 @@ class Login extends Component {
       },
       body: body_str
     }
-    
+
     fetch("http://localhost:8080/", req)
       .then(res => res.json())
       .then(info => {
-        console.log(info)
+        if (info.loggedIn) {
+          this.props.login();
+        } else {
+          console.log("No login")
+        }
         // TODO create new page
+      })
+      .then(() => {
+        console.log()
+
       });
 
 

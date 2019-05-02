@@ -58,12 +58,7 @@ const sessions = new Map();
 const ids = new Map();
 const names = new Map();
 
-/*
- * Whenever a user signs in, this should happen
- */
-sessions.set("abc123",1) // fake user REMOVE once login is made
-ids.set(1,"abc123")
-names.set("abc123","Jennifer")
+
 
 /*
  *******************************************************************************
@@ -304,7 +299,6 @@ app.post('/:session_id/newPage', (request, response) => {
          })
       }
     })
-
   })
 
 /*
@@ -335,18 +329,12 @@ function session(name, user_id) {
     sesh = genID();
   }
   sessions.set(sesh, user_id);
-  return sesh;
+  ids.set(user_id, sesh)
+  names.set(sesh, name)
+  return new Promise(function(resolve, reject) {
+    resolve(sesh)
+  });
 }
-
- /*
-  * Generates UUID
-  */
-function genUUID() {
-  return uuidv1();
-}
-
-
-
 
 app.post('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
@@ -359,14 +347,21 @@ app.post('/', (request, response) => {
     }
   }).then((potentialUser) => {
     const hash = potentialUser.password;
+    console.log(potentialUser)
     if (bcrypt.compareSync(request.body.password, hash)) {
-      // PASSED!!!
-      console.log("YES MAM")
-      response.json({loggedIn:true})
+      session(potentialUser.firstName, potentialUser.user_id)
+        .then((session) => {
+          response.json({
+            loggedIn:true,
+            session:session,
+            isLeader:potentialUser.leader,
+            firstName:potentialUser.firstName
+          })
+        })
     } else {
-      // FAILED
-      console.log(")))::::")
-      response.json({loggedIn:false})
+      response.json({
+        loggedIn:false
+      })
     }
   })
 });

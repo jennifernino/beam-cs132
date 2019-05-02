@@ -178,11 +178,10 @@ class NewPage extends Component {
     }
   }
 
-  saveLesson() {
     // save to database
     // Whenever unpublished lessons are sent to the server,
     // make sure the users are able to edit them
-  }
+
 
   publishLesson() {
     // Verify everything is ok, if not throw error
@@ -326,7 +325,10 @@ class NewPage extends Component {
   }
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
   postLesson = (num) => {
-
+    if (!this.verifySave()) {
+      console.log('Can\'t post, invalid')
+      return;
+    }
     const body_str = JSON.stringify({
       lesson_id: -1, // unique id for lesson
       published: num, // 1 is true or 0 is false

@@ -8,6 +8,10 @@ class Menu extends Component {
     this.state = {};
   }
 
+  logout() {
+    this.props.logout();
+  }
+
   render() {
     return (
       <div className="menuContainer">
@@ -26,6 +30,9 @@ class Menu extends Component {
             <Link to={'/newlesson'}>
             <button className="navButton">New Lesson</button>
             </Link>
+          </li>
+          <li>
+            <button className="hi" onClick={this.logout.bind(this)}>Logout</button>
           </li>
         </ul>
       </div>
