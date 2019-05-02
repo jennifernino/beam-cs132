@@ -25,12 +25,11 @@ class Login extends Component {
   }
 
   handleSubmit(event){
-    event.preventDefault();
+    //event.preventDefault();
     const body_str = JSON.stringify({
       email: this.state.email,
       password: this.state.password
     });
-    console.log(body_str)
 
     const req = {
       method: 'POST',
@@ -40,14 +39,13 @@ class Login extends Component {
       },
       body: body_str
     }
-
+    
     fetch("http://localhost:8080/", req)
-      // .then(function(response) {
-      //   return response.json();
-      // })
-      .then(res => res.text())          // convert to plain text
-      .then(text =>
-        console.log(text))  // then log it out
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+        // TODO create new page
+      });
 
 
   }
@@ -55,36 +53,27 @@ class Login extends Component {
   render() {
     return (
       <div className="LoginContainer">
-        <div className="inputItem">
         <h1> BEAM Lesson Planner </h1>
-        </div>
-        <form onSubmit={this.handleSubmit}>
-        <div className="inputItem">
+
+
         <label>
         Email
-        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
         </label>
-        </div>
-
-        <div className="inputItem">
+        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
         <label>
         Password
-        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         </label>
+        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+
+        <div className="inputItem">
+          <a href="/forgotpassword"> Forgot password? </a>
         </div>
 
         <div className="inputItem">
-        <input type="submit" value="Log in" className="submitButton" />
-        </div>
-        <div className="inputItem">
-        <a href="/forgotpassword"> Forgot password? </a>
+          <a href="/signup"> Create an account </a>
         </div>
 
-        <div className="inputItem">
-        <a href="/signup"> Create an account </a>
-        </div>
-
-        </form>
+        <button onClick={this.handleSubmit.bind(this)}>Submit</button>
       </div>
     );
   }

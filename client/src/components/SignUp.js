@@ -71,8 +71,6 @@ class SignUp extends Component {
       password: this.state.password
     });
 
-
-
     const req = {
       method: 'POST',
       headers: {
@@ -83,13 +81,11 @@ class SignUp extends Component {
     }
 
     fetch("http://localhost:8080/signup", req)
-      .then(function(response) {
-        return response.json();
-      })
-
-
-
-
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+        // TODO create new page
+      });
   }
 
   render() {

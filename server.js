@@ -189,8 +189,8 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const year = (fltr.year === "") ? {$exists: true} : fltr.year;
    const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
 
-   const lte = { gradeStart : { "$lte" : fltr.gradeEnd } };
-   const gte = { gradeEnd : { "$gte" : fltr.gradeStart } };
+   const lte = { gradeStart : { "$gte" : fltr.gradeStart } }; // TODO check functionality
+   const gte = { gradeEnd : { "$lte" : fltr.gradeEnd } };
    const empty = fltr.gradeStart === "" && fltr.gradeEnd === "";
 
    const filterQuery =
@@ -316,34 +316,165 @@ app.post('/:session_id/newPage', (request, response) => {
  /*
   * Gets all the current chatrooms
   */
- function genID() {
-   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
-   let result = '';
-   for (let i = 0; i < 6; i++) {
-     result += chars[(Math.floor(Math.random() * chars.length))];
-   }
-   return result;
- }
+function genID() {
+  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars[(Math.floor(Math.random() * chars.length))];
+  }
+  return result;
+}
 
  /*
   * Adds session to map
   * TODO: Figure out how to remove once done
   */
- function session(name, user_id) {
-   let sesh = genID()
-   while (sessions.has(sesh)) {
-     sesh = genID();
-   }
-   sessions.set(sesh, user_id);
-   return sesh;
- }
+function session(name, user_id) {
+  let sesh = genID()
+  while (sessions.has(sesh)) {
+    sesh = genID();
+  }
+  sessions.set(sesh, user_id);
+  return sesh;
+}
 
  /*
   * Generates UUID
   */
- function genUUID() {
-   return uuidv1();
- }
+function genUUID() {
+  return uuidv1();
+}
+
+
+
+
+app.post('/', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  Users.findOne({ email: request.body.email }, (error, res) => {
+    if (error) {
+      console.log('Error');
+    } else {
+      return res;
+    }
+  }).then((potentialUser) => {
+    const hash = potentialUser.password;
+    if (bcrypt.compareSync(request.body.password, hash)) {
+      // PASSED!!!
+      console.log("YES MAM")
+      response.json({loggedIn:true})
+    } else {
+      // FAILED
+      console.log(")))::::")
+      response.json({loggedIn:false})
+    }
+  })
+});
+
+// TODO: LOWERCASE EVERYTHING
+app.post('/signup', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  console.log(request.body)
+  const plain = request.body.password;
+  const user = {
+    isAdmin: 0, // 1 if true, 0 if false
+    leader: 0, // 1 if true, 0 if false
+    group: "Group", // Some Day?
+    verified: 0,
+    email: request.body.email, // TODO clean and verify & UNIQUE
+    firstName: request.body.first, // TODO clean and verify
+    lastName: request.body.last,
+    confirmationID: "None",
+    position: "None"
+  }
+  const confirmationID = genID();
+  Users.find({}, {user_id:1})
+    .then((res) => {
+      if (res.length < 1) {
+        user.user_id = 0;
+        // return Users.create(created)
+        return false;
+      } else {
+        let arr = res.map(x => x.user_id)
+        const new_id = Math.max(...arr) + 1;
+        user.user_id = parseInt(new_id);
+         // return Lessons.create(created) // TODO: Change to null to see error!
+        return true;
+      }
+    })
+    .then((res) => {
+      bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(plain, salt, function(err, hash) {
+             //store hash in db
+            user.password = hash;
+            Users.create(user);
+        });
+      });
+    })
+    .then((res) => {
+      Users.find({user_id:user.user_id},(error, res) => {
+        if (error) {
+          response.json({created:false})
+        } else {
+          response.json({created:true})
+        }
+      });
+    })
+});
+
+app.post('/passwordreset', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+
+  var confirmationID = request.body.confirmationID
+  var newPassword = request.body.password
+  Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
+
+    trueID = user[0].confirmationID;
+    userEmail = user[0].email;
+    console.log(userEmail)
+    console.log(user[0].password)
+    var inputID = request.body.confirmationID;
+
+    if(inputID === trueID){
+      console.log('its a match')
+      newConfirmationID = genID();
+      console.log(newConfirmationID);
+
+      Users.updateOne(
+        {'email': userEmail},
+        {
+        $set: {'password': newPassword, 'confirmationID': newConfirmationID}
+        }
+      );
+      console.log("password succesfully changed to: " + user[0].password)
+      console.log("confirmationID succesfully changed to: " + user[0].confirmationID)
+    }else{
+      console.log('no match')
+    }
+
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/forgotpassword', (request, response) => {
   var confirmationID = '';
@@ -381,144 +512,10 @@ app.post('/forgotpassword', (request, response) => {
 
 });
 
-app.post('/passwordreset', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  var confirmationID = request.body.confirmationID
-  var newPassword = request.body.password
-  Users.find({ 'confirmationID': confirmationID }, 'email confirmationID', function (err, user) {
 
-    trueID = user[0].confirmationID;
-    userEmail = user[0].email;
-    console.log(userEmail)
-    console.log(user[0].password)
-    var inputID = request.body.confirmationID;
 
-    if(inputID === trueID){
-      console.log('its a match')
-      newConfirmationID = genID();
-      console.log(newConfirmationID);
 
-      Users.updateOne(
-        {'email': userEmail},
-        {
-        $set: {'password': newPassword, 'confirmationID': newConfirmationID}
-        }
-      );
-      console.log("password succesfully changed to: " + user[0].password)
-      console.log("confirmationID succesfully changed to: " + user[0].confirmationID)
-    }else{
-      console.log('no match')
-    }
 
-  });
-
-  response.status(200).type('html');
-  response.render
-});
-
-// TODO DOES NOT FOLLOW SCHEMA
-app.post('/signup', (request, response) => {
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  const first_name = request.body.first
-  const last_name = request.body.last
-  const email = request.body.email
-  const password = request.body.password
-  const sesh = genUUID();
-  const user_id = genUUID();
-  const confirmationID = genID();
-
-  bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(password, salt, function(err, hash) {
-        //store hash in db
-        var user = new Users({
-            isAdmin: 0, // 1 if true, 0 if false
-            leader: 0, // 1 if true, 0 if false
-            group: '', // Some Day?
-            verified: 0,
-            user_id: user_id, // Should be secret
-            password: hash, // Should never be in plain text
-            email: email, // visible
-            name: last_name+","+first_name, // meh
-            confirmationID: confirmationID,
-            position: ''
-          });
-          user.save(function(error) {
-            console.log("Your user has been saved!");
-            sessions.set(sesh, user_id);
-            console.log(user.password);
-            if (error) {
-              console.error(error);
-            }
-          });
-
-    });
-  });
-  response.status(200).type('html');
-  response.render
-});
-
-app.post('/', (request, response) => {
-  console.log('post req still works')
-  console.log('- request received:', request.method.cyan, request.url.underline);
-  var correctPass = '';
-    Users.find({ 'email': request.body.email }, 'email password verified', function (err, user) {
-    if (err) return handleError(err);
-    // 'email' contains the list of athletes that match the criteria.
-
-     //correct password
-    hash = user[0].password;
-    plainText = request.body.password
-    bcrypt.compare(plainText, hash, function(err, res) {
-    if(res && user[0].verified === 1){
-      console.log(user)
-
-      console.log(user[0]._id)
-      sessions.set(genUUID(), user[0]._id);
-      //response.json({})
-      console.log(sessions);
-    } else {
-      console.log("comparison failed");
-    }
-    console.log(res);
-    });
-    console.log(plainText);
-    console.log(correctPass);
-
-  });
-
-//   const password = request.body.password
-//   passport.use(new LocalStrategy(function(username, password, cb) {
-//     console.log('got inside passport fn')
-//   //Locate user first here
-//   bcrypt.compare(password, user[0].password, function(err, res) {
-//
-//     if (err) return cb(err);
-//
-//     if (res === false) {
-//       return cb(null, false);
-//       console.log('error')
-//     } else {
-//       return cb(null, user);
-//       console.log('success')
-//     }
-//   });
-// }));
-// console.log('is it just skipping it')
-//   Users.find({ 'email': request.body.email }, 'email password', function (err, user) {
-//   if (err) return handleError(err);
-//   // 'email' contains the list of athletes that match the criteria.
-//
-//   user[0].password; //correct password
-//
-//
-//
-//
-//
-//   })
-//
-//   response.status(200).type('html');
-//   response.render
-});
 
 
 

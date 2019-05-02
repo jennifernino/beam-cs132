@@ -1,13 +1,14 @@
 module.exports = [
   {
+    user_id: Number, // Should be secret
     isAdmin: Number, // 1 if true, 0 if false
     leader: Number, // 1 if true, 0 if false
     group: String, // Some Day?
     verified: Number,
-    user_id: String, // Should be secret
+    firstName: String, // meh
+    lastName: String,
     password: String, // Should never be in plain text
     email: String, // visible
-    name: String, // meh
     confirmationID: String,
     position: String
   },
