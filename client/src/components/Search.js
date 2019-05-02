@@ -163,7 +163,7 @@ class Search extends Component {
   selected(type, value, event) {
     if (type === "semester") {
       this.setState({semester:value})
-    }if (type === "dayOfWeek") {
+    } if (type === "dayOfWeek") {
       this.setState({dayOfWeek: value})
     } if (type ==="gradeStart") {
       this.setState({gradeStart: value})

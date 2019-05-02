@@ -474,6 +474,7 @@ app.post('/', (request, response) => {
 
       console.log(user[0]._id)
       sessions.set(genUUID(), user[0]._id);
+      //response.json({})
       console.log(sessions);
     } else {
       console.log("comparison failed");
