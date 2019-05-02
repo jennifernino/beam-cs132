@@ -70,7 +70,7 @@ class UserOption extends Component {
       },
       email: this.state.email
     });
-    
+
     this.adminUpdate(body_str);
   }
 
@@ -91,8 +91,10 @@ class UserOption extends Component {
   render() {
     return (
       <div className="UserOptionContainer">
-        <p>{this.state.name}</p>
-        <p>{this.state.email}</p>
+        <div className="userInfo">
+        <p className="userName">{this.state.name}</p>
+        <p className="userEmail">{this.state.email}</p>
+      </div>
         <p>{this.state.position}</p>
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.position}</DropdownToggle>
@@ -114,13 +116,15 @@ class UserOption extends Component {
               <MenuItem onClick={this.assignTeam.bind(this, "F")}>F</MenuItem>
             </DropdownMenu>
           </Dropdown>
+          <div className="userButtons">
           {this.state.verified ?
             (
               null
             ) : (
-              <button onClick={this.verify.bind(this)}>Verify</button>
+              <button className="verifyButton" onClick={this.verify.bind(this)}>Verify</button>
             )}
-          <button onClick={this.update.bind(this)}>Update</button>
+          <button className="updateButton" onClick={this.update.bind(this)}>Update</button>
+        </div>
       </div>
     );
   }

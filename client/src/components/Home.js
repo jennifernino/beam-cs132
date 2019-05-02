@@ -44,7 +44,7 @@ class Home extends Component {
         {this.state.isAdmin ?
           (
             <Link to={'/admin'}>
-              <button>Admin</button>
+              <button className="adminButton">Admin</button>
             </Link>
           ):(
             null

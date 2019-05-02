@@ -37,6 +37,7 @@ class Admin extends Component {
       <div className="AdminContainer">
         <h1>Manage Activity</h1>
         <h2>Pending Requests</h2>
+        <div className="userSpacing">
           {!this.state.requests.length ?
             (
               <p>No pending requests...</p>
@@ -45,7 +46,9 @@ class Admin extends Component {
                 <UserOption key={item.name} session={this.state.session} item={item} />
               )
             )}
+        </div>
         <h2>Current Teams</h2>
+        <div className="userSpacing">
           {!this.state.users.length ?
             (
               <p>No teams found...</p>
@@ -54,6 +57,7 @@ class Admin extends Component {
                 <UserOption key={item.name} session={this.state.session} item={item} />
               )
             )}
+        </div>
       </div>
     );
   }

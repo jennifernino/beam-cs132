@@ -110,6 +110,15 @@ label{
   width: 100%;
   padding: 20px;
 }
+.adminButton{
+  background-color: #49009E;
+  font-size: 17px;
+  color: white;
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+}
 /*styling for page option */
 .optionContainer{
   padding: 15px;
@@ -121,6 +130,7 @@ label{
   margin-top: 10px;
   padding: 5px;
   height: 125px;
+  box-shadow: 3px 3px 3px #dacceb;
 }
 .publishedHeaderContainer{
   display: flex;
@@ -189,7 +199,7 @@ label{
   border-radius: 15px;
   margin-top: 10px;
   padding: 10px;
-  box-shadow: 10px 10px 3px #dacceb;
+  box-shadow: 5px 5px 3px #dacceb;
   /* align-items: center; */
   max-width: 90%;
 }
@@ -208,11 +218,18 @@ ul {
   height: 50px;
   margin-top: 10px;
   margin-bottom: 10px;
+  box-shadow: 3px 3px 5px #cdbae4;
+  /* box-shadow: 3px 3px 5px #dacceb; dacceb */
 }
 
 .navButton:hover, .navButton:focus{
   background-color: #49009E;
   color: white;
+}
+.navButton:active {
+  background-color: #49009E;
+  box-shadow: 3px 3px 5px #7080bf;
+  transform: translateY(3px);
 }
 
 /* styling for search page */
@@ -341,4 +358,48 @@ textarea {
 .userMessage{
   color: #27fa00;
   font-size: 18px;
+}
+
+/* styling for the admin page */
+.userSpacing{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+}
+.AdminContainer {
+  padding: 20px;
+}
+.UserOptionContainer{
+  background-color: #f9f6fc;
+  border: solid #49009E;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 10px;
+  width: 250px;
+  margin-right: 10px;
+}
+/* .userInfo{
+  display: flex;
+  justify-content: space-between;
+} */
+.userName{
+  color: #49009E;
+  font-weight: 450;
+}
+.userEmail{
+  font-style: italic;
+}
+.userButtons{
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+}
+.verifyButton, .updateButton{
+  background-color: #49009E;
+  font-size: 17px;
+  color: white;
+  width: 80px;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
 }
