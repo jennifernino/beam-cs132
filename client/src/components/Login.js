@@ -46,7 +46,8 @@ class Login extends Component {
       //   return response.json();
       // })
       .then(res => res.text())          // convert to plain text
-      .then(text => console.log(text))  // then log it out
+      .then(text =>
+        console.log(text))  // then log it out
 
 
   }

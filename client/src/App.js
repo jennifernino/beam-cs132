@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : true,
+      loggedIn : false,
       session: 'abc123'
     };
   }
@@ -45,23 +45,37 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="fullContainer">
-          <div className="leftContainer">
-          { this.state.loggedIn ? (<Menu />) : null }
-          </div>
-          <div className="rightContainer">
-            <Switch>
-              <Route exact path='/' component={Login} />
-              <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
-              <Route exact path='/signup' component={SignUp} />
-              <Route exact path='/forgotpassword' component={Forgot} />
-              <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
-              <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
-              <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
-              <Route exact path='/edit' render={(props) => <EditLesson {...props} session={this.state.session}/>}/>
-              <Route exact path='/resetpassword' component={PasswordReset} />
-              <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
-            </Switch>
-          </div>
+          { this.state.loggedIn ?
+            (
+              <div>
+                <div className="leftContainer">
+                  <Menu />
+                </div>
+                <div className="rightContainer">
+                  <Switch>
+                    <Route exact path='/' component={Login} />
+                    <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
+                    <Route exact path='/signup' component={SignUp} />
+                    <Route exact path='/forgotpassword' component={Forgot} />
+                    <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
+                    <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
+                    <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
+                    <Route exact path='/edit' render={(props) => <EditLesson {...props} session={this.state.session}/>}/>
+                    <Route exact path='/resetpassword' component={PasswordReset} />
+                    <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
+                  </Switch>
+                </div>
+              </div>
+          ):(
+            <div className="rightContainer">
+              <Switch>
+                <Route exact path='/' component={Login} />
+                <Route exact path='/signup' component={SignUp} />
+                <Route exact path='/forgotpassword' component={Forgot} />
+                <Route exact path='/:whatever' component={SignUp} />
+              </Switch>
+            </div>
+          )}
         </div>
       </BrowserRouter>
     );
