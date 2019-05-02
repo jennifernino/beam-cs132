@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : false,
+      loggedIn : true,
       session: 'abc123'
     };
   }
@@ -44,10 +44,9 @@ class App extends Component {
   render () {
     return (
       <BrowserRouter>
-        <div className="fullContainer">
           { this.state.loggedIn ?
             (
-              <div>
+              <div className="fullContainer">
                 <div className="leftContainer">
                   <Menu />
                 </div>
@@ -67,7 +66,7 @@ class App extends Component {
                 </div>
               </div>
           ):(
-            <div className="rightContainer">
+            <div className="fullContainer">
               <Switch>
                 <Route exact path='/' component={Login} />
                 <Route exact path='/signup' component={SignUp} />
@@ -76,7 +75,6 @@ class App extends Component {
               </Switch>
             </div>
           )}
-        </div>
       </BrowserRouter>
     );
   }
