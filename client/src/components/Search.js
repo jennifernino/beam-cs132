@@ -28,6 +28,8 @@ class Search extends Component {
       semester:"Semester",
       dayOfWeek:"Weekday",
 
+      sort:"None",
+
 
       error:false,
       errorMessage:""
@@ -135,6 +137,27 @@ class Search extends Component {
 
   handleSelected(event) {
 
+  }
+
+  sortedResults(){
+    var sortedResult;
+    if (this.state.sort === "New to Old"){
+      sortedResult  = this.state.results.sort(function(a, b){return b.datePublished - a.datePublished})
+    }
+    if (this.state.sort === "Old to New"){
+      sortedResult = this.state.results.sort(function(a,b){return a.datePublished - b.datePublished})
+    }
+    if (this.state.sort === "Alphabetical"){
+      sortedResult = this.state.results.sort(function(a, b) {
+        var textA = a.lessonName.toUpperCase();
+        var textB = b.lessonName.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+    }
+    else{
+      sortedResult = this.state.results;
+    }
+    return sortedResult
   }
 
   selected(type, value, event) {
@@ -289,6 +312,25 @@ class Search extends Component {
             </div>
           </div>
 
+          <h3> Sort by </h3>
+          <div className="sortContainer">
+
+            <div>
+              {/* <label>Semester: </label> */}
+            <Dropdown className="dropDownContainer">
+              <DropdownToggle btnStyle="flat">{this.state.sort}</DropdownToggle>
+              <DropdownMenu className="ddMenu">
+                <MenuItem onClick={() => this.setState({sort:"None"})}>None</MenuItem>
+                <MenuItem onClick={() => this.setState({sort:"New to Old"})}>New to Old</MenuItem>
+                <MenuItem onClick={() => this.setState({sort:"Old to New"})}>Old to New</MenuItem>
+                <MenuItem onClick={() => this.setState({sort:"Alphabetical"})}>Alphabetical</MenuItem>
+              </DropdownMenu>
+            </Dropdown>
+            </div>
+            </div>
+
+
+
 
           <div className="resultsContainer">
             <h1>Results</h1>
@@ -297,9 +339,10 @@ class Search extends Component {
                 (
                   this.state.results.length ?
                     (
-                      this.state.results.map(item =>
+                      this.sortedResults().map(item =>
                         <PageOption key={item.lesson_id} item={item}/>
                       )
+
                     ) : (
                       <h3>No results found</h3>
                     )

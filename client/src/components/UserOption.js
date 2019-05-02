@@ -13,8 +13,8 @@ class UserOption extends Component {
     this.state = {
       name:'',
       email:'',
-      position:'',
-      team:'None',
+      position:'Position',
+      team:'Team',
       verified:''
     };
 
@@ -28,6 +28,7 @@ class UserOption extends Component {
       verified:this.props.item.verified,
       position:this.props.item.position
     })
+
     console.log(this.props.item)
   }
 
@@ -96,9 +97,11 @@ class UserOption extends Component {
         <p className="userEmail">{this.state.email}</p>
       </div>
         <p>{this.state.position}</p>
+        <p>{this.state.team}</p>
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.position}</DropdownToggle>
             <DropdownMenu>
+              <MenuItem onClick={this.selected.bind(this, "Position")}>Position</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "Volunteer")}>Volunteer</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "Team Leader")}>Team Leader</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "Admin")}>Admin</MenuItem>
@@ -107,7 +110,7 @@ class UserOption extends Component {
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.team}</DropdownToggle>
             <DropdownMenu>
-              <MenuItem onClick={this.assignTeam.bind(this, "None")}>None</MenuItem>
+              <MenuItem onClick={this.assignTeam.bind(this, "Team")}>Team</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "A")}>A</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "B")}>B</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "C")}>C</MenuItem>

@@ -290,6 +290,15 @@ input{
   overflow: scroll;
 }
 
+.sortContainer {
+  display: flex;
+  flex-direction: row;
+
+  padding-left: 40px;
+  flex-wrap: wrap;
+}
+
+
 .menuContainer{
   display: flex;
   flex-flow: column;
@@ -333,6 +342,7 @@ textarea {
   width: 270px;
   height: 120px;
   border-radius: 5px;
+  padding: 8px;
 }
 .smallBox{
   padding: 20px;
@@ -356,7 +366,7 @@ textarea {
   padding: 10px;
 }
 .userMessage{
-  color: #27fa00;
+  color: green;
   font-size: 18px;
 }
 
@@ -377,6 +387,7 @@ textarea {
   padding: 10px;
   width: 250px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 /* .userInfo{
   display: flex;
