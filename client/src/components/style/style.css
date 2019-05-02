@@ -178,13 +178,11 @@ label{
   display: flex;
   flex-direction: column;
   min-width: 100%;
-  /* text-align: center; */
 }
 #changeFont{
   color: #49009E;
   font-weight: 700;
 }
-/* .published */
 .publishedPageHeaderContainer p{
   min-width: 150px;
 }
@@ -289,7 +287,6 @@ input{
   max-height: 150px;
   overflow: scroll;
 }
-
 .sortContainer {
   display: flex;
   flex-direction: row;
@@ -297,8 +294,6 @@ input{
   padding-left: 40px;
   flex-wrap: wrap;
 }
-
-
 .menuContainer{
   display: flex;
   flex-flow: column;
@@ -369,7 +364,15 @@ textarea {
   color: green;
   font-size: 18px;
 }
-
+.asterisk{
+  color: red;
+  visibility: hidden;
+}
+#missingFieldMessage{
+  color: red;
+  /* text-align: center; */
+  visibility: hidden;
+}
 /* styling for the admin page */
 .userSpacing{
   display: flex;

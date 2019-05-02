@@ -15,7 +15,7 @@ class NewPage extends Component {
     {
       userMessage:"", // TODO inspect
       userError: "", // TODO Style green
-      missingFieldMessage: "",
+      // missingFieldMessage: "",
       session:"",
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
@@ -193,93 +193,129 @@ class NewPage extends Component {
     (this.state.theme!=="") && (this.state.unit!=="") && (this.state.subunit!=="") &&
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
     (this.state.mainActivity!=="") && (this.state.backupActivity!=="") &&
-    (this.state.reflection!=="") && (this.state.additionalGame!=="")) {
+    (this.state.additionalGame!=="")) {
+      document.getElementById("missingFieldMessage").style.visibility = "hidden";
       this.postLesson(1);
     } else {
+      document.getElementById("missingFieldMessage").style.visibility = "visible";
       if (this.state.lessonName==="") {
         document.getElementById("searchBar").style.borderColor = "red";
+        document.getElementById("missingLesson").style.visibility = "visible";
       } else{
         document.getElementById("searchBar").style.borderColor = "black";
+        document.getElementById("missingLesson").style.visibility = "hidden";
       }
       if(this.state.semester==="Semester"){
         document.getElementById("semesterDropdown").style.borderColor="red";
+        document.getElementById("missingSemester").style.visibility="visible";
       } else{
         document.getElementById("semesterDropdown").style.borderColor = "#ccc";
+        document.getElementById("missingSemester").style.visibility="hidden";
       }
       if(this.state.dayOfWeek==="Weekday"){
         document.getElementById("dayDropdown").style.borderColor="red";
+        document.getElementById("missingDay").style.visibility="visible";
       } else{
         document.getElementById("dayDropdown").style.borderColor="#ccc";
+        document.getElementById("missingDay").style.visibility="hidden";
       }
       if(this.state.monthOfLesson==="Month"){
         document.getElementById("monthDropdown").style.borderColor="red";
+        document.getElementById("missingMonth").style.visibility="visible";
       } else{
         document.getElementById("monthDropdown").style.borderColor="#ccc";
+        document.getElementById("missingMonth").style.visibility="hidden";
       }
       if(this.state.yearOfLesson==="Year"){
         document.getElementById("yearDropdown").style.borderColor="red";
+        document.getElementById("missingYear").style.visibility="visible";
       } else{
         document.getElementById("yearDropdown").style.borderColor="#ccc";
+        document.getElementById("missingYear").style.visibility="hidden";
       }
       if(this.state.gradeStart==="Grade Start"){
         document.getElementById("gradeStartDropdown").style.borderColor="red";
+        document.getElementById("missingGradeStart").style.visibility="visible";
       } else{
         document.getElementById("gradeStartDropdown").style.borderColor="#ccc";
+        document.getElementById("missingGradeStart").style.visibility="hidden";
       }
       if(this.state.gradeEnd==="Grade End"){
         document.getElementById("gradeEndDropdown").style.borderColor="red";
+        document.getElementById("missingGradeEnd").style.visibility="visible";
       } else{
         document.getElementById("gradeEndDropdown").style.borderColor="#ccc";
+        document.getElementById("missingGradeEnd").style.visibility="hidden";
       }
       if(this.state.subject==="Subject"){
         document.getElementById("subjectDropdown").style.borderColor="red";
+        document.getElementById("missingSubject").style.visibility="visible";
       } else{
         document.getElementById("subjectDropdown").style.borderColor="#ccc";
+        document.getElementById("missingSubject").style.visibility="hidden";
       }
       if (this.state.theme==="") {
         document.getElementById("themeBox").style.borderColor = "red";
+        document.getElementById("missingTheme").style.visibility="visible";
       } else{
         document.getElementById("themeBox").style.borderColor = "black";
+        document.getElementById("missingTheme").style.visibility="hidden";
       }
       if (this.state.unit==="") {
         document.getElementById("unitBox").style.borderColor = "red";
+        document.getElementById("missingUnit").style.visibility="visible";
       } else{
         document.getElementById("unitBox").style.borderColor = "black";
+        document.getElementById("missingUnit").style.visibility="hidden";
       }
       if (this.state.subunit==="") {
         document.getElementById("subunitBox").style.borderColor = "red";
+        document.getElementById("missingSubunit").style.visibility="visible";
       } else{
         document.getElementById("subunitBox").style.borderColor = "black";
+        document.getElementById("missingSubunit").style.visibility="hidden";
       }
       if (this.state.goal==="") {
         document.getElementById("goalBox").style.borderColor = "red";
+        document.getElementById("missingGoals").style.visibility="visible";
       } else{
         document.getElementById("goalBox").style.borderColor = "black";
+        document.getElementById("missingGoals").style.visibility="hidden";
       }
       if (this.state.introduction===""){
         document.getElementById("introBox").style.borderColor = "red";
+        document.getElementById("missingIntro").style.visibility="visible";
       } else{
         document.getElementById("introBox").style.borderColor = "black";
+        document.getElementById("missingIntro").style.visibility="hidden";
       }
       if (this.state.warmup===""){
         document.getElementById("warmupBox").style.borderColor = "red";
+        document.getElementById("missingWarmup").style.visibility="visible";
       } else{
         document.getElementById("warmupBox").style.borderColor = "black";
+        document.getElementById("missingWarmup").style.visibility="hidden";
       }
       if (this.state.mainActivity===""){
         document.getElementById("mainActivityBox").style.borderColor = "red";
+        document.getElementById("missingMainActivity").style.visibility="visible";
       } else{
         document.getElementById("mainActivityBox").style.borderColor = "black";
+        document.getElementById("missingMainActivity").style.visibility="hidden";
       }
       if (this.state.backupActivity===""){
         document.getElementById("backupActivityBox").style.borderColor = "red";
+        document.getElementById("missingBackupActivity").style.visibility="visible";
       } else {
         document.getElementById("backupActivityBox").style.borderColor = "black";
+        document.getElementById("missingBackupActivity").style.visibility="hidden";
       }
       if (this.state.additionalGame===""){
         document.getElementById("additionalGameBox").style.borderColor = "red";
+        document.getElementById("missingGame").style.visibility="visible";
       } else{
         document.getElementById("additionalGameBox").style.borderColor = "black";
+        document.getElementById("missingGame").style.visibility="hidden";
       }
       console.log("NOT EVERYTHING IS FILLED OUT!")
     }
@@ -381,7 +417,6 @@ class NewPage extends Component {
   render () {
     return (
       <div className="newPageContainer">
-        {/* <p className="missingFieldMessage">{this.state.missingFieldMessage}</p> */}
         {this.state.userMessage ?
           (
             <p className="userMessage">{this.state.userMessage}</p>
@@ -396,8 +431,9 @@ class NewPage extends Component {
           )}
         <div className="headerContainer">
           <h1>Basic Info</h1>
+          <p id="missingFieldMessage">Missing Field(s)</p>
           <div className="headerTextContainer">
-          <label>Lesson Name: </label>
+          <label>Lesson Name: <span id="missingLesson" className="asterisk">*</span></label>
           <input id="searchBar" value={this.state.lessonName} type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
 
         </div>
@@ -413,7 +449,7 @@ class NewPage extends Component {
                 <MenuItem onClick={this.selected.bind(this, "semester", "Fall 2019")}>Fall 2019</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "semester", "Spring 2019")}>Spring 2019</MenuItem>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown><span id="missingSemester" className="asterisk">*</span>
             </div>
             <div>
             {/* <label>Day: </label> */}
@@ -427,7 +463,7 @@ class NewPage extends Component {
                 <MenuItem onClick={this.selected.bind(this, "dayOfWeek", "Thursday")}>Thursday</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "dayOfWeek", "Friday")}>Friday</MenuItem>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown><span id="missingDay" className="asterisk">*</span>
           </div>
           <div>
           {/* <label>Date: </label> */}
@@ -448,7 +484,7 @@ class NewPage extends Component {
               <MenuItem onClick={this.selected.bind(this, "monthOfLesson", "November")}>November</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "monthOfLesson", "December")}>December</MenuItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown><span id="missingMonth" className="asterisk">*</span>
           <Dropdown className="dropDownContainer">
             <DropdownToggle id="yearDropdown" btnStyle="flat">{this.state.yearOfLesson}</DropdownToggle>
             <DropdownMenu className="ddMenu">
@@ -474,7 +510,7 @@ class NewPage extends Component {
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "2001")}>2001</MenuItem>
               <MenuItem onClick={this.selected.bind(this, "yearOfLesson", "2000")}>2000</MenuItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown><span id="missingYear" className="asterisk">*</span>
         </div>
         <div>
         {/* <label>Grade Start: </label> */}
@@ -489,7 +525,7 @@ class NewPage extends Component {
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
           </DropdownMenu>
-        </Dropdown>
+        </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
         <div>
         {/* <label>Grade End: </label> */}
@@ -504,7 +540,7 @@ class NewPage extends Component {
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
           </DropdownMenu>
-        </Dropdown>
+        </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
           <div>
             {/* <label>Subject: </label> */}
@@ -517,49 +553,49 @@ class NewPage extends Component {
                 <MenuItem onClick={this.selected.bind(this, "subject", "English")}>English</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Social Studies")}>Social Studies</MenuItem>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown><span id="missingSubject" className="asterisk">*</span>
             </div>
           </div>
           <h1>Details</h1>
         </div>
           <div id="inputStuffCollection" className="inputContainer">
             <div className="smallBox">
-              <label>Theme</label>
+              <label>Theme<span id="missingTheme" className="asterisk">*</span></label>
               <br></br>
               <input id="themeBox" className="shortBox" type="text" value={this.state.theme} onChange={this.handleTheme.bind(this)}></input>
             </div>
             <div className="smallBox">
-              <label>Unit</label>
+              <label>Unit<span id="missingUnit" className="asterisk">*</span></label>
               <br></br>
               <input id="unitBox"className="shortBox" type="text" value={this.state.unit} onChange={this.handleUnit.bind(this)}></input>
             </div>
             <div className="smallBox">
-              <label>Subunit</label>
+              <label>Subunit<span id="missingSubunit" className="asterisk">*</span></label>
               <br></br>
               <input id="subunitBox" className="shortBox" type="text" value={this.state.subunit} onChange={this.handleSubunit.bind(this)}></input>
             </div>
             <div className="box">
-              <label>Goals of the Day</label>
+              <label>Goals of the Day<span id="missingGoals" className="asterisk">*</span></label>
               <br></br>
               <textarea id="goalBox" value={this.state.goal} onChange={this.handleGoals.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Introduction</label>
+              <label>Introduction<span id="missingIntro" className="asterisk">*</span></label>
               <br></br>
               <textarea id="introBox" value={this.state.introduction} onChange={this.handleIntro.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Warm Up</label>
+              <label>Warm Up<span id="missingWarmup" className="asterisk">*</span></label>
               <br></br>
               <textarea id="warmupBox" value={this.state.warmup} onChange={this.handleWarmUp.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Main Activity</label>
+              <label>Main Activity<span id="missingMainActivity" className="asterisk">*</span></label>
               <br></br>
               <textarea id="mainActivityBox" value={this.state.mainActivity} onChange={this.handleMainActivity.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Backup Activity</label>
+              <label>Backup Activity<span id="missingBackupActivity" className="asterisk">*</span></label>
               <br></br>
               <textarea id="backupActivityBox" value={this.state.backupActivity} onChange={this.handleBackupActivity.bind(this)}></textarea>
             </div>
@@ -569,7 +605,7 @@ class NewPage extends Component {
               <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Additional Game</label>
+              <label>Additional Game<span id="missingGame" className="asterisk">*</span></label>
               <br></br>
               <textarea id="additionalGameBox" value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
             </div>
