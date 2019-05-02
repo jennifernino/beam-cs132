@@ -28,7 +28,7 @@ class UserOption extends Component {
       verified:this.props.item.verified,
       position:this.props.item.position
     })
-    
+
     console.log(this.props.item)
   }
 
@@ -97,6 +97,7 @@ class UserOption extends Component {
         <p className="userEmail">{this.state.email}</p>
       </div>
         <p>{this.state.position}</p>
+        <p>{this.state.team}</p>
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.position}</DropdownToggle>
             <DropdownMenu>
