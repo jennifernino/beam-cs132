@@ -290,6 +290,15 @@ input{
   overflow: scroll;
 }
 
+.sortContainer {
+  display: flex;
+  flex-direction: row;
+
+  padding-left: 40px;
+  flex-wrap: wrap;
+}
+
+
 .menuContainer{
   display: flex;
   flex-flow: column;
