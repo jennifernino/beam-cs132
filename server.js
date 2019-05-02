@@ -431,12 +431,16 @@ app.post('/signup', (request, response) => {
     bcrypt.hash(password, salt, function(err, hash) {
         //store hash in db
         var user = new Users({
+            isAdmin: 0, // 1 if true, 0 if false
+            leader: 0, // 1 if true, 0 if false
+            group: '', // Some Day?
             verified: 0,
             user_id: user_id, // Should be secret
             password: hash, // Should never be in plain text
             email: email, // visible
             name: last_name+","+first_name, // meh
-            confirmationID: confirmationID
+            confirmationID: confirmationID,
+            position: ''
           });
           user.save(function(error) {
             console.log("Your user has been saved!");
@@ -457,7 +461,7 @@ app.post('/', (request, response) => {
   console.log('post req still works')
   console.log('- request received:', request.method.cyan, request.url.underline);
   var correctPass = '';
-    Users.find({ 'email': request.body.email }, 'email password', function (err, user) {
+    Users.find({ 'email': request.body.email }, 'email password verified', function (err, user) {
     if (err) return handleError(err);
     // 'email' contains the list of athletes that match the criteria.
 
@@ -465,7 +469,7 @@ app.post('/', (request, response) => {
     hash = user[0].password;
     plainText = request.body.password
     bcrypt.compare(plainText, hash, function(err, res) {
-    if(res){
+    if(res && user[0].verified === 1){
       console.log(user)
 
       console.log(user[0]._id)
