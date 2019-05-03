@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style/style.css';
-//import logo from 'beamLogo.png'
+import logo from './beamLogo.png';
 
 class Login extends Component {
   constructor(props){
@@ -62,17 +62,21 @@ class Login extends Component {
     return (
       <div className="LoginContainer">
         <h1> BEAM Lesson Planner </h1>
-        <label> Email </label>
-        <input type="text" value={this.state.email} onChange={this.handleUserChange} />
-        <label> Password </label>
-        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+        <img className="beamLogo" src={logo} alt="Logo" />
+        <label id="loginReqs">Email
+        </label>
+        <input id="loginInput" type="text" value={this.state.email} onChange={this.handleUserChange} />
+        <label id="loginReqs">Password
+        </label>
+        <input id="loginInput" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         <div className="inputItem">
           <a href="/forgotpassword"> Forgot password? </a>
         </div>
         <div className="inputItem">
           <a href="/signup"> Create an account </a>
         </div>
-        <button onClick={this.handleSubmit.bind(this)}>Submit</button>
+
+        <button className="submitButton" onClick={this.handleSubmit.bind(this)}>Submit</button>
       </div>
     );
   }

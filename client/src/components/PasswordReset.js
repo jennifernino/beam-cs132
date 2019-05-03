@@ -72,21 +72,18 @@ class PasswordReset extends Component {
 
       <form onSubmit={this.handleSubmit}>
       <div className="inputItem">
-      <label>
-      Verification code:
+      <label>Verification code:
       <input type="text" value={this.state.confirmationID} onChange={this.handleIDChange} />
       </label>
       </div>
       <div className="inputItem">
-      <label>
-      New password
-      <input type="text" value={this.state.password} onChange={this.handlePasswordChange} />
+      <label>New password
+      <input id="resetInput" type="text" value={this.state.password} onChange={this.handlePasswordChange} />
       </label>
       </div>
       <div className="inputItem">
-      <label>
-      Retype password
-      <input type="text" value={this.state.retypePassword} onChange={this.handleRetypeChange} />
+      <label>Retype password
+      <input id="resetInput" type="text" value={this.state.retypePassword} onChange={this.handleRetypeChange} />
       </label>
       </div>
 
