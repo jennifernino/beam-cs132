@@ -90,56 +90,40 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div className="layout">
-      <div className="layoutItem"></div>
+
       <div className="SignUpContainer">
         <div> <h1>Create Account</h1> </div>
         <form onSubmit={this.handleSubmit}>
 
         <div className="inputItem">
-        <label>
-        First Name
-        <input type="text" value={this.state.first} onChange={this.handleFirstChange} />
+        <label>First Name
+        <input id="signupInput" type="text" value={this.state.first} onChange={this.handleFirstChange} />
         </label>
         </div>
-
         <div className="inputItem">
-        <label>
-        Last Name
-        <input type="text" value={this.state.last} onChange={this.handleLastChange} />
+        <label>Last Name
+        <input id="signupInput" type="text" value={this.state.last} onChange={this.handleLastChange} />
         </label>
         </div>
-
         <div className="inputItem">
-        <label>
-        Email
-        <input type="text" value={this.state.email} onChange={this.handleEmailChange} />
+        <label id="signupReqs"> Email
+        <input id="signupInput" type="text" value={this.state.email} onChange={this.handleEmailChange} />
         </label>
         </div>
-
         <div className="inputItem">
-        <label>
-        Password (eight character minimum)
-        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+        <label id="signupReqs"> Password (eight character minimum)
+        <input id="signupInput" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         </label>
         </div>
-
         <div className="inputItem">
-        <label>
-        Retype password
-        <input type="password" value={this.state.retype} onChange={this.handleRetypeChange} />
+        <label id="signupReqs"> Retype password
+        <input id="signupInput" type="password" value={this.state.retype} onChange={this.handleRetypeChange} />
         </label>
         </div>
-
         <div className="inputItem">
-        <input type="submit" value="Sign up" className="submitButton" />
+        <input id="signupInput" type="submit" value="Sign up" className="submitButton" />
         </div>
-
         </form>
-
-
-      </div>
-      <div className="layoutItem"></div>
       </div>
 
     );

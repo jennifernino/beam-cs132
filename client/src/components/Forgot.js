@@ -47,24 +47,18 @@ class Forgot extends Component {
   render() {
     return (
       <div className="ForgotContainer">
-
       <div className="inputItem">
       <h1> Forgot password </h1>
       </div>
-
-
-
       <form onSubmit={this.handleSubmit}>
       <div className="inputItem">
       <label>
       Enter your email to reset your password
-      <input type="text" value={this.state.email} onChange={this.handleUserChange} />
+      <input id="forgotInput" type="text" value={this.state.email} onChange={this.handleUserChange} />
       </label>
       </div>
-
-
       <div className="inputItem">
-      <input type="submit" value="Reset password" />
+      <input className="resetButton" type="submit" value="Reset password" />
       </div>
 
       </form>
