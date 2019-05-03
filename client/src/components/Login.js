@@ -9,6 +9,7 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
+      error:''
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -23,8 +24,14 @@ class Login extends Component {
   handlePasswordChange(event){
     this.setState({password: event.target.value});
   }
-
+  throwEror(message) {
+    // console.log('unable to login')
+  }
   handleSubmit(event){
+    if (this.state.email === "" && this.state.password === "") {
+      this.throwError();
+      return;
+    }
     const body_str = JSON.stringify({
       email: this.state.email,
       password: this.state.password
@@ -47,6 +54,7 @@ class Login extends Component {
           this.props.login();
         } else {
           console.log("No login")
+          this.throwError("Email or password are incorrect")
         }
         // TODO create new page
       })

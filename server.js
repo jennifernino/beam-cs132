@@ -162,7 +162,11 @@ app.post('/:session_id/adminupdate', (request, response) => {
            unpublished.push(data[i]);
          }
        }
-       response.json({published:published, unpublished:unpublished});
+       response.json({
+         published:published,
+         unpublished:unpublished,
+         name:names.get(session)
+       });
        // TODO: Wrap and send back!
      }
    })

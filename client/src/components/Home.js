@@ -8,7 +8,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'Bob',
+      username: '',
       isAdmin:true,
       session: '',
       inProgress:[],
@@ -27,6 +27,7 @@ class Home extends Component {
       .then(res => res.json())
       .then(info => {
         this.setState({
+          name:info.name,
           inProgress:info.unpublished,
           published:info.published,
           isAdmin:true//(info.isAdmin === 1) ? true : false

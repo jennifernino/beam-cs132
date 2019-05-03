@@ -18,7 +18,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : (localStorage.getItem('loggedIn') === null) ? (false) : (true),
+      loggedIn :
+        (localStorage.getItem('loggedIn') === null) ? false : true,
       session : 'abc123'
     };
     //this.login = this.login.bind(this);
@@ -45,7 +46,7 @@ class App extends Component {
     this.setState({
       loggedIn : true
     });
-    //this.props.history.push('/home');
+    return <Link to={"/home"} />
     //console.log(this.state)
   }
 
