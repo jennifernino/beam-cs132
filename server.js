@@ -244,6 +244,24 @@ app.post('/:session_id/adminupdate', (request, response) => {
  *******************************************************************************
  */
 
+app.get('/:session_id/getpage/:lesson_id', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  Lessons.find({lesson_id:lesson_id}, (error, data) => {
+    if (error) {
+      console.log(error.red)
+    } else {
+      response.json({
+        pageInfo: data,
+        recieved:true
+      })
+    }
+  })
+})
+
 app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
@@ -339,6 +357,7 @@ function session(name, user_id) {
 app.post('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
+  console.log(request.body)
   Users.findOne({ email: request.body.email }, (error, res) => {
     if (error) {
       console.log('Error');

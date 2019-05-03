@@ -8,9 +8,9 @@ import Home from './components/Home'
 import Menu from './components/Menu'
 import Admin from './components/Admin'
 import Search from './components/Search'
-import EditLesson from './components/EditLesson'
 import NewPage from './components/NewPage'
 import PublishedPage from './components/PublishedPage';
+import UnpublishedPage from './components/UnpublishedPage';
 import logo from './logo.svg';
 import './App.css';
 
@@ -58,6 +58,9 @@ class App extends Component {
     return <Link to={"/"} />
     // remove session
   }
+  goMain() {
+    return <Link to={"/"} />
+  }
   /*
    * In the case that its refreshed - no because it will log you out
    */
@@ -82,12 +85,12 @@ class App extends Component {
                   <Switch>
                     <Route exact path='/' component={Home} />
                     <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
-                    <Route exact path='/signup' component={SignUp} />
-                    <Route exact path='/forgotpassword' component={Forgot} />
+                    <Route exact path='/signup' render={(props) => <SignUp {...props} session={this.state.session} />}/>
+                    <Route exact path='/forgotpassword' render={(props) => <Forgot {...props} session={this.state.session} />}/>
                     <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
                     <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
                     <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
-                    <Route exact path='/edit' render={(props) => <EditLesson {...props} session={this.state.session}/>}/>
+                    <Route exact path='/edit' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
                     <Route exact path='/resetpassword' component={PasswordReset} />
                     <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
                   </Switch>

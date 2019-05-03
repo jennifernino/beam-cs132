@@ -161,7 +161,7 @@ class NewPage extends Component {
   selected(type, value, event) {
     if (type === "semester") {
       this.setState({semester:value})
-    }if (type === "dayOfWeek") {
+    } if (type === "dayOfWeek") {
       this.setState({dayOfWeek: value})
     } if (type ==="gradeStart") {
       this.setState({gradeStart: value})
@@ -194,7 +194,7 @@ class NewPage extends Component {
     (this.state.mainActivity!=="") && (this.state.backupActivity!=="") &&
     (this.state.additionalGame!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
-      this.postLesson(1);
+      this.postLesson();
     } else {
       document.getElementById("missingFieldMessage").style.visibility = "visible";
       if (this.state.lessonName==="") {
@@ -320,15 +320,68 @@ class NewPage extends Component {
     }
   }
 
-  resetStuff() {
-    console.log("ji")
+  resetStuff(info) {
+    this.setState({
+      userMessage:info.message, // TODO inspect
+      userError: "", // TODO Style green
+      session:this.state.session,
+      // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
+      published: 0, // 1 is true or 0 is false
+      // creator: Number, // TODO: return session number to get user ID - handle in server
+      datePublished: "", // Number, UNIX time
+
+      lessonName: "", // String
+      monthOfLesson:"Month", // String
+      yearOfLesson:"Year", // Number
+
+      subject:"Subject",
+      gradeStart: "Grade Start", // Number
+      gradeEnd:"Grade End", // Number
+      semester:"Semester",
+      dayOfWeek:"Weekday",
+
+      theme: "",
+      unit: "",
+      subunit: "",
+      goal: "",
+      introduction: "",
+      warmup: "",
+      mainActivity: "",
+      backupActivity: "",
+      reflection: "",
+      additionalGame: "",
+      quote: "", // TODO: Not yet implemented
+      materials: "", // TODO: Update as needed (array?)
+    });
   }
- //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
-  postLesson = (num) => {
-    if (!this.verifySave()) {
+
+  verifySave() {
+    // TODO: at least one field must be filled in
+    return true;
+  }
+
+  postLesson() {
+    // publish 1
+    if (this.verifyPost()) {
+      this.addToDB(1);
+    } else {
       console.log('Can\'t post, invalid')
       return;
     }
+
+  }
+  saveLesson() {
+    //publish 0
+    if (this.verifySave()) {
+      this.addToDB(0);
+    } else {
+      console.log('Can\'t post, invalid')
+      return;
+    }
+  }
+
+ //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
+  addToDB = (num) => {
     const body_str = JSON.stringify({
       lesson_id: -1, // unique id for lesson
       published: num, // 1 is true or 0 is false
@@ -375,39 +428,7 @@ class NewPage extends Component {
       .then(res => res.json())
       .then(info => {
         if (info.received) {
-          this.setState({
-            userMessage:info.message, // TODO inspect
-            userError: "", // TODO Style green
-            session:this.state.session,
-            // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
-            published: 0, // 1 is true or 0 is false
-            // creator: Number, // TODO: return session number to get user ID - handle in server
-            datePublished: "", // Number, UNIX time
-
-            lessonName: "", // String
-            monthOfLesson:"Month", // String
-            yearOfLesson:"Year", // Number
-
-            subject:"Subject",
-            gradeStart: "Grade Start", // Number
-            gradeEnd:"Grade End", // Number
-            semester:"Semester",
-            dayOfWeek:"Weekday",
-
-            theme: "",
-            unit: "",
-            subunit: "",
-            goal: "",
-            introduction: "",
-            warmup: "",
-            mainActivity: "",
-            backupActivity: "",
-            reflection: "",
-            additionalGame: "",
-            quote: "", // TODO: Not yet implemented
-            materials: "", // TODO: Update as needed (array?)
-          });
-          this.resetStuff();
+          this.resetStuff(info);
         } else {
           this.setState({
             userError: info.message

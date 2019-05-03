@@ -5,7 +5,7 @@ import './style/style.css';
 class Login extends Component {
   constructor(props){
     super(props);
-    
+
     this.state = {
       username: '',
       password: '',
@@ -25,12 +25,12 @@ class Login extends Component {
   }
 
   handleSubmit(event){
-    //event.preventDefault();
     const body_str = JSON.stringify({
       email: this.state.email,
       password: this.state.password
     });
 
+    console.log(body_str)
     const req = {
       method: 'POST',
       headers: {
@@ -62,25 +62,16 @@ class Login extends Component {
     return (
       <div className="LoginContainer">
         <h1> BEAM Lesson Planner </h1>
-
-
-        <label>
-        Email
-        </label>
+        <label> Email </label>
         <input type="text" value={this.state.email} onChange={this.handleUserChange} />
-        <label>
-        Password
-        </label>
+        <label> Password </label>
         <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
-
         <div className="inputItem">
           <a href="/forgotpassword"> Forgot password? </a>
         </div>
-
         <div className="inputItem">
           <a href="/signup"> Create an account </a>
         </div>
-
         <button onClick={this.handleSubmit.bind(this)}>Submit</button>
       </div>
     );

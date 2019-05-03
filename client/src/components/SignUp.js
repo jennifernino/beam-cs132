@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import './style/style.css';
 
 // var validator = require("email-validator");
@@ -51,7 +52,7 @@ class SignUp extends Component {
     this.setState({retype: event.target.value});
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     //alert('credentials'+ this.state.email + this.state.password);
     event.preventDefault();
     // if(validator.validate(this.state.email)==false){
@@ -83,9 +84,9 @@ class SignUp extends Component {
     fetch("http://localhost:8080/signup", req)
       .then(res => res.json())
       .then(info => {
-        console.log(info)
-        // TODO create new page
-      });
+        // TODO print account made if made
+        this.props.history.push('/');
+      })
   }
 
   render() {
