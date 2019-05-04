@@ -95,7 +95,9 @@ a{
 #loginReqs{
   margin-right: auto;
 }
-#loginInput, #forgotInput, #resetInput, #signupInput{
+
+#loginInput, #forgotInput, #resetInput, #signupInput1, #signupInput2, #signupInput3,
+#signupInput4, #signupInput5{
   width: 90%;
 }
 .ForgotContainer{
@@ -129,6 +131,7 @@ a{
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  width: 90%;
 }
 
 .submitButton{
@@ -421,6 +424,10 @@ textarea {
 }
 .asterisk{
   color: red;
+  visibility: hidden;
+}
+#missingSignupReqs{
+  color: #b20000;
   visibility: hidden;
 }
 #missingFieldMessage{
