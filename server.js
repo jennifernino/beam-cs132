@@ -279,7 +279,7 @@ app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
     if (error) {
       console.log(error.red)
     } else {
-      // console.log(data)
+      console.log(data)
       response.json({
         pageInfo: data,
         recieved:true
