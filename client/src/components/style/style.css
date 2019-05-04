@@ -444,6 +444,11 @@ textarea {
   /* text-align: center; */
   visibility: hidden;
 }
+
+#passwordError, #errorSaveMessage{
+  color: #b20000;
+  /* text-align: center; */
+}
 /* styling for the admin page */
 .userSpacing{
   display: flex;

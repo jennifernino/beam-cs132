@@ -150,9 +150,11 @@ class Search extends Component {
     }
     if (this.state.sort === "Alphabetical"){
       sortedResult = this.state.results.sort(function(a, b) {
-        var textA = a.lessonName.toUpperCase();
-        var textB = b.lessonName.toUpperCase();
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        // var textA = a.lessonName.toUpperCase();
+        // var textB = b.lessonName.toUpperCase();
+        // return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        
+        return a.lessonName.toLowerCase().localeCompare(b.lessonName.toLowerCase());
       });
     }
     else{

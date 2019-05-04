@@ -20,7 +20,7 @@ class SignUp extends Component {
       email: '',
       password: '',
       retype: '',
-
+      error: '',
     };
 
     this.handleFirstChange = this.handleFirstChange.bind(this);
@@ -60,12 +60,16 @@ class SignUp extends Component {
     (this.state.retype!=="")) {
       document.getElementById("missingSignupReqs").style.visibility = "hidden";
       if(schema.validate(this.state.password)==false){
-        alert('Password must consist of at least eight characters');
+        // alert('Password must consist of at least eight characters');
+        this.setState({error: 'Password must consist of at least eight characters'})
+
         //change this alert to actual text warning within the div or somethin
       }
 
       if(this.state.password != this.state.retype){
-        alert('ERROR: passwords do not match');
+        // alert('ERROR: passwords do not match');
+        this.setState({error: 'ERROR: passwords do not match'})
+
          //change this alert to actual text warning within the div or somethin
       }
       if((schema.validate(this.state.password)) && (this.state.password === this.state.retype)){
@@ -79,6 +83,7 @@ class SignUp extends Component {
       document.getElementById("missingSignupReqs").style.visibility = "visible";
       if (this.state.first==="") {
         document.getElementById("missingFirst").style.visibility = "visible";
+        this.state.missingFirst = "Please enter your first name"
       } else{
         document.getElementById("missingFirst").style.visibility = "hidden";
       }
@@ -116,10 +121,11 @@ class SignUp extends Component {
       // + " Please wait for administrator approval before logging in.");
     // }
     // if()
+    const email = this.state.email.toLowerCase();
     const body_str = JSON.stringify({
       first: this.state.first,
       last: this.state.last,
-      email: this.state.email,
+      email: email,
       password: this.state.password
     });
 
@@ -145,8 +151,9 @@ class SignUp extends Component {
       <div className="SignUpContainer">
         <div> <h1>Create Account</h1> </div>
         <label id="missingSignupReqs">Missing Field(s)</label>
+        <label id="passwordError">{this.state.error}</label>
         <div className="inputItem">
-        <label>First Name <span id="missingFirst" className="asterisk">*</span>
+        <label>First Name <span id="missingFirst" className="asterisk">{this.state.missingFirst}</span>
         <input id="signupInput1" type="text" value={this.state.first} onChange={this.handleFirstChange} />
         </label>
         </div>

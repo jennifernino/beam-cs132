@@ -43,9 +43,9 @@ class Login extends Component {
           return;
     }
 
-
+    const email = this.state.email.toLowerCase();
     const body_str = JSON.stringify({
-      email: this.state.email,
+      email: email,
       password: this.state.password
     });
 

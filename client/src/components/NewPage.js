@@ -15,6 +15,7 @@ class NewPage extends Component {
     {
       userMessage:"", // TODO inspect
       userError: "", // TODO Style green
+      errorSaveMessage: "",
       // missingFieldMessage: "",
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
@@ -378,7 +379,7 @@ class NewPage extends Component {
     if (this.verifySave()) {
       this.addToDB(0);
     } else {
-      console.log('Can\'t post, invalid')
+      this.setState({errorSaveMessage:"Error saving lesson"});
       return;
     }
   }
@@ -471,6 +472,7 @@ class NewPage extends Component {
         <div className="headerContainer">
           <h1>Basic Info</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
+          <p id="errorSaveMessage">{this.state.errorSaveMessage}</p>
           <div className="headerTextContainer">
           <label>Lesson Name: <span id="missingLesson" className="asterisk">*</span></label>
           <input id="searchBar" value={this.state.lessonName} type="text" placeholder="Lesson name ... " onChange={this.handleLessonName.bind(this)} />
