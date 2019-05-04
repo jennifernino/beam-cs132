@@ -178,14 +178,14 @@ a{
 }
 .leftPageHeaderContainer{
   font-weight: bold;
-  margin-left: 3px;
+  margin-left: 5px;
   text-align: left;
   line-height: 10px;
 }
 .rightPageHeaderContainer{
   font-weight: lighter;
   font-style: italic;
-  margin-right: 3px;
+  margin-right: 5px;
   text-align: right;
   line-height: 10px;
 }
@@ -294,6 +294,8 @@ ul {
   border-radius: 5px;
   border: none;
   padding: 5px 12px;
+  margin-top: 9px;
+  margin-bottom: 8px;
   background-color: #49009E;
 }
 
@@ -485,4 +487,7 @@ textarea {
   border-radius: 5px;
   border: none;
   padding: 5px;
+}
+.reflectionBox textarea{
+  width: 98%;
 }

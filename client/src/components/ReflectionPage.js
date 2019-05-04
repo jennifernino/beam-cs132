@@ -124,7 +124,7 @@ class ReflectionPage extends Component {
           <h2>Additional Game: </h2>
           <p>{this.state.additionalGame}</p>
           <h2>Reflection: </h2>
-          <div className="box">
+          <div className="reflectionBox">
             <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
           </div>
         </div>
