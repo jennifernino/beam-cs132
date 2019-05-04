@@ -450,7 +450,7 @@ textarea {
   justify-content: space-around;
   padding: 5px;
 }
-.verifyButton, .updateButton{
+.verifyButton, .updateButton, .declineButton{
   background-color: #49009E;
   font-size: 17px;
   color: white;
