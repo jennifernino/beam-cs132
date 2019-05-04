@@ -336,7 +336,7 @@ app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
     }
   })
 })
-
+//console.log("hgeehesjndkjsnfkjdsnf")
 app.post('/:session_id/updatelesson/:lesson_id', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
@@ -441,9 +441,14 @@ app.post('/', (request, response) => {
 
   Users.findOne({ email: params.email }, (error, res) => {
     if (error) {
-      response.json({ loggedIn:false, message:"User does not exist." })
+      response.json({ loggedIn:false, message:"Something is terribly wrong" })
     } else {
-      return res;
+      if (res === null) {
+        response.json({ loggedIn:false, message:"User does not exist." })
+      } else {
+        return res;
+      }
+
     }
   }).then((potentialUser) => {
     if (potentialUser !== null) {
