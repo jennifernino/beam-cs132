@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import './style/style.css';
 
-// var validator = require("email-validator");
-// var passwordValidator = require('password-validator');
+var validator = require("email-validator");
+var passwordValidator = require('password-validator');
 
-// var schema = new passwordValidator();
+var schema = new passwordValidator();
 
-// schema
-// .is().min(8);
+schema
+.is().min(8);
 
 
 class SignUp extends Component {
@@ -58,10 +58,11 @@ class SignUp extends Component {
     // if(validator.validate(this.state.email)==false){
     //   alert('Please enter a valid email');
     // }
-    // if(schema.validate(this.state.password)==false){
-    //   alert('Password must consist of at least eight characters');
-    // }
-    //
+    if(schema.validate(this.state.password)==false){
+      alert('Password must consist of at least eight characters');
+      
+    }
+
     // if(this.state.password != this.state.retype){
     //   alert('ERROR: passwords do not match');
     // }
