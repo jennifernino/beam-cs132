@@ -91,9 +91,9 @@ class App extends Component {
                     <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
                     <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
                     <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
-                    <Route exact path='/edit' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
                     <Route exact path='/resetpassword' component={PasswordReset} />
                     <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
+                    <Route exact path='/editpage/:lesson_id' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
                   </Switch>
                 </div>
               </div>

@@ -15,7 +15,7 @@ class UnpublishedPage extends Component {
     {
       userMessage:"",
       userError: "",
-
+      lesson_id:"",
       session:"",
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
@@ -57,6 +57,7 @@ class UnpublishedPage extends Component {
 
   setUp = () => {
     const session = this.props.session;
+    const lesson_id = this.props.match.params.lesson_id;
     const uri = 'http://localhost:8080/' + session + '/getpage/' + this.props.match.params.lesson_id;
     fetch(uri)
       .then(res => res.json())
@@ -65,6 +66,7 @@ class UnpublishedPage extends Component {
 
           userMessage: "",
           userError: "",
+          lesson_id:lesson_id,
           session:this.props.session,
 
           lessonName: info.pageInfo[0].lessonName,
@@ -414,7 +416,7 @@ class UnpublishedPage extends Component {
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
   addToDB = (num) => {
     const body_str = JSON.stringify({
-      lesson_id: -1, // unique id for lesson
+      lesson_id: this.state.lesson_id, // unique id for lesson
       published: num, // 1 is true or 0 is false
       creator: -1, // user ID
       datePublished: Date.now(), //UNIX time

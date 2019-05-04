@@ -254,13 +254,16 @@ app.get('/:session_id/getpage/:lesson_id', (request, response) => {
   const session = request.params.session_id;
   const lesson_id = request.params.lesson_id;
   const user_id = sessions.get(session);
-  Lessons.find({lesson_id:lesson_id}, (error, data) => {
+  Lessons.findOneAndUpdate({lesson_id:lesson_id}, {$set: request.body}, {new: true}, (error, data) => {
     if (error) {
-      console.log(error.red)
-    } else {
+      console.log(error, red, 'FALSE')
       response.json({
-        pageInfo: data,
-        recieved:true
+        resolved:false
+      })
+    } else {
+      console.log(data, "TRUE");
+      response.json({
+        resolved:true
       })
     }
   })
@@ -296,6 +299,7 @@ app.post('/:session_id/newPage', (request, response) => {
   const created = request.body;
   created.yearOfLesson = 1000; // TODO Change to numbers?
   created.creator = user_id;
+  // unpublished, check if exists
   Lessons.find({}, {lesson_id:1})
     .then((res) => {
       if (res.length < 1) {
