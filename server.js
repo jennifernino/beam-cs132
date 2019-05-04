@@ -476,7 +476,7 @@ app.post('/', (request, response) => {
       } else {
         response.json({
           loggedIn:false,
-          message:"User does not exist."
+          message:"Passwords do not match."
         })
       }
     }
