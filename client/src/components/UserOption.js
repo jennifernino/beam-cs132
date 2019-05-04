@@ -58,6 +58,28 @@ class UserOption extends Component {
     this.setState({team:value})
   }
 
+  removeRequest() {
+    this.removeReq();
+
+  }
+  removeReq = () => {
+    const req = {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+    const session = localStorage.getItem('session');
+    const email = this.state.email;
+    const uri = 'http://localhost:8080/' + session + '/delete/' + email
+    fetch(uri, req)
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+      });
+  }
+
   verify() {
     // TODO: check if everything needed is here!!
     const body_str = JSON.stringify({
@@ -127,7 +149,7 @@ class UserOption extends Component {
             ) : (
               <div className="userButtons">
               <button className="verifyButton" onClick={this.verify.bind(this)}>Verify</button>
-              <button className="declineButton"> Decline </button>
+              <button className="declineButton" onClick={this.removeRequest.bind(this)}> Decline </button>
               </div>
             )}
         </div>

@@ -65,7 +65,27 @@ const names = new Map();
  * Admin functionality
  *******************************************************************************
  */
+ app.delete('/:session_id/delete/:email', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
 
+   const session_id = request.params.session_id;
+   console.log('session', session_id)
+   const user_id = sessions.get(session_id);
+   console.log(user_id)
+   const email = request.params.email;
+   console.log(email)
+
+   Users.findOneAndDelete({email: email}, (error, data) => {
+     if (error) {
+       console.log("Error!");
+       response.json({deleted:false})
+     } else {
+       console.log("Deleted!");
+       response.json({deleted:true,data:data});
+     }
+   })
+})
  /*
   * Whenever you go to the admin page, this is called
   */
@@ -153,8 +173,8 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const user_id = sessions.get(session);
    Users.find({user_id:user_id},{isAdmin:1})
     .then((res) => {
+
       const isAdmin = res[0].isAdmin;
-      
       Lessons.find({creator:user_id}, (error, data) => {
         if (error) {
           console.log(error.red)
