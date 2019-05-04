@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './style/style.css';
 import logo from './beamLogo.png';
 
+var passwordValidator = require('password-validator');
+
+var schema = new passwordValidator();
+
+schema
+.is().min(8)                                    // Minimum length 8
+
 class Login extends Component {
   constructor(props){
     super(props);
