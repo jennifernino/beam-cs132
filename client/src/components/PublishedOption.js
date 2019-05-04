@@ -3,7 +3,7 @@ import './style/style.css';
 import { Link } from "react-router-dom";
 import PublishedPage from './PublishedPage';
 
-class PageOption extends Component {
+class PublishedOption extends Component {
 
   constructor(props) {
     super(props);
@@ -40,11 +40,10 @@ class PageOption extends Component {
         <div className="pageSummaryContainer">
           <p>{this.state.reflection}</p>
         </div>
-        <button>Add Reflection</button>
       </div>
     </Link>
     );
   }
 }
 
-export default PageOption;
+export default PublishedOption;

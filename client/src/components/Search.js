@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import Dropdown from './Dropdown';
-import PageOption from './PageOption'
-import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown'
+import PageOption from './PageOption';
+import PublishedOption from './PublishedOption';
+import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown';
 import '@trendmicro/react-buttons/dist/react-buttons.css';
 import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import './style/style.css';
@@ -340,7 +341,7 @@ class Search extends Component {
                   this.state.results.length ?
                     (
                       this.sortedResults().map(item =>
-                        <PageOption key={item.lesson_id} item={item}/>
+                        <PublishedOption key={item.lesson_id} item={item}/>
                       )
 
                     ) : (
