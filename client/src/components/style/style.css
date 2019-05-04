@@ -178,10 +178,16 @@ a{
 }
 .leftPageHeaderContainer{
   font-weight: bold;
+  margin-left: 3px;
+  text-align: left;
+  line-height: 10px;
 }
 .rightPageHeaderContainer{
   font-weight: lighter;
   font-style: italic;
+  margin-right: 3px;
+  text-align: right;
+  line-height: 10px;
 }
 .pageSummaryContainer p{
   overflow: hidden;
@@ -190,6 +196,7 @@ a{
   text-overflow: -o-ellipsis-lastline;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  margin: 0px 3px;
 }
 
 /* styling for published page */
@@ -216,10 +223,10 @@ a{
   font-weight: 700;
 }
 
-#dateFont{
+#dateFont, #gradeFont{
   color: black;
   font-weight: 300;
-  font-style: normal;
+  /* font-style: normal; */
 }
 
 .publishedPageHeaderContainer p{

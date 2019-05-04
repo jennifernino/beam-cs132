@@ -91,7 +91,7 @@ class Login extends Component {
           <a href="/signup"> Create an account </a>
         </div>
 
-        <button className="submitButton" onClick={this.handleSubmit.bind(this)}>Submit</button>
+        <button className="submitButton" onClick={this.handleSubmit.bind(this)}>Login</button>
       </div>
     );
   }
