@@ -399,18 +399,27 @@ app.post('/', (request, response) => {
       const hash = potentialUser.password;
       console.log(potentialUser)
       if (bcrypt.compareSync(request.body.password, hash)) {
-        session(potentialUser.firstName, potentialUser.user_id)
-          .then((session) => {
-            response.json({
-              loggedIn:true,
-              session:session,
-              isLeader:potentialUser.leader,
-              firstName:potentialUser.firstName
+        if (potentialUser.verified) {
+          session(potentialUser.firstName, potentialUser.user_id)
+            .then((session) => {
+              response.json({
+                loggedIn:true,
+                session:session,
+                isLeader:potentialUser.leader,
+                firstName:potentialUser.firstName
+              })
             })
+        } else {
+          response.json({
+            loggedIn:false,
+            message:"User is not verified."
           })
+        }
+
       } else {
         response.json({
-          loggedIn:false
+          loggedIn:false,
+          message:"User does not exist."
         })
       }
     }
