@@ -27,7 +27,11 @@ class Login extends Component {
   }
 
   throwError(message) {
-    console.log('unable to login')
+    this.setState({
+      error: message
+    });
+    console.log('unable to login');
+    document.getElementById("loginError").style.visibility="visible";
   }
 
   handleSubmit(event){
@@ -35,7 +39,7 @@ class Login extends Component {
         typeof this.state.password === 'undefined' ||
         this.state.email === "" ||
         this.state.password === "") {
-          this.throwError();
+          this.throwError("Missing login credential(s).");
           return;
     }
 
@@ -64,8 +68,14 @@ class Login extends Component {
           this.props.login(info.name, info.session);
         } else {
           console.log("No login")
-          document.getElementById("loginError").style.visibility="visible";
-          // this.throwError("Email or password are incorrect")
+          console.log("info.message: " + info.message);
+          if(info.message === "User does not exist."){
+            this.throwError(info.message);
+          } else{
+            this.throwError("Email or password are incorrect.");
+          }
+          // document.getElementById("loginError").style.visibility="visible";
+          // this.throwError("Email or password are incorrect.")
         }
         // TODO create new page
       })
@@ -77,7 +87,7 @@ class Login extends Component {
       <div className="LoginContainer">
         <h1> BEAM Lesson Planner </h1>
         <img className="beamLogo" src={logo} alt="Logo" />
-        <label id="loginError">Email or Password are incorrect.</label>
+        <label id="loginError">{this.state.error}</label>
         <label id="loginReqs">Email
         </label>
         <input id="loginInput" type="text" value={this.state.email} onChange={this.handleUserChange} />
