@@ -82,7 +82,7 @@ a{
   height: 150px;
 }
 #loginError{
-  color: red;
+  color: #b20000;
   font-size: 16px;
   visibility: hidden;
 }

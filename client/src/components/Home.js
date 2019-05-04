@@ -69,9 +69,9 @@ class Home extends Component {
             <div className="leftSideContainer">
               <h2>Published</h2>
             </div>
-            <div className="rightSideContainer">
+            {/* <div className="rightSideContainer">
               <button className="addButton">add reflection</button>
-            </div>
+            </div> */}
           </div>
           <div className="optionContainer">
             {!this.state.published.length ? (

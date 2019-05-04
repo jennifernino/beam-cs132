@@ -55,17 +55,23 @@ class SignUp extends Component {
   handleSubmit(event) {
     //alert('credentials'+ this.state.email + this.state.password);
     event.preventDefault();
-    if(validator.validate(this.state.email)==false){
-      alert('Please enter a valid email');
+    // if(validator.validate(this.state.email)==false){
+    //   alert('Please enter a valid email');
+    // }
+    if((schema.validate(this.state.password)) && (this.state.password === this.state.retype)){
+      alert(this.state.first + ", you have successfully signed up!"
+      + " Please wait for administrator approval before logging in.");
     }
     if(schema.validate(this.state.password)==false){
       alert('Password must consist of at least eight characters');
-
+      //change this alert to actual text warning within the div or somethin
     }
 
     if(this.state.password != this.state.retype){
       alert('ERROR: passwords do not match');
+       //change this alert to actual text warning within the div or somethin
     }
+
     const body_str = JSON.stringify({
       first: this.state.first,
       last: this.state.last,
