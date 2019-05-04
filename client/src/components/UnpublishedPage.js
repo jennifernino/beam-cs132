@@ -62,6 +62,9 @@ class UnpublishedPage extends Component {
     fetch(uri)
       .then(res => res.json())
       .then(info => {
+        // console.log("page info: " + info.pageInfo.lessonName);
+        // console.log("theme: " + info.theme);
+
         this.setState({
 
           userMessage: "",
@@ -69,29 +72,29 @@ class UnpublishedPage extends Component {
           lesson_id:lesson_id,
           session:this.props.session,
 
-          lessonName: info.pageInfo[0].lessonName,
-          theme: info.pageInfo[0].theme,
-          unit: info.pageInfo[0].unit,
-          subunit: info.pageInfo[0].subunit,
-          month: info.pageInfo[0].monthOfLesson ,
-          year: info.pageInfo[0].yearOfLesson,
-          day: info.pageInfo[0].dayOfWeek,
-          gradeStart: info.pageInfo[0].gradeStart,
-          gradeEnd: info.pageInfo[0].gradeEnd,
-          semester: info.pageInfo[0].semester,
-          subject: info.pageInfo[0].subject,
-          goal: info.pageInfo[0].goal,
-          introduction: info.pageInfo[0].introduction,
-          warmup: info.pageInfo[0].warmup,
-          mainActivity: info.pageInfo[0].mainActivity,
-          backupActivity: info.pageInfo[0].backupActivity,
-          additionalGame: info.pageInfo[0].additionalGame,
-          reflection: info.pageInfo[0].reflection,
+          lessonName: info.pageInfo.lessonName,
+          theme: info.pageInfo.theme,
+          unit: info.pageInfo.unit,
+          subunit: info.pageInfo.subunit,
+          month: info.pageInfo.monthOfLesson ,
+          year: info.pageInfo.yearOfLesson,
+          day: info.pageInfo.dayOfWeek,
+          gradeStart: info.pageInfo.gradeStart,
+          gradeEnd: info.pageInfo.gradeEnd,
+          semester: info.pageInfo.semester,
+          subject: info.pageInfo.subject,
+          goal: info.pageInfo.goal,
+          introduction: info.pageInfo.introduction,
+          warmup: info.pageInfo.warmup,
+          mainActivity: info.pageInfo.mainActivity,
+          backupActivity: info.pageInfo.backupActivity,
+          additionalGame: info.pageInfo.additionalGame,
+          reflection: info.pageInfo.reflection,
           // inProgress:info.unpublished,
           // published:info.published,
           // isAdmin:true//(info.isAdmin === 1) ? true : false
         });
-        console.log("allInfo: " + info.pageInfo[0])
+
       });
   }
 

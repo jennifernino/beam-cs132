@@ -261,8 +261,9 @@ app.get('/:session_id/getpage/:lesson_id', (request, response) => {
         resolved:false
       })
     } else {
-      console.log(data, "TRUE");
+      // console.log(data, "TRUE");
       response.json({
+        pageInfo: data,
         resolved:true
       })
     }

@@ -27,6 +27,7 @@ class PageOption extends Component {
 
   render() {
     return (
+      <div className="outerPageOptionContainer">
       <Link className="link" to={'/viewpage/' + this.props.item.lesson_id}>
       <div className="pageOptionContainer">
         <div className="pageHeaderContainer">
@@ -40,9 +41,10 @@ class PageOption extends Component {
         <div className="pageSummaryContainer">
           <p>{this.state.reflection}</p>
         </div>
-        <button>Add Reflection</button>
       </div>
     </Link>
+    <button>Add Reflection</button>
+  </div>
     );
   }
 }
