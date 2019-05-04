@@ -362,13 +362,7 @@ class NewPage extends Component {
 
   postLesson() {
     // publish 1
-    if (this.verifyPost()) {
-      this.addToDB(1);
-    } else {
-      console.log('Can\'t post, invalid')
-      return;
-    }
-
+    this.addToDB(1);
   }
   saveLesson() {
     //publish 0
