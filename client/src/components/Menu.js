@@ -31,10 +31,11 @@ class Menu extends Component {
             <button className="navButton">New Lesson</button>
             </Link>
           </li>
-          <li>
-            <button className="hi" onClick={this.logout.bind(this)}>Logout</button>
-          </li>
+          {/* <li> */}
+
+          {/* </li> */}
         </ul>
+        <button className="logoutButton" onClick={this.logout.bind(this)}>Logout</button>
       </div>
     );
   }

@@ -81,6 +81,11 @@ a{
   width: 150px;
   height: 150px;
 }
+#loginError{
+  color: red;
+  font-size: 16px;
+  visibility: hidden;
+}
 #loginReqs{
   margin-right: auto;
 }
@@ -228,7 +233,7 @@ ul {
   background-color: white;
   border-radius: 5px;
   font-size: 20px;
-  color: black;
+  color: #49009E;
   border: none;
   width: 160px;
   height: 50px;
@@ -308,7 +313,6 @@ input{
 .sortContainer {
   display: flex;
   flex-direction: row;
-
   padding-left: 40px;
   flex-wrap: wrap;
 }
@@ -318,8 +322,28 @@ input{
   height: 100%;
   flex-grow: 1;
   overflow-y: auto;
+  justify-content: space-between;
 }
-
+.logoutButton{
+  font-size: 20px;
+  padding: 10px;
+  background-color: white;
+  color: #00A9D7;
+  margin-bottom: 30px;
+  margin-left: 25px;
+  border-radius: 5px;
+  border: none;
+  width: 160px;
+  height: 50px;
+  box-shadow: 3px 3px 5px #d7f6ff;
+}
+.logoutButton:hover, .logoutButton:focus {
+  background-color: #3ad5ff;
+  color: white;
+}
+.logoutButton:active{
+  transform: translateY(3px);
+}
 /* styling for the new lesson page */
 .newPageContainer{
   display: flex;

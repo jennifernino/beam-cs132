@@ -51,10 +51,13 @@ class Login extends Component {
       .then(res => res.json())
       .then(info => {
         if (info.loggedIn) {
+          document.getElementById("loginError").style.visibility="hidden";
           this.props.login();
         } else {
+
           console.log("No login")
-          this.throwError("Email or password are incorrect")
+          document.getElementById("loginError").style.visibility="visible";
+          // this.throwError("Email or password are incorrect")
         }
         // TODO create new page
       })
@@ -71,6 +74,7 @@ class Login extends Component {
       <div className="LoginContainer">
         <h1> BEAM Lesson Planner </h1>
         <img className="beamLogo" src={logo} alt="Logo" />
+        <label id="loginError">Email or Password are incorrect.</label>
         <label id="loginReqs">Email
         </label>
         <input id="loginInput" type="text" value={this.state.email} onChange={this.handleUserChange} />
