@@ -11,14 +11,21 @@ class PageOption extends Component {
       type:"",
       color: "",
       lessonName: "",
-      reflection: ""
+      reflection: "",
+      date: ""
     }
   }
 
   componentDidMount() {
     console.log(this.props.item); // information to work on
     if(this.props.item.published){
-     this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+      var date = new Date(this.props.item.datePublished);
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var month = months[date.getMonth()];
+      var day = date.getDate().toString();
+      var year = date.getFullYear().toString();
+      var full_date = month + " " + day + " " + year;
+     this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection, date: full_date});
    } else {
      this.setState({color: "red", type:"Not Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
    }
@@ -33,6 +40,7 @@ class PageOption extends Component {
         <div className="pageHeaderContainer">
           <div className="leftPageHeaderContainer">
             <p id="changeFont">{this.state.lessonName}</p>
+            <p id="dateFont">{this.state.date}</p>
           </div>
           <div className="rightPageHeaderContainer">
             <p style={{color: this.state.color}} >{this.state.type}</p>
