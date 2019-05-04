@@ -55,9 +55,9 @@ class SignUp extends Component {
   handleSubmit(event) {
     //alert('credentials'+ this.state.email + this.state.password);
     event.preventDefault();
-    // if(validator.validate(this.state.email)==false){
-    //   alert('Please enter a valid email');
-    // }
+    if(validator.validate(this.state.email)==false){
+      alert('Please enter a valid email');
+    }
     if(schema.validate(this.state.password)==false){
       alert('Password must consist of at least eight characters');
 
