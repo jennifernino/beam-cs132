@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style/style.css';
 import { Link } from "react-router-dom";
+import logo from './beamLogo.png';
 
 class Menu extends Component {
   constructor(props){
@@ -16,6 +17,7 @@ class Menu extends Component {
     return (
       <div className="menuContainer">
         <ul>
+          <li><img className="beamLogo2" src={logo} alt="Logo" /></li>
           <li>
             <Link to={'/home'}>
             <button className="navButton">Home</button>

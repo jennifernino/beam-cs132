@@ -119,20 +119,18 @@ class UserOption extends Component {
               <MenuItem onClick={this.assignTeam.bind(this, "F")}>F</MenuItem>
             </DropdownMenu>
           </Dropdown>
-          <div className="userButtons">
           {this.state.verified ?
             (
-              <div>
+              <div className="userButtons">
               <button className="updateButton" onClick={this.update.bind(this)}>Update</button>
               </div>
             ) : (
-              <div>
+              <div className="userButtons">
               <button className="verifyButton" onClick={this.verify.bind(this)}>Verify</button>
               <button className="declineButton"> Decline </button>
               </div>
             )}
         </div>
-      </div>
 
     );
   }

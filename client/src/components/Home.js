@@ -28,11 +28,10 @@ class Home extends Component {
       .then(res => res.json())
       .then(info => {
         this.setState({
-          session: session,
-          name: info.name,
-          inProgress: info.unpublished,
-          published: info.published,
-          isAdmin: true//(info.isAdmin === 1) ? true : false
+          username:info.name,
+          inProgress:info.unpublished,
+          published:info.published,
+          isAdmin:true//(info.isAdmin === 1) ? true : false
         })
         console.log(info)
       });
@@ -70,9 +69,9 @@ class Home extends Component {
             <div className="leftSideContainer">
               <h2>Published</h2>
             </div>
-            <div className="rightSideContainer">
+            {/* <div className="rightSideContainer">
               <button className="addButton">add reflection</button>
-            </div>
+            </div> */}
           </div>
           <div className="optionContainer">
             {!this.state.published.length ? (
