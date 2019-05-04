@@ -25,14 +25,20 @@ class Login extends Component {
   handlePasswordChange(event){
     this.setState({password: event.target.value});
   }
-  throwEror(message) {
-    // console.log('unable to login')
+
+  throwError(message) {
+    console.log('unable to login')
   }
+
   handleSubmit(event){
-    if (this.state.email === "" && this.state.password === "") {
-      this.throwError();
-      return;
+    if (typeof this.state.email === 'undefined' ||
+        typeof this.state.password === 'undefined' ||
+        this.state.email === "" ||
+        this.state.password === "") {
+          this.throwError();
+          return;
     }
+
 
     const body_str = JSON.stringify({
       email: this.state.email,

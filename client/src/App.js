@@ -42,7 +42,7 @@ class App extends Component {
   //   });
   // }
   login() {
-    //localStorage.setItem('loggedIn', true);
+    localStorage.setItem('loggedIn', true);
     this.setState({
       loggedIn : true
     });
@@ -55,6 +55,7 @@ class App extends Component {
     this.setState({
       loggedIn:false
     })
+    localStorage.clear();
     //this.props.history.push('/');
     return <Link to={"/"} />
     // remove session

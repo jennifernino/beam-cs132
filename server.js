@@ -385,30 +385,34 @@ function session(name, user_id) {
 app.post('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  console.log(request.body)
-  Users.findOne({ email: request.body.email }, (error, res) => {
+  params = request.body;
+  console.log(params)
+
+  Users.findOne({ email: params.email }, (error, res) => {
     if (error) {
-      console.log('Error');
+      response.json({ loggedIn:false, message:"User does not exist." })
     } else {
       return res;
     }
   }).then((potentialUser) => {
-    const hash = potentialUser.password;
-    console.log(potentialUser)
-    if (bcrypt.compareSync(request.body.password, hash)) {
-      session(potentialUser.firstName, potentialUser.user_id)
-        .then((session) => {
-          response.json({
-            loggedIn:true,
-            session:session,
-            isLeader:potentialUser.leader,
-            firstName:potentialUser.firstName
+    if (potentialUser !== null) {
+      const hash = potentialUser.password;
+      console.log(potentialUser)
+      if (bcrypt.compareSync(request.body.password, hash)) {
+        session(potentialUser.firstName, potentialUser.user_id)
+          .then((session) => {
+            response.json({
+              loggedIn:true,
+              session:session,
+              isLeader:potentialUser.leader,
+              firstName:potentialUser.firstName
+            })
           })
+      } else {
+        response.json({
+          loggedIn:false
         })
-    } else {
-      response.json({
-        loggedIn:false
-      })
+      }
     }
   })
 });
