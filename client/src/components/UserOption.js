@@ -22,7 +22,7 @@ class UserOption extends Component {
 
   componentDidMount() {
     this.setState({
-      session:this.props.session,
+      session:localStorage.getItem('session'),
       name:this.props.item.name,
       email:this.props.item.email,
       verified:this.props.item.verified,
@@ -41,7 +41,7 @@ class UserOption extends Component {
       },
       body: str
     }
-    const session = this.props.session;
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/adminupdate'
     fetch(uri, req)
       .then(res => res.json())

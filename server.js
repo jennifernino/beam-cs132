@@ -406,7 +406,7 @@ app.post('/', (request, response) => {
                 loggedIn:true,
                 session:session,
                 isLeader:potentialUser.leader,
-                firstName:potentialUser.firstName,
+                name:potentialUser.firstName,
                 isAdmin:potentialUser.isAdmin
               })
             })

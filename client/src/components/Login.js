@@ -58,10 +58,10 @@ class Login extends Component {
     fetch("http://localhost:8080/", req)
       .then(res => res.json())
       .then(info => {
-        console.log(info);
+
         if (info.loggedIn) {
           document.getElementById("loginError").style.visibility="hidden";
-          this.props.login();
+          this.props.login(info.name, info.session);
         } else {
           console.log("No login")
           document.getElementById("loginError").style.visibility="visible";

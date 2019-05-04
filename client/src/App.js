@@ -20,15 +20,11 @@ class App extends Component {
     this.state = {
       loggedIn :
         (localStorage.getItem('loggedIn') === null) ? false : true,
-      session : 'abc123'
+      session :
+        (localStorage.getItem('session') === null) ? null : localStorage.getItem('session'),
+      name :
+        (localStorage.getItem('name') === null) ? null : localStorage.getItem('name')
     };
-    //this.login = this.login.bind(this);
-  }
-
-  componentDidMount() {
-    // window.onbeforeunload = function() {
-    //   localStorage.clear();
-    // }
   }
 
   /*
@@ -41,13 +37,15 @@ class App extends Component {
   //     return ev.returnValue = 'Are you sure you want to close?';
   //   });
   // }
-  login() {
+  login(name, session) {
+    localStorage.setItem('name', name);
+    localStorage.setItem('session', session);
     localStorage.setItem('loggedIn', true);
     this.setState({
       loggedIn : true
     });
     return <Link to={"/home"} />
-    //console.log(this.state)
+
   }
 
   logout() {
@@ -56,23 +54,14 @@ class App extends Component {
       loggedIn:false
     })
     localStorage.clear();
-    //this.props.history.push('/');
     return <Link to={"/"} />
     // remove session
   }
+
   goMain() {
     return <Link to={"/"} />
   }
-  /*
-   * In the case that its refreshed - no because it will log you out
-   */
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.loggedIn === this.state.loggedIn) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+
 
   render () {
     return (
@@ -86,12 +75,12 @@ class App extends Component {
                 <div className="rightContainer">
                   <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route exact path='/admin' render={(props) => <Admin {...props} session={this.state.session} />}/>
-                    <Route exact path='/signup' render={(props) => <SignUp {...props} session={this.state.session} />}/>
-                    <Route exact path='/forgotpassword' render={(props) => <Forgot {...props} session={this.state.session} />}/>
-                    <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} />}/>
-                    <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} />}/>
-                    <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} />}/>
+                    <Route exact path='/admin' component={Admin} />
+                    <Route exact path='/signup' component={SignUp} />
+                    <Route exact path='/forgotpassword' render={(props) => <Forgot {...props} session={this.state.session} name={this.state.name}/>}/>
+                    <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} name={this.state.name}/>}/>
+                    <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} name={this.state.name}/>}/>
+                    <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/resetpassword' component={PasswordReset} />
                     <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
                     <Route exact path='/editpage/:lesson_id' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
@@ -103,6 +92,7 @@ class App extends Component {
               <Switch>
                 <Route exact path='/signup' component={SignUp} />
                 <Route exact path='/forgotpassword' component={Forgot} />
+
                 <Route exact path='/' render={(props) => <Login {...props} session={this.state.session} login={this.login.bind(this)}/>}/>
                 <Route exact path='/:whatever' render={(props) => <Login {...props} session={this.state.session} login={this.login.bind(this)}/>}/>
               </Switch>

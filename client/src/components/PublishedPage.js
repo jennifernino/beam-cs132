@@ -33,7 +33,7 @@ class PublishedPage extends Component {
     }
 
     retrieveInfo = () => {
-      const session = this.props.session;
+      const session = localStorage.getItem('session');
       const uri = 'http://localhost:8080/' + session + '/viewpage/' + this.props.match.params.lesson_id
       fetch(uri)
         .then(res => res.json())
