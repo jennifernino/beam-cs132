@@ -60,12 +60,12 @@ class SignUp extends Component {
     // }
     if(schema.validate(this.state.password)==false){
       alert('Password must consist of at least eight characters');
-      
+
     }
 
-    // if(this.state.password != this.state.retype){
-    //   alert('ERROR: passwords do not match');
-    // }
+    if(this.state.password != this.state.retype){
+      alert('ERROR: passwords do not match');
+    }
     const body_str = JSON.stringify({
       first: this.state.first,
       last: this.state.last,

@@ -122,13 +122,18 @@ class UserOption extends Component {
           <div className="userButtons">
           {this.state.verified ?
             (
-              null
+              <div>
+              <button className="updateButton" onClick={this.update.bind(this)}>Update</button>
+              </div>
             ) : (
+              <div>
               <button className="verifyButton" onClick={this.verify.bind(this)}>Verify</button>
+              <button className="declineButton"> Decline </button>
+              </div>
             )}
-          <button className="updateButton" onClick={this.update.bind(this)}>Update</button>
         </div>
       </div>
+
     );
   }
 }
