@@ -78,6 +78,15 @@ a{
   width: 150px;
   height: 150px;
 }
+.beamLogo2{
+  margin-left: 30px;
+  /* background-color: #3ad5ff; */
+  background-color: white;
+  border-radius: 60px;
+  border: solid 8px #3ad5ff;
+  width: 100px;
+  height: 100px;
+}
 #loginError{
   color: #b20000;
   font-size: 16px;

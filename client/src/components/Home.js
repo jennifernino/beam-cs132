@@ -28,7 +28,7 @@ class Home extends Component {
       .then(res => res.json())
       .then(info => {
         this.setState({
-          name:info.name,
+          username:info.name,
           inProgress:info.unpublished,
           published:info.published,
           isAdmin:true//(info.isAdmin === 1) ? true : false
