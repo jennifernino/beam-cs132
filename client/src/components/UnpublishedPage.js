@@ -62,8 +62,10 @@ class UnpublishedPage extends Component {
     fetch(uri)
       .then(res => res.json())
       .then(info => {
-        // console.log("page info: " + info.pageInfo.lessonName);
+        console.log("page INFO: " + info.pageInfo[0].gradeEnd);
+        console.log("page INFO: " + info.pageInfo[0].gradeStart);
         // console.log("theme: " + info.theme);
+
 
         this.setState({
 
@@ -72,24 +74,43 @@ class UnpublishedPage extends Component {
           lesson_id:lesson_id,
           session:this.props.session,
 
-          lessonName: info.pageInfo.lessonName,
-          theme: info.pageInfo.theme,
-          unit: info.pageInfo.unit,
-          subunit: info.pageInfo.subunit,
-          month: info.pageInfo.monthOfLesson ,
-          year: info.pageInfo.yearOfLesson,
-          day: info.pageInfo.dayOfWeek,
-          gradeStart: info.pageInfo.gradeStart,
-          gradeEnd: info.pageInfo.gradeEnd,
-          semester: info.pageInfo.semester,
-          subject: info.pageInfo.subject,
-          goal: info.pageInfo.goal,
-          introduction: info.pageInfo.introduction,
-          warmup: info.pageInfo.warmup,
-          mainActivity: info.pageInfo.mainActivity,
-          backupActivity: info.pageInfo.backupActivity,
-          additionalGame: info.pageInfo.additionalGame,
-          reflection: info.pageInfo.reflection,
+          lessonName: info.pageInfo[0].lessonName,
+          theme: info.pageInfo[0].theme,
+          unit: info.pageInfo[0].unit,
+          subunit: info.pageInfo[0].subunit,
+
+          monthOfLesson: info.pageInfo[0].monthOfLesson,
+
+          yearOfLesson:
+          (info.pageInfo[0].yearOfLesson === -1) ?
+            ('Year') :
+            (info.pageInfo[0].yearOfLesson),
+
+          dayOfWeek: info.pageInfo[0].dayOfWeek,
+
+          gradeStart:
+          (info.pageInfo[0].gradeStart === 0) ?
+            ('K') :
+            ((info.pageInfo[0].gradeStart === -1) ?
+              ('Grade Start') :
+              (info.pageInfo[0].gradeStart)),
+
+          gradeEnd:
+          (info.pageInfo[0].gradeEnd === 0) ?
+            ('K') :
+            ((info.pageInfo[0].gradeEnd === -1) ?
+              ('Grade End') :
+              (info.pageInfo[0].gradeEnd)),
+
+          semester: info.pageInfo[0].semester,
+          subject: info.pageInfo[0].subject,
+          goal: info.pageInfo[0].goal,
+          introduction: info.pageInfo[0].introduction,
+          warmup: info.pageInfo[0].warmup,
+          mainActivity: info.pageInfo[0].mainActivity,
+          backupActivity: info.pageInfo[0].backupActivity,
+          additionalGame: info.pageInfo[0].additionalGame,
+          reflection: info.pageInfo[0].reflection,
           // inProgress:info.unpublished,
           // published:info.published,
           // isAdmin:true//(info.isAdmin === 1) ? true : false
@@ -397,15 +418,9 @@ class UnpublishedPage extends Component {
   }
 
   postLesson() {
-    // publish 1
-    if (this.verifyPost()) {
-      this.addToDB(1);
-    } else {
-      console.log('Can\'t post, invalid')
-      return;
-    }
-
+    this.addToDB(1);
   }
+
   saveLesson() {
     //publish 0
     if (this.verifySave()) {
@@ -426,11 +441,23 @@ class UnpublishedPage extends Component {
 
       lessonName: this.state.lessonName,
       monthOfLesson:this.state.monthOfLesson,
-      yearOfLesson: "0000", //this.state.yearOfLesson,
+      yearOfLesson: (this.state.yearOfLesson === 'Year') ?
+        (-1) :
+        (this.state.yearOfLesson), //this.state.yearOfLesson,
 
       subject:this.state.subject,
-      gradeStart: "1", //this.state.gradeStart,
-      gradeEnd: "1", // this.state.gradeEnd,
+      gradeStart:
+      (this.state.gradeStart === 'K') ?
+        (0) :
+        ((this.state.gradeStart === 'Grade Start') ?
+          (-1) :
+          (this.state.gradeStart)), //this.state.gradeStart,
+      gradeEnd:
+      (this.state.gradeEnd === 'K') ?
+        (0) :
+        ((this.state.gradeEnd === 'Grade End') ?
+          (-1) :
+          (this.state.gradeEnd)), // this.state.gradeEnd,
       semester:this.state.semester,
       dayOfWeek:this.state.dayOfWeek,
 
@@ -458,13 +485,18 @@ class UnpublishedPage extends Component {
     }
 
     const session = this.state.session;
-    const uri = 'http://localhost:8080/' + session + '/newPage'
+    const uri = 'http://localhost:8080/' + session + '/getpage/' + this.state.lesson_id;
 
     fetch(uri, req)
       .then(res => res.json())
       .then(info => {
         if (info.received) {
-          this.resetStuff(info);
+          if (num > 0) {
+            this.resetStuff(info);
+            // TODO write a published message
+          } else {
+            // TODO write a saved message
+          }
         } else {
           this.setState({
             userError: info.message

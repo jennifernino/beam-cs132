@@ -247,14 +247,34 @@ app.post('/:session_id/adminupdate', (request, response) => {
  * View/Edit page functionality
  *******************************************************************************
  */
+ app.get('/:session_id/getpage/:lesson_id', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
+   const session = request.params.session_id;
+   const lesson_id = request.params.lesson_id;
+   const user_id = sessions.get(session);
+   Lessons.find({lesson_id:lesson_id}, (error, data) => {
+     if (error) {
+       console.log(error.red)
+     } else {
+       response.json({
+         pageInfo: data,
+         recieved:true
+       })
+     }
+   })
+ })
 
-app.get('/:session_id/getpage/:lesson_id', (request, response) => {
+app.post('/:session_id/getpage/:lesson_id', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session_id;
   const lesson_id = request.params.lesson_id;
   const user_id = sessions.get(session);
-  Lessons.findOneAndUpdate({lesson_id:lesson_id}, {$set: request.body}, {new: true}, (error, data) => {
+  const created = request.body;
+  created.creator = user_id;
+
+  Lessons.findOneAndUpdate({lesson_id:lesson_id}, {$set: created}, {new: true}, (error, data) => {
     if (error) {
       console.log(error, red, 'FALSE')
       response.json({
@@ -298,7 +318,6 @@ app.post('/:session_id/newPage', (request, response) => {
 
   // TODO: Clean input  - consider save VS publish
   const created = request.body;
-  created.yearOfLesson = 1000; // TODO Change to numbers?
   created.creator = user_id;
   // unpublished, check if exists
   Lessons.find({}, {lesson_id:1})

@@ -28,10 +28,11 @@ class Home extends Component {
       .then(res => res.json())
       .then(info => {
         this.setState({
-          name:info.name,
-          inProgress:info.unpublished,
-          published:info.published,
-          isAdmin:true//(info.isAdmin === 1) ? true : false
+          session: session,
+          name: info.name,
+          inProgress: info.unpublished,
+          published: info.published,
+          isAdmin: true//(info.isAdmin === 1) ? true : false
         })
         console.log(info)
       });

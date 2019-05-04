@@ -18,9 +18,19 @@ class EditOption extends Component {
   componentDidMount() {
     console.log(this.props.item); // information to work on
     if(this.props.item.published){
-     this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+     this.setState({
+       color: "green",
+       type:"Published",
+       lessonName: this.props.item.lessonName,
+       reflection: this.props.item.reflection
+     });
    } else {
-     this.setState({color: "red", type:"Not Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
+     this.setState({
+       color: "red",
+       type:"Not Published",
+       lessonName: this.props.item.lessonName,
+       reflection: this.props.item.reflection
+     });
    }
     // when opening?
   }
