@@ -89,6 +89,10 @@ const names = new Map();
    Users.find(query, ret, (error, data) => {
      if (error) {
        console.log(error, red)
+       response.json({
+         requests:[],
+         users:[]
+       })
      } else {
 
        // Seperate people who've signed up from those who have
@@ -147,29 +151,33 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const session = request.params.session_id;
 
    const user_id = sessions.get(session);
-
-   Lessons.find({creator:user_id}, (error, data) => {
-     // console.log(data)
-     if (error) {
-       console.log(error.red)
-     } else {
-       let published = [];
-       let unpublished = [];
-       for (let i = 0; i < data.length; i += 1) {
-         if (data[i].published) { // 0 is not published, 1 is published
-           published.push(data[i]);
-         } else {
-           unpublished.push(data[i]);
-         }
-       }
-       response.json({
-         published:published,
-         unpublished:unpublished,
-         name:names.get(session)
-       });
-       // TODO: Wrap and send back!
-     }
-   })
+   Users.find({user_id:user_id},{isAdmin:1})
+    .then((res) => {
+      const isAdmin = res[0].isAdmin;
+      
+      Lessons.find({creator:user_id}, (error, data) => {
+        if (error) {
+          console.log(error.red)
+        } else {
+          let published = [];
+          let unpublished = [];
+          for (let i = 0; i < data.length; i += 1) {
+            if (data[i].published) { // 0 is not published, 1 is published
+              published.push(data[i]);
+            } else {
+              unpublished.push(data[i]);
+            }
+          }
+          response.json({
+            published:published,
+            unpublished:unpublished,
+            isAdmin:parseInt(isAdmin),
+            name:names.get(session)
+          });
+          // TODO: Wrap and send back!
+        }
+      })
+    })
  })
 /*
  *******************************************************************************

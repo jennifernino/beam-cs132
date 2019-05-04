@@ -92,7 +92,6 @@ class App extends Component {
               <Switch>
                 <Route exact path='/signup' component={SignUp} />
                 <Route exact path='/forgotpassword' component={Forgot} />
-
                 <Route exact path='/' render={(props) => <Login {...props} session={this.state.session} login={this.login.bind(this)}/>}/>
                 <Route exact path='/:whatever' render={(props) => <Login {...props} session={this.state.session} login={this.login.bind(this)}/>}/>
               </Switch>

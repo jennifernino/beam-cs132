@@ -33,6 +33,7 @@ class Home extends Component {
           published:info.published,
           isAdmin:info.isAdmin
         })
+        console.log(info.isAdmin)
       });
   }
 

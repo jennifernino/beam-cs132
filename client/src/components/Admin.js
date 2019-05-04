@@ -4,14 +4,13 @@ import './style/style.css';
 //import logo from 'beamLogo.png'
 
 class Admin extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       session:'',
       requests:[],
       users:[] // sort by team
     };
-
   }
 
   componentDidMount() {
