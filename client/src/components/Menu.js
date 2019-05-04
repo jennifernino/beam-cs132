@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style/style.css';
 import { Link } from "react-router-dom";
+import logo from './beamLogo.png';
 
 class Menu extends Component {
   constructor(props){
