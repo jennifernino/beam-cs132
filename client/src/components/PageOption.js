@@ -24,7 +24,7 @@ class PageOption extends Component {
       var month = months[date.getMonth()];
       var day = date.getDate().toString();
       var year = date.getFullYear().toString();
-      var full_date = month + " " + day + " " + year;
+      var full_date = month + " " + day + ", " + year;
      this.setState({color: "green", type:"Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection, date: full_date});
    } else {
      this.setState({color: "red", type:"Not Published", lessonName: this.props.item.lessonName, reflection: this.props.item.reflection});
@@ -40,10 +40,11 @@ class PageOption extends Component {
         <div className="pageHeaderContainer">
           <div className="leftPageHeaderContainer">
             <p id="changeFont">{this.state.lessonName}</p>
-            <p id="dateFont">{this.state.date}</p>
+            <p id="gradeFont">Grades: {this.props.item.gradeStart} - {this.props.item.gradeEnd}</p>
           </div>
           <div className="rightPageHeaderContainer">
             <p style={{color: this.state.color}} >{this.state.type}</p>
+            <p id="dateFont">{this.state.date}</p>
           </div>
         </div>
         <div className="pageSummaryContainer">
