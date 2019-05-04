@@ -10,7 +10,7 @@ class Home extends Component {
     super(props);
     this.state = {
       username: '',
-      isAdmin:true,
+      isAdmin:0,
       session: '',
       inProgress:[],
       published:[]
@@ -31,7 +31,7 @@ class Home extends Component {
           username:info.name,
           inProgress:info.unpublished,
           published:info.published,
-          isAdmin:true//(info.isAdmin === 1) ? true : false
+          isAdmin:info.isAdmin
         })
         console.log(info)
       });
@@ -46,7 +46,7 @@ class Home extends Component {
         {this.state.isAdmin ?
           (
             <Link to={'/admin'}>
-              <button className="adminButton">Admin</button>
+                <button className="adminButton">Admin</button>
             </Link>
           ):(
             null

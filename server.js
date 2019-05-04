@@ -406,7 +406,8 @@ app.post('/', (request, response) => {
                 loggedIn:true,
                 session:session,
                 isLeader:potentialUser.leader,
-                firstName:potentialUser.firstName
+                firstName:potentialUser.firstName,
+                isAdmin:potentialUser.isAdmin
               })
             })
         } else {
