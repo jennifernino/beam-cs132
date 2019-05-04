@@ -337,6 +337,29 @@ app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
   })
 })
 
+app.post('/:session_id/updatelesson/:lesson_id', (request, response) => {
+  console.log('- request received:', request.method.cyan, request.url.underline);
+  response.status(200).type('html');
+  const session = request.params.session_id;
+  const lesson_id = request.params.lesson_id;
+  const user_id = sessions.get(session);
+  const query = { lesson_id: lesson_id }
+  const update= { $set: request.body }
+  Lessons.findOneAndUpdate(query, update, {new: true}, (error, data) => {
+    if (error) {
+      console.log(error, red, 'FALSE')
+      response.json({
+        resolved:false
+      })
+    } else {
+      console.log(data, "TRUE");
+      response.json({
+        resolved:true
+      })
+    }
+  })
+})
+
 app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');

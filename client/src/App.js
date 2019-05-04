@@ -10,6 +10,7 @@ import Admin from './components/Admin'
 import Search from './components/Search'
 import NewPage from './components/NewPage'
 import PublishedPage from './components/PublishedPage';
+import ReflectionPage from './components/ReflectionPage';
 import UnpublishedPage from './components/UnpublishedPage';
 import logo from './logo.svg';
 import './App.css';
@@ -44,7 +45,7 @@ class App extends Component {
     this.setState({
       loggedIn : true
     });
-    return <Link to={"/home"} />
+    return <Link to={'/home'} />
 
   }
 
@@ -80,8 +81,9 @@ class App extends Component {
                     <Route exact path='/forgotpassword' render={(props) => <Forgot {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} name={this.state.name}/>}/>
-                    <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} name={this.state.name}/>}/>
+                    <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} name={this.state.name} />}/>
                     <Route exact path='/resetpassword' component={PasswordReset} />
+                    <Route exact path='/addreflection/:lesson_id' render={(props) => <ReflectionPage {...props}/>}/>
                     <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
                     <Route exact path='/editpage/:lesson_id' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
                   </Switch>
