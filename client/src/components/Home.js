@@ -9,8 +9,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      isAdmin:true,
+      username: localStorage.getItem('name'),
+      isAdmin:0,
       session: '',
       inProgress:[],
       published:[]
@@ -22,18 +22,18 @@ class Home extends Component {
   }
 
   homeSetUp = () => {
-    const session = this.props.session;
+    const name = localStorage.getItem('name');
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/home'
     fetch(uri)
       .then(res => res.json())
       .then(info => {
         this.setState({
-          username:info.name,
           inProgress:info.unpublished,
           published:info.published,
-          isAdmin:true//(info.isAdmin === 1) ? true : false
+          isAdmin:info.isAdmin
         })
-        console.log(info)
+        console.log(info.isAdmin)
       });
   }
 
@@ -46,7 +46,7 @@ class Home extends Component {
         {this.state.isAdmin ?
           (
             <Link to={'/admin'}>
-              <button className="adminButton">Admin</button>
+                <button className="adminButton">Admin</button>
             </Link>
           ):(
             null
@@ -69,9 +69,6 @@ class Home extends Component {
             <div className="leftSideContainer">
               <h2>Published</h2>
             </div>
-            {/* <div className="rightSideContainer">
-              <button className="addButton">add reflection</button>
-            </div> */}
           </div>
           <div className="optionContainer">
             {!this.state.published.length ? (

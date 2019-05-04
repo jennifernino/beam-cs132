@@ -4,14 +4,13 @@ import './style/style.css';
 //import logo from 'beamLogo.png'
 
 class Admin extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       session:'',
       requests:[],
       users:[] // sort by team
     };
-
   }
 
   componentDidMount() {
@@ -19,7 +18,7 @@ class Admin extends Component {
   }
 
   adminSetUp = () => {
-    const session = this.props.session;
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/adminsetup'
     fetch(uri)
       .then(res => res.json())
@@ -43,7 +42,7 @@ class Admin extends Component {
               <p>No pending requests...</p>
             ) : (
               this.state.requests.map(item =>
-                <UserOption key={item.name} session={this.state.session} item={item} />
+                <UserOption key={item.name} item={item} />
               )
             )}
         </div>
@@ -54,7 +53,7 @@ class Admin extends Component {
               <p>No teams found...</p>
             ) : (
               this.state.users.map(item =>
-                <UserOption key={item.name} session={this.state.session} item={item} />
+                <UserOption key={item.name} item={item} />
               )
             )}
         </div>

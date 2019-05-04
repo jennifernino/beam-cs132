@@ -16,7 +16,6 @@ class NewPage extends Component {
       userMessage:"", // TODO inspect
       userError: "", // TODO Style green
       // missingFieldMessage: "",
-      session:"",
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -57,8 +56,7 @@ class NewPage extends Component {
   setUp = () => {
     this.setState({
       userMessage: "",
-      userError: "",
-      session:this.props.session
+      userError: ""
     })
   }
 
@@ -324,7 +322,7 @@ class NewPage extends Component {
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
-      session:this.state.session,
+      session:localStorage.getItem('session'),
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -439,7 +437,7 @@ class NewPage extends Component {
       body: body_str
     }
 
-    const session = this.state.session;
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/newPage'
 
     fetch(uri, req)

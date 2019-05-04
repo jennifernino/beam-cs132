@@ -41,7 +41,7 @@ class Search extends Component {
   }
 
   setUp = () => {
-    this.setState({session:this.props.session})
+    this.setState({session:localStorage.getItem('session')})
   }
 
   cleanStr(str) {
@@ -110,7 +110,7 @@ class Search extends Component {
       body: body_str
     }
 
-    const session = this.state.session;
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/search'
 
     fetch(uri, req)

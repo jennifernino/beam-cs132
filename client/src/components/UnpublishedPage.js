@@ -56,7 +56,7 @@ class UnpublishedPage extends Component {
   }
 
   setUp = () => {
-    const session = this.props.session;
+    const session = localStorage.getItem('session');
     const lesson_id = this.props.match.params.lesson_id;
     const uri = 'http://localhost:8080/' + session + '/getpage/' + this.props.match.params.lesson_id;
     fetch(uri)
@@ -72,7 +72,7 @@ class UnpublishedPage extends Component {
           userMessage: "",
           userError: "",
           lesson_id:lesson_id,
-          session:this.props.session,
+          session:localStorage.getItem('session'),
 
           lessonName: info.pageInfo[0].lessonName,
           theme: info.pageInfo[0].theme,
@@ -381,7 +381,7 @@ class UnpublishedPage extends Component {
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
-      session:this.state.session,
+      session:localStorage.getItem('session'),
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -484,7 +484,7 @@ class UnpublishedPage extends Component {
       body: body_str
     }
 
-    const session = this.state.session;
+    const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/getpage/' + this.state.lesson_id;
 
     fetch(uri, req)
