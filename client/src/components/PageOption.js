@@ -43,7 +43,7 @@ class PageOption extends Component {
         </div>
       </div>
     </Link>
-    <button>Add Reflection</button>
+    <button className="addButton">Add Reflection</button>
   </div>
     );
   }
