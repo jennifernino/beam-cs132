@@ -173,7 +173,16 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const user_id = sessions.get(session);
    Users.find({user_id:user_id},{isAdmin:1})
     .then((res) => {
-
+      console.log(res);
+      if (res.lenght < 1) {
+        response.json({
+          published:[],
+          unpublished:[],
+          isAdmin:0,
+          name:names.get(session)
+        });
+        return;
+      }
       const isAdmin = res[0].isAdmin;
       Lessons.find({creator:user_id}, (error, data) => {
         if (error) {

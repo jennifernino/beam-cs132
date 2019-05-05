@@ -394,22 +394,22 @@ class NewPage extends Component {
       lessonName: this.state.lessonName,
       monthOfLesson:this.state.monthOfLesson,
       yearOfLesson:
-      (this.state.yearOfLesson === -1) ?
-        ('Year') :
-        (this.state.yearOfLesson === -1),
+      (this.state.yearOfLesson === 'Year') ?
+        (-1) :
+        (this.state.yearOfLesson),
 
       subject:this.state.subject,
       gradeStart:
-      (this.state.gradeStart === 0) ?
-        ('K') :
-        ((this.state.gradeStart === -1) ?
-          ('Grade Start') :
+      (this.state.gradeStart === 'K') ?
+        (0) :
+        ((this.state.gradeStart === 'Grade Start') ?
+          (-1) :
           (this.state.gradeStart)),
       gradeEnd:
-      (this.state.gradeEnd === 0) ?
-        ('K') :
-        ((this.state.gradeEnd === -1) ?
-          ('Grade End') :
+      (this.state.gradeEnd === 'K') ?
+        (0) :
+        ((this.state.gradeEnd === 'Grade End') ?
+          (-1) :
           (this.state.gradeEnd)),
       semester:this.state.semester,
       dayOfWeek:this.state.dayOfWeek,

@@ -24,6 +24,7 @@ class Home extends Component {
   homeSetUp = () => {
     const name = localStorage.getItem('name');
     const session = localStorage.getItem('session');
+  
     const uri = 'http://localhost:8080/' + session + '/home'
     fetch(uri)
       .then(res => res.json())
