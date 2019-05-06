@@ -43,11 +43,11 @@ class NewPage extends Component {
       reflection: "",
       additionalGame: "",
       quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Revise implementation
-      // materials: [{
-      //   item: String,
-      //   quantity: Number
-      // }]
+      materials:
+        [{
+          material: "",
+          quantity: ""
+        }]
     };
   }
   componentDidMount() {
@@ -384,6 +384,36 @@ class NewPage extends Component {
     }
   }
 
+
+  addMaterial(){
+    this.setState(prevState => ({
+    	materials: [...prevState.materials, { material: "", quantity: "" }]
+    }))
+  }
+
+  handleMaterialsChange(i, e) {
+  	 const { name, value } = e.target;
+     let materials = [...this.state.materials];
+     materials[i] = {...materials[i], [name]: value};
+     this.setState({ materials });
+  }
+
+  removeClick(i){
+     let materials = [...this.state.materials];
+     materials.splice(i, 1);
+     this.setState({ materials });
+  }
+
+  createUI(){
+     return this.state.materials.map((el, i) => (
+       <div className="materialsContainer" key={i}>
+    	    <div><input placeholder="Material" name="material" value={el.material ||''} onChange={this.handleMaterialsChange.bind(this, i)} /></div>
+          <div><input placeholder="Quantity" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} /></div>
+          <div><Button onClick={this.removeClick.bind(this, i)}> Remove </Button></div>
+       </div>
+     ))
+  }
+
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
   addToDB = (num) => {
     const body_str = JSON.stringify({
@@ -655,8 +685,9 @@ class NewPage extends Component {
             </div>
             <div className="box">
               <label>Materials</label>
+              <div>{this.createUI()}</div>
+              <Button onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
               <br></br>
-              <textarea value={this.state.materials} onChange={this.handleMaterials.bind(this)}></textarea>
             </div>
           </div>
           <div className="footerContainer">

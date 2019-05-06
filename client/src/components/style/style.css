@@ -496,3 +496,9 @@ textarea {
 .reflectionBox textarea{
   width: 98%;
 }
+
+.materialsContainer{
+  display: flex;
+  flex-flow: row;
+  width: 100%
+}
