@@ -150,9 +150,7 @@ class Search extends Component {
     }
     if (this.state.sort === "Alphabetical"){
       sortedResult = this.state.results.sort(function(a, b) {
-        var textA = a.lessonName.toUpperCase();
-        var textB = b.lessonName.toUpperCase();
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        return a.lessonName.localeCompare(b.lessonName);
       });
     }
     else{
@@ -308,6 +306,9 @@ class Search extends Component {
                 <MenuItem onClick={this.selected.bind(this, "subject", "Science")}>Science</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "English")}>English</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Social Studies")}>Social Studies</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Art")}>Art</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Elective")}>Elective</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Other")}>Other</MenuItem>
               </DropdownMenu>
             </Dropdown>
             </div>

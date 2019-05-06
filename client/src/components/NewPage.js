@@ -591,6 +591,9 @@ class NewPage extends Component {
                 <MenuItem onClick={this.selected.bind(this, "subject", "Science")}>Science</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "English")}>English</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Social Studies")}>Social Studies</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Art")}>Art</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Elective")}>Elective</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Other")}>Other</MenuItem>
               </DropdownMenu>
             </Dropdown><span id="missingSubject" className="asterisk">*</span>
             </div>

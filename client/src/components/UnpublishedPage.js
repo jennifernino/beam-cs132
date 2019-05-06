@@ -414,7 +414,18 @@ class UnpublishedPage extends Component {
 
   verifySave() {
     // TODO: at least one field must be filled in
-    return true;
+    if((this.state.lessonName!=="") || (this.state.semester!=="Semester") ||
+    (this.state.dayOfWeek!=="Weekday") || (this.state.monthOfLesson!=="Month") ||
+    (this.state.yearOfLesson!=="Year") || (this.state.gradeStart!=="Grade Start") ||
+    (this.state.gradeEnd!=="Grade End") || (this.state.subject!=="Subject") ||
+    (this.state.theme!=="") || (this.state.unit!=="") || (this.state.subunit!=="") ||
+    (this.state.goal!=="") || (this.state.introduction!=="") || (this.state.warmup!=="") ||
+    (this.state.mainActivity!=="") || (this.state.backupActivity!=="") ||
+    (this.state.additionalGame!=="")){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   postLesson() {
@@ -643,6 +654,9 @@ class UnpublishedPage extends Component {
                 <MenuItem onClick={this.selected.bind(this, "subject", "Science")}>Science</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "English")}>English</MenuItem>
                 <MenuItem onClick={this.selected.bind(this, "subject", "Social Studies")}>Social Studies</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Art")}>Art</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Elective")}>Elective</MenuItem>
+                <MenuItem onClick={this.selected.bind(this, "subject", "Other")}>Other</MenuItem>
               </DropdownMenu>
             </Dropdown><span id="missingSubject" className="asterisk">*</span>
             </div>
