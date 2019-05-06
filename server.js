@@ -173,7 +173,16 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const user_id = sessions.get(session);
    Users.find({user_id:user_id},{isAdmin:1})
     .then((res) => {
-
+      console.log(res);
+      if (res.lenght < 1) {
+        response.json({
+          published:[],
+          unpublished:[],
+          isAdmin:0,
+          name:names.get(session)
+        });
+        return;
+      }
       const isAdmin = res[0].isAdmin;
       Lessons.find({creator:user_id}, (error, data) => {
         if (error) {
@@ -336,7 +345,7 @@ app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
     }
   })
 })
-
+//console.log("hgeehesjndkjsnfkjdsnf")
 app.post('/:session_id/updatelesson/:lesson_id', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
@@ -441,9 +450,14 @@ app.post('/', (request, response) => {
 
   Users.findOne({ email: params.email }, (error, res) => {
     if (error) {
-      response.json({ loggedIn:false, message:"User does not exist." })
+      response.json({ loggedIn:false, message:"Something is terribly wrong" })
     } else {
-      return res;
+      if (res === null) {
+        response.json({ loggedIn:false, message:"User does not exist." })
+      } else {
+        return res;
+      }
+
     }
   }).then((potentialUser) => {
     if (potentialUser !== null) {
@@ -471,7 +485,7 @@ app.post('/', (request, response) => {
       } else {
         response.json({
           loggedIn:false,
-          message:"User does not exist."
+          message:"Passwords do not match."
         })
       }
     }
