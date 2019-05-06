@@ -415,7 +415,7 @@ class NewPage extends Component {
           <label> Quantity </label>
           <input className="materialInput" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
           </div>
-          <Button className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
+          <Button id ="materialButton2" className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
        </div>
      ))
   }
