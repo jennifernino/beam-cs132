@@ -407,9 +407,15 @@ class NewPage extends Component {
   createUI(){
      return this.state.materials.map((el, i) => (
        <div className="materialsContainer" key={i}>
-    	    <div><input placeholder="Material" name="material" value={el.material ||''} onChange={this.handleMaterialsChange.bind(this, i)} /></div>
-          <div><input placeholder="Quantity" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} /></div>
-          <div><Button onClick={this.removeClick.bind(this, i)}> Remove </Button></div>
+          <div className="itemContainer">
+          <label> Item </label>
+    	    <input className="materialInput" name="material" value={el.material ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <div className="itemContainer">
+          <label> Quantity </label>
+          <input className="materialInput" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <Button className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
        </div>
      ))
   }
@@ -684,9 +690,9 @@ class NewPage extends Component {
               <textarea id="additionalGameBox" value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
             </div>
             <div className="box">
-              <label>Materials</label>
+              <label>Materials</label> <div></div>
+              <Button className="materialButton" onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
               <div>{this.createUI()}</div>
-              <Button onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
               <br></br>
             </div>
           </div>
