@@ -485,18 +485,6 @@ class NewPage extends Component {
   render () {
     return (
       <div className="newPageContainer">
-        {this.state.userMessage ?
-          (
-            <p className="userMessage">{this.state.userMessage}</p>
-          ) : (
-            this.state.userError ?
-             (
-               <p className="userMessage">{this.state.userError}</p>
-             ) :
-             (
-               null
-             )
-          )}
         <div className="headerContainer">
           <h1>Basic Info</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
@@ -508,7 +496,6 @@ class NewPage extends Component {
         </div>
           <div className="headerDropDownContainer">
             <div>
-              {/* <label>Semester: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="semesterDropdown" btnStyle="flat">{this.state.semester}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -521,7 +508,6 @@ class NewPage extends Component {
             </Dropdown><span id="missingSemester" className="asterisk">*</span>
             </div>
             <div>
-            {/* <label>Day: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="dayDropdown" btnStyle="flat">{this.state.dayOfWeek}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -535,7 +521,6 @@ class NewPage extends Component {
             </Dropdown><span id="missingDay" className="asterisk">*</span>
           </div>
           <div>
-          {/* <label>Date: </label> */}
           <Dropdown className="dropDownContainer">
             <DropdownToggle id="monthDropdown" btnStyle="flat">{this.state.monthOfLesson}</DropdownToggle>
             <DropdownMenu className="ddMenu">
@@ -582,7 +567,6 @@ class NewPage extends Component {
           </Dropdown><span id="missingYear" className="asterisk">*</span>
         </div>
         <div>
-        {/* <label>Grade Start: </label> */}
         <Dropdown className="dropDownContainer">
           <DropdownToggle id="gradeStartDropdown" btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
           <DropdownMenu className="ddMenu">
@@ -597,7 +581,6 @@ class NewPage extends Component {
         </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
         <div>
-        {/* <label>Grade End: </label> */}
         <Dropdown className="dropDownContainer">
           <DropdownToggle id="gradeEndDropdown" btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
           <DropdownMenu className="ddMenu">
@@ -612,7 +595,6 @@ class NewPage extends Component {
         </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
           <div>
-            {/* <label>Subject: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="subjectDropdown" btnStyle="flat">{this.state.subject}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -684,12 +666,25 @@ class NewPage extends Component {
             </div>
 
           </div>
+          <div className="bottomContainer">
           <div className="footerContainer">
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
             <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>
-        {/* </div> */}
-      </div>
+            {this.state.userMessage ?
+              (
+                <p className="userMessage">{this.state.userMessage}</p>
+              ) : (
+                this.state.userError ?
+                 (
+                   <p className="userMessage">{this.state.userError}</p>
+                 ) :
+                 (
+                   null
+                 )
+              )}
+          </div>
+        </div>
     );
   }
 }

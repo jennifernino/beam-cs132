@@ -431,6 +431,10 @@ textarea {
   width: 50%;
   padding: 20px;
 }
+.bottomContainer{
+  display: flex;
+  flex-direction: column;
+}
 .footerContainer{
   display: flex;
   justify-content: flex-end;
@@ -439,6 +443,8 @@ textarea {
 .userMessage{
   color: green;
   font-size: 18px;
+  display: flex;
+  justify-content: flex-end;
 }
 .asterisk{
   color: red;
