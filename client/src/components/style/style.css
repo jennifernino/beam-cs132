@@ -247,6 +247,14 @@ a{
   /* align-items: center; */
   max-width: 90%;
 }
+.materialList {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.materialList li {
+  list-style-type: circle;
+  padding: 3px;
+}
 /* styling for the navigation bar / menu */
 ul {
   list-style-type: none;
@@ -423,6 +431,10 @@ textarea {
   width: 50%;
   padding: 20px;
 }
+.bottomContainer{
+  display: flex;
+  flex-direction: column;
+}
 .footerContainer{
   display: flex;
   justify-content: flex-end;
@@ -431,6 +443,8 @@ textarea {
 .userMessage{
   color: green;
   font-size: 18px;
+  display: flex;
+  justify-content: flex-end;
 }
 .asterisk{
   color: red;
@@ -531,7 +545,7 @@ textarea {
   border-radius: 10px;
   border: solid 1pt black;
   height: 150px;
-  max-height: 150px;
+  max-width: 380px;
   overflow: scroll;
 }
 

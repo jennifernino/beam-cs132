@@ -15,8 +15,9 @@ class UnpublishedPage extends Component {
     {
       userMessage:"",
       userError: "",
+
       lesson_id:"",
-      session:"",
+
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -41,13 +42,10 @@ class UnpublishedPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Revise implementation
-      // materials: [{
-      //   item: String,
-      //   quantity: Number
-      // }]
+      materials: [{
+        material:"",
+        quantity:""
+      }]
     };
   }
 
@@ -66,12 +64,11 @@ class UnpublishedPage extends Component {
         console.log("page INFO: " + info.pageInfo[0].gradeStart);
         // console.log("theme: " + info.theme);
 
-
         this.setState({
 
           userMessage: "",
           userError: "",
-          lesson_id:lesson_id,
+          lesson_id:info.pageInfo[0].lesson_id,
           session:localStorage.getItem('session'),
 
           lessonName: info.pageInfo[0].lessonName,
@@ -109,11 +106,8 @@ class UnpublishedPage extends Component {
           warmup: info.pageInfo[0].warmup,
           mainActivity: info.pageInfo[0].mainActivity,
           backupActivity: info.pageInfo[0].backupActivity,
-          additionalGame: info.pageInfo[0].additionalGame,
           reflection: info.pageInfo[0].reflection,
-          // inProgress:info.unpublished,
-          // published:info.published,
-          // isAdmin:true//(info.isAdmin === 1) ? true : false
+          materials: info.pageInfo[0].materials
         });
 
       });
@@ -248,8 +242,7 @@ class UnpublishedPage extends Component {
     (this.state.gradeEnd!=="Grade End") && (this.state.subject!=="Subject")&&
     (this.state.theme!=="") && (this.state.unit!=="") && (this.state.subunit!=="") &&
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
-    (this.state.mainActivity!=="") && (this.state.backupActivity!=="") &&
-    (this.state.additionalGame!=="")) {
+    (this.state.mainActivity!=="") && (this.state.backupActivity!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
       this.postLesson();
     } else {
@@ -366,22 +359,20 @@ class UnpublishedPage extends Component {
         document.getElementById("backupActivityBox").style.borderColor = "black";
         document.getElementById("missingBackupActivity").style.visibility="hidden";
       }
-      if (this.state.additionalGame===""){
-        document.getElementById("additionalGameBox").style.borderColor = "red";
-        document.getElementById("missingGame").style.visibility="visible";
-      } else{
-        document.getElementById("additionalGameBox").style.borderColor = "black";
-        document.getElementById("missingGame").style.visibility="hidden";
-      }
+
       console.log("NOT EVERYTHING IS FILLED OUT!")
     }
   }
 
   resetStuff(info) {
+    console.log(';;;;;');
+
+    //this.props.history.push('/home');
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
       session:localStorage.getItem('session'),
+
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -406,9 +397,10 @@ class UnpublishedPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Update as needed (array?)
+      materials: [{
+        material:"",
+        quantity:""
+      }]
     });
   }
 
@@ -420,8 +412,7 @@ class UnpublishedPage extends Component {
     (this.state.gradeEnd!=="Grade End") || (this.state.subject!=="Subject") ||
     (this.state.theme!=="") || (this.state.unit!=="") || (this.state.subunit!=="") ||
     (this.state.goal!=="") || (this.state.introduction!=="") || (this.state.warmup!=="") ||
-    (this.state.mainActivity!=="") || (this.state.backupActivity!=="") ||
-    (this.state.additionalGame!=="")){
+    (this.state.mainActivity!=="") || (this.state.backupActivity!=="")){
       return true;
     } else {
       return false;
@@ -452,9 +443,10 @@ class UnpublishedPage extends Component {
 
       lessonName: this.state.lessonName,
       monthOfLesson:this.state.monthOfLesson,
-      yearOfLesson: (this.state.yearOfLesson === 'Year') ?
+      yearOfLesson:
+      (this.state.yearOfLesson === 'Year') ?
         (-1) :
-        (this.state.yearOfLesson), //this.state.yearOfLesson,
+        (this.state.yearOfLesson),
 
       subject:this.state.subject,
       gradeStart:
@@ -462,13 +454,13 @@ class UnpublishedPage extends Component {
         (0) :
         ((this.state.gradeStart === 'Grade Start') ?
           (-1) :
-          (this.state.gradeStart)), //this.state.gradeStart,
+          (this.state.gradeStart)),
       gradeEnd:
       (this.state.gradeEnd === 'K') ?
         (0) :
         ((this.state.gradeEnd === 'Grade End') ?
           (-1) :
-          (this.state.gradeEnd)), // this.state.gradeEnd,
+          (this.state.gradeEnd)),
       semester:this.state.semester,
       dayOfWeek:this.state.dayOfWeek,
 
@@ -481,10 +473,10 @@ class UnpublishedPage extends Component {
       mainActivity: this.state.mainActivity,
       backupActivity: this.state.backupActivity,
       reflection: this.state.reflection,
-      additionalGame: this.state.additionalGame,
-      quote: "No quote",
-      materials: ""
+      materials: this.state.materials
     });
+
+    console.log(body_str)
 
     const req = {
       method: 'POST',
@@ -516,6 +508,66 @@ class UnpublishedPage extends Component {
       });
   }
 
+  deleteLesson() {
+    const req = {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+    const session = localStorage.getItem('session');
+    const lesson_id = this.state.lesson_id;
+    const uri = 'http://localhost:8080/' + session + '/deleteLesson/' + lesson_id
+    fetch(uri, req)
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+        this.props.history.push('/home');
+      });
+  }
+
+  addMaterial(){
+    this.setState(prevState => ({
+      materials: [...prevState.materials, { material: "", quantity: "" }]
+    }))
+  }
+
+  handleMaterialsChange(i, e) {
+     const { name, value } = e.target;
+     let materials = [...this.state.materials];
+     materials[i] = {...materials[i], [name]: value};
+     console.log(this.state.materials)
+     this.setState({ materials: materials });
+  }
+
+  removeClick(i) {
+     let materials = [...this.state.materials];
+     materials.splice(i, 1);
+     this.setState({ materials: materials });
+  }
+  createUI() {
+     return this.state.materials.map((el, i) => (
+       <div className="materialsContainer" key={i}>
+          <div className="itemContainer">
+          <label> Item </label>
+    	    <input className="materialInput" name="material" value={el.material ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <div className="itemContainer">
+          <label> Quantity </label>
+          <input className="materialInput" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <Button id ="materialButton2" className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
+       </div>
+     ))
+  }
+
+
+
+  notanumber() {
+    console.log("Not a number!")
+  }
+
   render () {
     return (
       <div className="newPageContainer">
@@ -532,7 +584,7 @@ class UnpublishedPage extends Component {
              )
           )}
         <div className="headerContainer">
-          <h1>Basic Info</h1>
+          <h1>Edit Lesson Page</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
           <div className="headerTextContainer">
           <label>Lesson Name: <span id="missingLesson" className="asterisk">*</span></label>
@@ -620,12 +672,12 @@ class UnpublishedPage extends Component {
           <DropdownToggle id="gradeStartDropdown" btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "Grade Start")}>Grade Start</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
@@ -635,12 +687,12 @@ class UnpublishedPage extends Component {
           <DropdownToggle id="gradeEndDropdown" btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "Grade End")}>Grade End</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
@@ -661,7 +713,7 @@ class UnpublishedPage extends Component {
             </Dropdown><span id="missingSubject" className="asterisk">*</span>
             </div>
           </div>
-          <h1>Details</h1>
+          {/* <h1>Details</h1> */}
         </div>
           <div id="inputStuffCollection" className="inputContainer">
             <div className="smallBox">
@@ -709,18 +761,15 @@ class UnpublishedPage extends Component {
               <br></br>
               <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
-            <div className="box">
-              <label>Additional Game<span id="missingGame" className="asterisk">*</span></label>
-              <br></br>
-              <textarea id="additionalGameBox" value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
-            </div>
-            <div className="box">
-              <label>Materials</label>
-              <br></br>
-              <textarea value={this.state.materials} onChange={this.handleMaterials.bind(this)}></textarea>
+
+            <div className="box" id="scrollForAddMaterials">
+              <label>Materials</label> <div></div>
+              <Button className="materialButton" onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
+              <div>{this.createUI()}</div>
             </div>
           </div>
           <div className="footerContainer">
+            <Button onClick={this.deleteLesson.bind(this)} className="deleteButton">Delete</Button>
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
             <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>

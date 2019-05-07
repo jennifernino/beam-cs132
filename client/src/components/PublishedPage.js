@@ -23,8 +23,8 @@ class PublishedPage extends Component {
         warmup: "",
         mainActivity: "",
         backupActivity: "",
-        additionalGame: "",
-        reflection: ""
+        reflection: "",
+        materials:""
       }
     }
     componentDidMount(){
@@ -55,16 +55,12 @@ class PublishedPage extends Component {
             warmup: info.pageInfo[0].warmup,
             mainActivity: info.pageInfo[0].mainActivity,
             backupActivity: info.pageInfo[0].backupActivity,
-            additionalGame: info.pageInfo[0].additionalGame,
             reflection: info.pageInfo[0].reflection,
-            // inProgress:info.unpublished,
-            // published:info.published,
-            // isAdmin:true//(info.isAdmin === 1) ? true : false
+            materials: info.pageInfo[0].materials.map((item)=> <li>{item.quantity + " " + item.material}</li>)
           });
-          console.log("allInfo: " + info.pageInfo[0])
         });
     }
-    // console.log(this.state.item);
+
     render(){
       return(
       <div className="publishedPageContainer">
@@ -92,14 +88,11 @@ class PublishedPage extends Component {
           <p>{this.state.mainActivity}</p>
           <h2>Backup Activity: </h2>
           <p>{this.state.backupActivity}</p>
-          <h2>Additional Game: </h2>
-          <p>{this.state.additionalGame}</p>
+          <h2>Materials: </h2>
+          <ul className="materialList">{this.state.materials}</ul>
           <h2>Reflection: </h2>
           <p>{this.state.reflection}</p>
         </div>
-        {/* <p>{this.state.item.subject}</p>
-        <p>{this.state.item.theme}</p>
-         */}
       </div>
     );
     }

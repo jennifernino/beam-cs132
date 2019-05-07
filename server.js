@@ -70,11 +70,8 @@ const names = new Map();
    response.status(200).type('html');
 
    const session_id = request.params.session_id;
-   console.log('session', session_id)
    const user_id = sessions.get(session_id);
-   console.log(user_id)
    const email = request.params.email;
-   console.log(email)
 
    Users.findOneAndDelete({email: email}, (error, data) => {
      if (error) {
@@ -86,6 +83,7 @@ const names = new Map();
      }
    })
 })
+
  /*
   * Whenever you go to the admin page, this is called
   */
@@ -145,7 +143,6 @@ app.post('/:session_id/adminupdate', (request, response) => {
   const user_id = sessions.get(session);
   const query = { email: request.body.email }
   const update= { $set: request.body.toUpdate }
-  console.log(query, update)
   Users.findOneAndUpdate(query, update, {new: true}, (error, data) => {
     if (error) {
       console.log(error, red, 'FALSE')
@@ -173,8 +170,7 @@ app.post('/:session_id/adminupdate', (request, response) => {
    const user_id = sessions.get(session);
    Users.find({user_id:user_id},{isAdmin:1})
     .then((res) => {
-      console.log(res);
-      if (res.lenght < 1) {
+      if (res.length < 1) {
         response.json({
           published:[],
           unpublished:[],
@@ -213,22 +209,20 @@ app.post('/:session_id/adminupdate', (request, response) => {
  * Search functionality
  *******************************************************************************
  */
+
  function buildQuery(fltr) {
-   console.log(fltr)
    const textQuery = { $text: { $search: fltr.textSearch } };
    if (fltr.hasResponses) {
      return textQuery;
    }
+
    const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
    const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
    const month = (fltr.month === "") ? {$exists: true} : fltr.month;
    const year = (fltr.year === "") ? {$exists: true} : fltr.year;
    const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
-
-   const lte = { gradeStart : { "$gte" : fltr.gradeStart } }; // TODO check functionality
-   const gte = { gradeEnd : { "$lte" : fltr.gradeEnd } };
-   const empty = fltr.gradeStart === "" && fltr.gradeEnd === "";
-
+   const gsq = (fltr.gradeStart === "") ? ({$exists: true}): ({ $gte: fltr.gradeStart })
+   const geq = (fltr.gradeEnd === "") ? ({$exists: true}): ({ $lte: fltr.gradeEnd })
    const filterQuery =
      {
        published: 1, // 1 is true or 0 is false
@@ -236,23 +230,18 @@ app.post('/:session_id/adminupdate', (request, response) => {
        dayOfWeek: weekday,
        monthOfLesson: month,
        yearOfLesson: year,
-       subject: subject
+       subject: subject,
+       gradeStart: gsq,
+       gradeEnd: geq
      };
+
    const queries = [];
    queries.push(filterQuery);
 
-   if (fltr.gradeEnd === "") {
-    queries.push(gte);
-   }
 
-   if (fltr.gradeStart === "") {
-    queries.push(lte)
-   }
    // TODO: make sure to check that gradeStart <= gradeEnd
    if (fltr.textSearch === "") {
-     if (empty) {
-       return filterQuery;
-     }
+     return filterQuery;
    } else {
      queries.push(textQuery);
    // TODO can you have an $and in an $and
@@ -269,12 +258,10 @@ app.post('/:session_id/adminupdate', (request, response) => {
 
    // TODO: Clean input - query by whats given
    const finalQuery = buildQuery(request.body);
-   console.log(finalQuery)
    Lessons.find(finalQuery, (error, data) => {
      if (error) {
        console.log(error.red)
      } else {
-       console.log(data)
        response.json(data)
      }
    })
@@ -337,7 +324,6 @@ app.get('/:session_id/viewpage/:lesson_id', (request, response) => {
     if (error) {
       console.log(error.red)
     } else {
-      console.log(data)
       response.json({
         pageInfo: data,
         recieved:true
@@ -399,10 +385,18 @@ app.post('/:session_id/newPage', (request, response) => {
           message:"Unable to submit lesson"
         })
       } else {
-        response.json({
-          received:true,
-          message:"Lesson was submitted!"
-         })
+        if (created.published === 0) {
+          response.json({
+            received:true,
+            message:"Lesson was saved!"
+           })
+        } else {
+          response.json({
+            received:true,
+            message:"Lesson was submitted!"
+           })
+        }
+
       }
     })
   })
@@ -446,7 +440,6 @@ app.post('/', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   params = request.body;
-  console.log(params)
 
   Users.findOne({ email: params.email }, (error, res) => {
     if (error) {
@@ -496,7 +489,6 @@ app.post('/', (request, response) => {
 app.post('/signup', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
-  console.log(request.body)
   const plain = request.body.password;
   const user = {
     isAdmin: 0, // 1 if true, 0 if false
@@ -554,14 +546,13 @@ app.post('/passwordreset', (request, response) => {
 
     trueID = user[0].confirmationID;
     userEmail = user[0].email;
-    console.log(userEmail)
-    console.log(user[0].password)
+
     var inputID = request.body.confirmationID;
 
     if(inputID === trueID){
-      console.log('its a match')
+
       newConfirmationID = genID();
-      console.log(newConfirmationID);
+
 
       Users.updateOne(
         {'email': userEmail},

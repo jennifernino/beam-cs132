@@ -95,7 +95,7 @@ class Inspiration extends Component {
                     this.state.lessons.map(item => <p> {item.theme} </p>)
                   ) : this.state.category === "Warmups" ?
                   (
-                    this.state.lessons.map(item => <p> {item.mainActivity} </p>)
+                    this.state.lessons.map(item => <p> {item.warmup} </p>)
                   ) : this.state.category === "Main Activites" ?
                   (
                     this.state.lessons.map(item => <p> {item.mainActivity} </p>)

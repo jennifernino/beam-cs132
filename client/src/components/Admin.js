@@ -11,11 +11,17 @@ class Admin extends Component {
       requests:[],
       users:[] // sort by team
     };
+
   }
 
   componentDidMount() {
     this.adminSetUp()
   }
+
+  remEmail() {
+    this.adminSetUp();
+  }
+
 
   adminSetUp = () => {
     const session = localStorage.getItem('session');
@@ -23,15 +29,19 @@ class Admin extends Component {
     fetch(uri)
       .then(res => res.json())
       .then(info => {
+        console.log('b4 ', this.state)
         this.setState({
-          requests:info.requests,
           users:info.users,
+          requests:info.requests,
           session:session
-        })
+        });
+        console.log('after ', this.state)
       });
   }
 
   render() {
+    console.log('RENDERING: $$$$ \n\t\n\t',this.state)
+
     return (
       <div className="AdminContainer">
         <h1>Manage Activity</h1>
@@ -41,8 +51,8 @@ class Admin extends Component {
             (
               <p>No pending requests...</p>
             ) : (
-              this.state.requests.map(item =>
-                <UserOption key={item.name} item={item} />
+              this.state.requests.map((item, index) =>
+                <UserOption key={'x'+item.email} item={item} ad={this.adminSetUp.bind(this)}/>
               )
             )}
         </div>
@@ -52,8 +62,8 @@ class Admin extends Component {
             (
               <p>No teams found...</p>
             ) : (
-              this.state.users.map(item =>
-                <UserOption key={item.name} item={item} />
+              this.state.users.map((item, index) =>
+                <UserOption key={'y'+item.email} item={item} />
               )
             )}
         </div>

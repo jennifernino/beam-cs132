@@ -21,7 +21,7 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn :
-        true,
+        (localStorage.getItem('loggedIn') === null) ? false : true,
       session :
         (localStorage.getItem('session') === null) ? null : localStorage.getItem('session'),
       name :
@@ -87,7 +87,7 @@ class App extends Component {
                     <Route exact path='/resetpassword' component={PasswordReset} />
                     <Route exact path='/addreflection/:lesson_id' render={(props) => <ReflectionPage {...props}/>}/>
                     <Route exact path='/viewpage/:lesson_id' component={PublishedPage} />
-                    <Route exact path='/editpage/:lesson_id' render={(props) => <UnpublishedPage {...props} session={this.state.session}/>}/>
+                    <Route exact path='/editpage/:lesson_id' render={(props) => <UnpublishedPage {...props} login={this.login.bind(this)}/>}/>
                   </Switch>
                 </div>
               </div>

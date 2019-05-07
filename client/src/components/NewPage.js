@@ -41,8 +41,6 @@ class NewPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
       materials: [{
         material:"",
         quantity:""
@@ -312,7 +310,6 @@ class NewPage extends Component {
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
-      session:localStorage.getItem('session'),
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -340,7 +337,7 @@ class NewPage extends Component {
       materials: [{
         material:"",
         quantity:""
-      }],
+      }]
     });
   }
 
@@ -488,20 +485,8 @@ class NewPage extends Component {
   render () {
     return (
       <div className="newPageContainer">
-        {this.state.userMessage ?
-          (
-            <p className="userMessage">{this.state.userMessage}</p>
-          ) : (
-            this.state.userError ?
-             (
-               <p className="userMessage">{this.state.userError}</p>
-             ) :
-             (
-               null
-             )
-          )}
         <div className="headerContainer">
-          <h1>Basic Info</h1>
+          <h1>New Lesson Page</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
           <p id="errorSaveMessage">{this.state.errorSaveMessage}</p>
           <div className="headerTextContainer">
@@ -511,7 +496,6 @@ class NewPage extends Component {
         </div>
           <div className="headerDropDownContainer">
             <div>
-              {/* <label>Semester: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="semesterDropdown" btnStyle="flat">{this.state.semester}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -524,7 +508,6 @@ class NewPage extends Component {
             </Dropdown><span id="missingSemester" className="asterisk">*</span>
             </div>
             <div>
-            {/* <label>Day: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="dayDropdown" btnStyle="flat">{this.state.dayOfWeek}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -538,7 +521,6 @@ class NewPage extends Component {
             </Dropdown><span id="missingDay" className="asterisk">*</span>
           </div>
           <div>
-          {/* <label>Date: </label> */}
           <Dropdown className="dropDownContainer">
             <DropdownToggle id="monthDropdown" btnStyle="flat">{this.state.monthOfLesson}</DropdownToggle>
             <DropdownMenu className="ddMenu">
@@ -585,37 +567,34 @@ class NewPage extends Component {
           </Dropdown><span id="missingYear" className="asterisk">*</span>
         </div>
         <div>
-        {/* <label>Grade Start: </label> */}
         <Dropdown className="dropDownContainer">
           <DropdownToggle id="gradeStartDropdown" btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "Grade Start")}>Grade Start</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
         <div>
-        {/* <label>Grade End: </label> */}
         <Dropdown className="dropDownContainer">
           <DropdownToggle id="gradeEndDropdown" btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "Grade End")}>Grade End</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
           <div>
-            {/* <label>Subject: </label> */}
             <Dropdown className="dropDownContainer">
               <DropdownToggle id="subjectDropdown" btnStyle="flat">{this.state.subject}</DropdownToggle>
               <DropdownMenu className="ddMenu">
@@ -687,12 +666,25 @@ class NewPage extends Component {
             </div>
 
           </div>
+          <div className="bottomContainer">
           <div className="footerContainer">
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
             <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>
-        {/* </div> */}
-      </div>
+            {this.state.userMessage ?
+              (
+                <p className="userMessage">{this.state.userMessage}</p>
+              ) : (
+                this.state.userError ?
+                 (
+                   <p className="userMessage">{this.state.userError}</p>
+                 ) :
+                 (
+                   null
+                 )
+              )}
+          </div>
+        </div>
     );
   }
 }
