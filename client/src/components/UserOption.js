@@ -14,7 +14,7 @@ class UserOption extends Component {
       name:'',
       email:'',
       position:'Position',
-      team:'Team',
+      team:'Club',
       verified:''
     };
 
@@ -28,8 +28,6 @@ class UserOption extends Component {
       verified:this.props.item.verified,
       position:this.props.item.position
     })
-
-    console.log('componentdidmount ', this.props.item)
   }
 
   adminUpdate = (str) => {
@@ -152,7 +150,7 @@ class UserOption extends Component {
           <Dropdown className="dropDownContainer">
             <DropdownToggle btnStyle="flat">{this.state.team}</DropdownToggle>
             <DropdownMenu>
-              <MenuItem onClick={this.assignTeam.bind(this, "Team")}>Team</MenuItem>
+              <MenuItem onClick={this.assignTeam.bind(this, "Club")}>Club</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "A")}>A</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "B")}>B</MenuItem>
               <MenuItem onClick={this.assignTeam.bind(this, "C")}>C</MenuItem>
