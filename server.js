@@ -210,48 +210,19 @@ app.post('/:session_id/adminupdate', (request, response) => {
  *******************************************************************************
  */
 
- // function buildInterval(bool, num) {
- //   let res = [];
- //   // increment
- //   if (bool) {
- //     for (let i = 0; i <= num; i += 1) {
- //       res.push(i);
- //     }
- //   } else {
- //   // decrement
- //     for (let i = num; i > -1; i -= 1) {
- //       res.push(i);
- //     }
- //   }
- //   return res;
- // }
- // function buildQ(b, gs, ge) {
- //   if (gs === "" && ge === "") return
- //   if (b) {
- //
- //   } else {
- //
- //   }
- // }
-
  function buildQuery(fltr) {
    const textQuery = { $text: { $search: fltr.textSearch } };
    if (fltr.hasResponses) {
      return textQuery;
    }
+   
    const semester = (fltr.semester === "") ? {$exists: true} : fltr.semester;
    const weekday = (fltr.weekday === "") ? {$exists: true} : fltr.weekday;
    const month = (fltr.month === "") ? {$exists: true} : fltr.month;
    const year = (fltr.year === "") ? {$exists: true} : fltr.year;
    const subject = (fltr.subject === "") ? {$exists: true} : fltr.subject;
-
-   //const gte = { $gte : ["$gradeStart", fltr.gradeStart ] }; // TODO check functionality
-   //const lte = { $lte : ["$gradeEnd", fltr.gradeEnd ] };
-   const empty = fltr.gradeStart === "" && fltr.gradeEnd === "";
-
-   const gsq = buildQ(true, fltr.gradeStart, fltr.gradeEnd)
-   const gse = buildQ(false, fltr.gradeStart, fltr.gradeEnd)
-
+   const gsq = (fltr.gradeStart === "") ? ({$exists: true}): ({ $gte: fltr.gradeStart })
+   const geq = (fltr.gradeEnd === "") ? ({$exists: true}): ({ $lte: fltr.gradeEnd })
    const filterQuery =
      {
        published: 1, // 1 is true or 0 is false
@@ -261,33 +232,16 @@ app.post('/:session_id/adminupdate', (request, response) => {
        yearOfLesson: year,
        subject: subject,
        gradeStart: gsq,
-       gradeEnd: gse,
+       gradeEnd: geq
      };
 
    const queries = [];
    queries.push(filterQuery);
 
 
-   /*
-   const lte = buildInterval(false, fltr.gradeEnd);
-   const gte = buildInterval(true, fltr.gradeStart);
-   let f = [];
-   if (fltr.gradeEnd !== "" && fltr.gradeStart !== "") {
-    f = lte.filter(x => gte.has(x));
-   } else if (fltr.gradeEnd !== "") {
-    f = lte;
-  } else if (fltr.gradeStart !== "") {
-    f = gte;
-  } else {
-
-  }
-   */
-
    // TODO: make sure to check that gradeStart <= gradeEnd
    if (fltr.textSearch === "") {
-     //if (empty) {
-       return filterQuery;
-     //}
+     return filterQuery;
    } else {
      queries.push(textQuery);
    // TODO can you have an $and in an $and
