@@ -362,7 +362,7 @@ input{
   overflow-y: auto;
   justify-content: space-between;
 }
-.logoutButton{
+.logoutButton, .inspirationOptionButton{
   font-size: 20px;
   padding: 10px;
   background-color: white;
@@ -375,12 +375,16 @@ input{
   height: 50px;
   box-shadow: 3px 3px 5px #d7f6ff;
 }
-.logoutButton:hover, .logoutButton:focus {
+.logoutButton:hover, .logoutButton:focus ,
+.inspirationOptionButton:hover, .inspirationOptionButton:focus{
   background-color: #3ad5ff;
   color: white;
 }
-.logoutButton:active{
+.logoutButton:active, .inspirationOptionButton:active{
   transform: translateY(3px);
+}
+.inspirationOptionButton{
+  border: solid 1px #00A9D7;
 }
 /* styling for the new lesson page */
 .newPageContainer{
@@ -556,4 +560,17 @@ textarea {
 .inspirationContainer {
   width: 100%;
   padding: 20px;
+}
+
+.inspirationHeaderContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.inspirationList{
+  font-size: 18px;
+  padding: 10px;
+}
+.inspirationList:nth-child(odd){
+  background-color: #fffae0;
 }
