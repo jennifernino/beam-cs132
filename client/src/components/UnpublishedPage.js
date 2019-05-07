@@ -772,7 +772,7 @@ class UnpublishedPage extends Component {
             </div>
           </div>
           <div className="footerContainer">
-            <Button onClick={this.deleteLesson.bind(this)} className="deleteButton">Delete</Button>
+            <Button onClick={this.deleteLesson.bind(this)} id = "deleteButton" className="deleteButton">Delete</Button>
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
             <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>
