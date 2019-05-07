@@ -486,7 +486,7 @@ class NewPage extends Component {
     return (
       <div className="newPageContainer">
         <div className="headerContainer">
-          <h1>Basic Info</h1>
+          <h1>New Lesson Page</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
           <p id="errorSaveMessage">{this.state.errorSaveMessage}</p>
           <div className="headerTextContainer">
