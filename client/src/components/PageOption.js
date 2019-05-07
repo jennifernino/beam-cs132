@@ -42,6 +42,8 @@ class PageOption extends Component {
  covGrades(v) {
    if (v === 0) {
      return 'K';
+   } else {
+     return v;
    }
  }
 
