@@ -8,6 +8,7 @@ import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import './style/style.css';
 
 
+
 class NewPage extends Component {
   constructor(props){
     super(props);
@@ -171,6 +172,7 @@ class NewPage extends Component {
     // Verify everything is ok, if not throw error
     for (let i = 0; i < this.state.materials.length; i += 1) {
       let value = this.state.materials[i];
+
       if (isNaN(parseInt(value.quantity))) {
         this.notanumber();
         console.log("Inputted a material that is not a number.")
@@ -476,7 +478,6 @@ class NewPage extends Component {
           if (num === 1) {
             this.resetStuff(info);
           }
-
         } else {
           this.setState({
             userError: info.message

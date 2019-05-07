@@ -7,7 +7,8 @@ import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown';
 import '@trendmicro/react-buttons/dist/react-buttons.css';
 import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import './style/style.css';
-
+import { BarLoader } from 'react-css-loaders';
+var Loader = require('react-loaders').Loader;
 
 class Search extends Component {
   constructor(props) {
@@ -31,10 +32,14 @@ class Search extends Component {
 
       sort:"None",
 
+      loading:false,
 
       error:false,
       errorMessage:""
     }
+  }
+  componentWillUnmount() {
+    this.setState({loading:false})
   }
   componentDidMount() {
     this.setUp();
@@ -88,7 +93,7 @@ class Search extends Component {
       console.log("error");
       return;
     }
-
+    this.setState({loading:true})
     const body_str = JSON.stringify({
       hasResponse: !checkFilters, // true if has filters, false if not
       textSearch: text,
@@ -112,17 +117,22 @@ class Search extends Component {
 
     const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/search'
+    console.log('hello');
+    setTimeout(() => {
+      fetch(uri, req)
+        .then(res => res.json())
+        .then(info => {
+          console.log(info)
+          this.setState({
+            results:info,
+            started: true,
+            loading: false
+          })
+        });
+    },3000);
 
-    fetch(uri, req)
-      .then(res => res.json())
-      .then(info => {
-        console.log(info)
-        this.setState({
-          results:info,
-          started: true
-        })
-      });
   }
+
 
   /*
    * Alphabetical by default
@@ -331,25 +341,30 @@ class Search extends Component {
             </div>
             </div>
 
-
-
-
           <div className="resultsContainer">
-            <h1>Results</h1>
-            {
-              this.state.started ?
-                (
-                  this.state.results.length ?
-                    (
-                      this.sortedResults().map(item =>
-                        <PublishedOption key={item.lesson_id} item={item}/>
-                      )
 
-                    ) : (
-                      <h3>No results found</h3>
-                    )
-                ) : null
-            }
+            <h1>Results</h1>
+              <div>
+                {
+                  this.state.loading ?
+                  (<BarLoader />):
+                  (
+                    this.state.started ?
+                      (
+                        this.state.results.length ?
+                          (
+                            this.sortedResults().map(item =>
+                              <PublishedOption key={item.lesson_id} item={item}/>
+                            )
+
+                          ) : (
+                            <h3>No results found</h3>
+                          )
+                      ) : (null)
+                  )
+                }
+              </div>
+
           </div>
 
 
