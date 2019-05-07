@@ -288,7 +288,7 @@ ul {
   justify-content: center;
   padding: 5px 10px 10px 20px;
 }
-.searchButton, .saveButton, .submitButton, .addButton, .materialButton {
+.searchButton, .saveButton, .submitButton, .addButton, .materialButton, .inspirationButton{
   height: 30px;
   color: white;
   font-size: 16px;
@@ -533,4 +533,9 @@ textarea {
   height: 150px;
   max-height: 150px;
   overflow: scroll;
+}
+
+.inspirationContainer {
+  width: 100%;
+  padding: 20px;
 }

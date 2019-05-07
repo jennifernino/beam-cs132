@@ -12,6 +12,7 @@ import NewPage from './components/NewPage'
 import PublishedPage from './components/PublishedPage';
 import ReflectionPage from './components/ReflectionPage';
 import UnpublishedPage from './components/UnpublishedPage';
+import Inspiration from './components/Inspiration';
 import logo from './logo.svg';
 import './App.css';
 
@@ -20,7 +21,7 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn :
-        (localStorage.getItem('loggedIn') === null) ? false : true,
+        true,
       session :
         (localStorage.getItem('session') === null) ? null : localStorage.getItem('session'),
       name :
@@ -81,6 +82,7 @@ class App extends Component {
                     <Route exact path='/forgotpassword' render={(props) => <Forgot {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/search' render={(props) => <Search {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/newlesson' render={(props) => <NewPage {...props} session={this.state.session} name={this.state.name}/>}/>
+                    <Route exact path='/inspiration' render={(props) => <Inspiration {...props} session={this.state.session} name={this.state.name}/>}/>
                     <Route exact path='/home' render={(props) => <Home {...props} session={this.state.session} name={this.state.name} />}/>
                     <Route exact path='/resetpassword' component={PasswordReset} />
                     <Route exact path='/addreflection/:lesson_id' render={(props) => <ReflectionPage {...props}/>}/>

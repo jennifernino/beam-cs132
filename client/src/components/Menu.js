@@ -33,6 +33,11 @@ class Menu extends Component {
             <button className="navButton">New Lesson</button>
             </Link>
           </li>
+          <li>
+            <Link to={'/inspiration'}>
+            <button className="navButton">Inspiration</button>
+            </Link>
+          </li>
         </ul>
         <button className="logoutButton" onClick={this.logout.bind(this)}>Logout</button>
       </div>
