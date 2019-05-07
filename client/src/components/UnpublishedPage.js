@@ -519,6 +519,8 @@ class UnpublishedPage extends Component {
         'Content-Type': 'application/json'
       }
     }
+
+    ///asdasdasdasdasdasdas
     const session = localStorage.getItem('session');
     const lesson_id = this.state.lesson_id;
     const uri = 'http://localhost:8080/' + session + '/deleteLesson/' + lesson_id

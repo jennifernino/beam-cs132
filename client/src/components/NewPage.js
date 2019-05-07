@@ -473,7 +473,10 @@ class NewPage extends Component {
       .then(res => res.json())
       .then(info => {
         if (info.received) {
-          this.resetStuff(info);
+          if (num === 1) {
+            this.resetStuff(info);
+          }
+
         } else {
           this.setState({
             userError: info.message
