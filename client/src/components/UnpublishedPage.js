@@ -559,7 +559,7 @@ class UnpublishedPage extends Component {
              )
           )}
         <div className="headerContainer">
-          <h1>Basic Info</h1>
+          <h1>Edit Lesson Page</h1>
           <p id="missingFieldMessage">Missing Field(s)</p>
           <div className="headerTextContainer">
           <label>Lesson Name: <span id="missingLesson" className="asterisk">*</span></label>
@@ -647,12 +647,12 @@ class UnpublishedPage extends Component {
           <DropdownToggle id="gradeStartDropdown" btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "Grade Start")}>Grade Start</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
@@ -662,12 +662,12 @@ class UnpublishedPage extends Component {
           <DropdownToggle id="gradeEndDropdown" btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "Grade End")}>Grade End</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
@@ -688,7 +688,7 @@ class UnpublishedPage extends Component {
             </Dropdown><span id="missingSubject" className="asterisk">*</span>
             </div>
           </div>
-          <h1>Details</h1>
+          {/* <h1>Details</h1> */}
         </div>
           <div id="inputStuffCollection" className="inputContainer">
             <div className="smallBox">
@@ -736,7 +736,7 @@ class UnpublishedPage extends Component {
               <br></br>
               <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
-            
+
             <div className="box" id="scrollForAddMaterials">
               <label>Materials</label> <div></div>
               <Button className="materialButton" onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>

@@ -571,12 +571,12 @@ class NewPage extends Component {
           <DropdownToggle id="gradeStartDropdown" btnStyle="flat">{this.state.gradeStart}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeStart", "Grade Start")}>Grade Start</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeStart", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeStart" className="asterisk">*</span>
         </div>
@@ -585,12 +585,12 @@ class NewPage extends Component {
           <DropdownToggle id="gradeEndDropdown" btnStyle="flat">{this.state.gradeEnd}</DropdownToggle>
           <DropdownMenu className="ddMenu">
             <MenuItem onClick={this.selected.bind(this, "gradeEnd", "Grade End")}>Grade End</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>K</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>1</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>2</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>3</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>4</MenuItem>
-            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>5</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "K")}>Kindergarten</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "1")}>Grade 1</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "2")}>Grade 2</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "3")}>Grade 3</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "4")}>Grade 4</MenuItem>
+            <MenuItem onClick={this.selected.bind(this, "gradeEnd", "5")}>Grade 5</MenuItem>
           </DropdownMenu>
         </Dropdown><span id="missingGradeEnd" className="asterisk">*</span>
         </div>
