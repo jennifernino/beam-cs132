@@ -15,8 +15,9 @@ class UnpublishedPage extends Component {
     {
       userMessage:"",
       userError: "",
+
       lesson_id:"",
-      session:"",
+
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -41,13 +42,10 @@ class UnpublishedPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Revise implementation
-      // materials: [{
-      //   item: String,
-      //   quantity: Number
-      // }]
+      materials: [{
+        material:"",
+        quantity:""
+      }]
     };
   }
 
@@ -109,11 +107,8 @@ class UnpublishedPage extends Component {
           warmup: info.pageInfo[0].warmup,
           mainActivity: info.pageInfo[0].mainActivity,
           backupActivity: info.pageInfo[0].backupActivity,
-          additionalGame: info.pageInfo[0].additionalGame,
           reflection: info.pageInfo[0].reflection,
-          // inProgress:info.unpublished,
-          // published:info.published,
-          // isAdmin:true//(info.isAdmin === 1) ? true : false
+          materials: info.pageInfo[0].materials
         });
 
       });
@@ -248,8 +243,7 @@ class UnpublishedPage extends Component {
     (this.state.gradeEnd!=="Grade End") && (this.state.subject!=="Subject")&&
     (this.state.theme!=="") && (this.state.unit!=="") && (this.state.subunit!=="") &&
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
-    (this.state.mainActivity!=="") && (this.state.backupActivity!=="") &&
-    (this.state.additionalGame!=="")) {
+    (this.state.mainActivity!=="") && (this.state.backupActivity!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
       this.postLesson();
     } else {
@@ -366,13 +360,7 @@ class UnpublishedPage extends Component {
         document.getElementById("backupActivityBox").style.borderColor = "black";
         document.getElementById("missingBackupActivity").style.visibility="hidden";
       }
-      if (this.state.additionalGame===""){
-        document.getElementById("additionalGameBox").style.borderColor = "red";
-        document.getElementById("missingGame").style.visibility="visible";
-      } else{
-        document.getElementById("additionalGameBox").style.borderColor = "black";
-        document.getElementById("missingGame").style.visibility="hidden";
-      }
+
       console.log("NOT EVERYTHING IS FILLED OUT!")
     }
   }
@@ -406,9 +394,10 @@ class UnpublishedPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Update as needed (array?)
+      materials: [{
+        material:"",
+        quantity:""
+      }]
     });
   }
 
@@ -420,8 +409,7 @@ class UnpublishedPage extends Component {
     (this.state.gradeEnd!=="Grade End") || (this.state.subject!=="Subject") ||
     (this.state.theme!=="") || (this.state.unit!=="") || (this.state.subunit!=="") ||
     (this.state.goal!=="") || (this.state.introduction!=="") || (this.state.warmup!=="") ||
-    (this.state.mainActivity!=="") || (this.state.backupActivity!=="") ||
-    (this.state.additionalGame!=="")){
+    (this.state.mainActivity!=="") || (this.state.backupActivity!=="")){
       return true;
     } else {
       return false;
@@ -445,16 +433,17 @@ class UnpublishedPage extends Component {
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
   addToDB = (num) => {
     const body_str = JSON.stringify({
-      lesson_id: this.state.lesson_id, // unique id for lesson
+      lesson_id: -1, // unique id for lesson
       published: num, // 1 is true or 0 is false
       creator: -1, // user ID
       datePublished: Date.now(), //UNIX time
 
       lessonName: this.state.lessonName,
       monthOfLesson:this.state.monthOfLesson,
-      yearOfLesson: (this.state.yearOfLesson === 'Year') ?
+      yearOfLesson:
+      (this.state.yearOfLesson === 'Year') ?
         (-1) :
-        (this.state.yearOfLesson), //this.state.yearOfLesson,
+        (this.state.yearOfLesson),
 
       subject:this.state.subject,
       gradeStart:
@@ -462,13 +451,13 @@ class UnpublishedPage extends Component {
         (0) :
         ((this.state.gradeStart === 'Grade Start') ?
           (-1) :
-          (this.state.gradeStart)), //this.state.gradeStart,
+          (this.state.gradeStart)),
       gradeEnd:
       (this.state.gradeEnd === 'K') ?
         (0) :
         ((this.state.gradeEnd === 'Grade End') ?
           (-1) :
-          (this.state.gradeEnd)), // this.state.gradeEnd,
+          (this.state.gradeEnd)),
       semester:this.state.semester,
       dayOfWeek:this.state.dayOfWeek,
 
@@ -481,10 +470,10 @@ class UnpublishedPage extends Component {
       mainActivity: this.state.mainActivity,
       backupActivity: this.state.backupActivity,
       reflection: this.state.reflection,
-      additionalGame: this.state.additionalGame,
-      quote: "No quote",
-      materials: ""
+      materials: this.state.materials
     });
+
+    console.log(body_str)
 
     const req = {
       method: 'POST',
@@ -514,6 +503,44 @@ class UnpublishedPage extends Component {
           });
         }
       });
+  }
+  addMaterial(){
+    this.setState(prevState => ({
+      materials: [...prevState.materials, { material: "", quantity: "" }]
+    }))
+  }
+
+  handleMaterialsChange(i, e) {
+     const { name, value } = e.target;
+     let materials = [...this.state.materials];
+     materials[i] = {...materials[i], [name]: value};
+     console.log(this.state.materials)
+     this.setState({ materials: materials });
+  }
+
+  removeClick(i) {
+     let materials = [...this.state.materials];
+     materials.splice(i, 1);
+     this.setState({ materials: materials });
+  }
+  createUI() {
+     return this.state.materials.map((el, i) => (
+       <div className="materialsContainer" key={i}>
+          <div className="itemContainer">
+          <label> Item </label>
+    	    <input className="materialInput" name="material" value={el.material ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <div className="itemContainer">
+          <label> Quantity </label>
+          <input className="materialInput" name="quantity" value={el.quantity ||''} onChange={this.handleMaterialsChange.bind(this, i)} />
+          </div>
+          <Button id ="materialButton2" className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
+       </div>
+     ))
+  }
+
+  notanumber() {
+    console.log("Not a number!")
   }
 
   render () {
@@ -709,15 +736,11 @@ class UnpublishedPage extends Component {
               <br></br>
               <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
-            <div className="box">
-              <label>Additional Game<span id="missingGame" className="asterisk">*</span></label>
-              <br></br>
-              <textarea id="additionalGameBox" value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
-            </div>
-            <div className="box">
-              <label>Materials</label>
-              <br></br>
-              <textarea value={this.state.materials} onChange={this.handleMaterials.bind(this)}></textarea>
+            
+            <div className="box" id="scrollForAddMaterials">
+              <label>Materials</label> <div></div>
+              <Button className="materialButton" onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
+              <div>{this.createUI()}</div>
             </div>
           </div>
           <div className="footerContainer">

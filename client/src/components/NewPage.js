@@ -41,8 +41,6 @@ class NewPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
       materials: [{
         material:"",
         quantity:""
@@ -312,7 +310,6 @@ class NewPage extends Component {
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
-      session:localStorage.getItem('session'),
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -340,7 +337,7 @@ class NewPage extends Component {
       materials: [{
         material:"",
         quantity:""
-      }],
+      }]
     });
   }
 
