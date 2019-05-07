@@ -85,6 +85,7 @@ class Inspiration extends Component {
         </DropdownMenu>
       </Dropdown>
       <div>
+      <li>
       {
         this.state.started ?
           (
@@ -92,13 +93,13 @@ class Inspiration extends Component {
               (
                 this.state.category === "Themes" ?
                   (
-                    this.state.lessons.map(item => <p> {item.theme} </p>)
+                    this.state.lessons.map(item => <li> {item.theme} </li>)
                   ) : this.state.category === "Warmups" ?
                   (
-                    this.state.lessons.map(item => <p> {item.warmup} </p>)
+                    this.state.lessons.map(item => <li> {item.warmup} </li>)
                   ) : this.state.category === "Main Activites" ?
                   (
-                    this.state.lessons.map(item => <p> {item.mainActivity} </p>)
+                    this.state.lessons.map(item => <li> {item.mainActivity} </li>)
                   )
                   : <h3> Please select a category </h3>
 
@@ -106,6 +107,7 @@ class Inspiration extends Component {
               ) : <h3>No results found</h3>
            ): null
       }
+      </li>
 
       </div>
       </div>

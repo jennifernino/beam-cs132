@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       loggedIn :
         (localStorage.getItem('loggedIn') === null) ? false : true,
+
       session :
         (localStorage.getItem('session') === null) ? null : localStorage.getItem('session'),
       name :

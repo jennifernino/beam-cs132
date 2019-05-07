@@ -611,7 +611,7 @@ app.post('/passwordreset', (request, response) => {
 
 
 app.post('/inspiration', (request, response) => {
-  Lessons.find({},'warmup mainActivity theme', function(err,lessons){
+  Lessons.find({'published': 1},'warmup mainActivity theme', function(err,lessons){
     response.json(lessons);
   });
 
