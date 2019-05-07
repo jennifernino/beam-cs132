@@ -43,7 +43,7 @@ class NewPage extends Component {
       reflection: "",
       materials: [{
         material:"",
-        quantity:""
+        quantity:"0"
       }]
     };
   }
@@ -169,14 +169,6 @@ class NewPage extends Component {
 
   publishLesson() {
     // Verify everything is ok, if not throw error
-    for (let i = 0; i < this.state.materials.length; i += 1) {
-      let value = this.state.materials[i];
-      if (isNaN(parseInt(value.quantity))) {
-        this.notanumber();
-        console.log("Inputted a material that is not a number.")
-        return;
-      }
-    }
 
     if((this.state.lessonName!=="") && (this.state.semester!=="Semester") &&
     (this.state.dayOfWeek!=="Weekday") && (this.state.monthOfLesson!=="Month") &&
@@ -186,6 +178,47 @@ class NewPage extends Component {
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
     (this.state.mainActivity!=="") && (this.state.backupActivity!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
+      document.getElementById("searchBar").style.borderColor = "black";
+      document.getElementById("missingLesson").style.visibility = "hidden";
+      document.getElementById("semesterDropdown").style.borderColor = "#ccc";
+      document.getElementById("missingSemester").style.visibility="hidden";
+      document.getElementById("dayDropdown").style.borderColor="#ccc";
+      document.getElementById("missingDay").style.visibility="hidden";
+      document.getElementById("monthDropdown").style.borderColor="#ccc";
+      document.getElementById("missingMonth").style.visibility="hidden";
+      document.getElementById("yearDropdown").style.borderColor="#ccc";
+      document.getElementById("missingYear").style.visibility="hidden";
+      document.getElementById("missingGradeStart").style.visibility="hidden";
+      document.getElementById("gradeStartDropdown").style.borderColor="#ccc";
+      document.getElementById("missingGradeStart").style.visibility="hidden";
+      document.getElementById("gradeEndDropdown").style.borderColor="#ccc";
+      document.getElementById("missingGradeEnd").style.visibility="hidden";
+      document.getElementById("subjectDropdown").style.borderColor="#ccc";
+      document.getElementById("missingSubject").style.visibility="hidden";
+      document.getElementById("themeBox").style.borderColor = "black";
+      document.getElementById("missingTheme").style.visibility="hidden";
+      document.getElementById("unitBox").style.borderColor = "black";
+      document.getElementById("missingUnit").style.visibility="hidden";
+      document.getElementById("subunitBox").style.borderColor = "black";
+      document.getElementById("missingSubunit").style.visibility="hidden";
+      document.getElementById("goalBox").style.borderColor = "black";
+      document.getElementById("missingGoals").style.visibility="hidden";
+      document.getElementById("introBox").style.borderColor = "black";
+      document.getElementById("missingIntro").style.visibility="hidden";
+      document.getElementById("warmupBox").style.borderColor = "black";
+      document.getElementById("missingWarmup").style.visibility="hidden";
+      document.getElementById("mainActivityBox").style.borderColor = "black";
+      document.getElementById("missingMainActivity").style.visibility="hidden";
+      document.getElementById("backupActivityBox").style.borderColor = "black";
+      document.getElementById("missingBackupActivity").style.visibility="hidden";
+      for (let i = 0; i < this.state.materials.length; i += 1) {
+        let value = this.state.materials[i];
+        if (isNaN(parseInt(value.quantity))) {
+          this.notanumber();
+          console.log("Inputted a material that is not a number.")
+          return;
+        }
+      }
       this.postLesson();
     } else {
       document.getElementById("missingFieldMessage").style.visibility = "visible";
@@ -473,10 +506,7 @@ class NewPage extends Component {
       .then(res => res.json())
       .then(info => {
         if (info.received) {
-          if (num === 1) {
-            this.resetStuff(info);
-          }
-
+          this.resetStuff(info);
         } else {
           this.setState({
             userError: info.message
