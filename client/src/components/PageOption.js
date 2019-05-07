@@ -39,7 +39,11 @@ class PageOption extends Component {
 
 
   }
-
+ covGrades(v) {
+   if (v === 0) {
+     return 'K';
+   }
+ }
 
   render() {
     return (
@@ -49,7 +53,7 @@ class PageOption extends Component {
         <div className="pageHeaderContainer">
           <div className="leftPageHeaderContainer">
             <p id="changeFont">{this.state.lessonName}</p>
-            <p id="gradeFont">Grades: {this.props.item.gradeStart} - {this.props.item.gradeEnd}</p>
+            <p id="gradeFont">Grades: {this.covGrades(this.props.item.gradeStart)} - {this.covGrades(this.props.item.gradeEnd)}</p>
           </div>
           <div className="rightPageHeaderContainer">
             <p style={{color: this.state.color}} >{this.state.type}</p>
