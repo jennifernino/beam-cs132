@@ -64,12 +64,11 @@ class UnpublishedPage extends Component {
         console.log("page INFO: " + info.pageInfo[0].gradeStart);
         // console.log("theme: " + info.theme);
 
-
         this.setState({
 
           userMessage: "",
           userError: "",
-          lesson_id:lesson_id,
+          lesson_id:info.pageInfo[0].lesson_id,
           session:localStorage.getItem('session'),
 
           lessonName: info.pageInfo[0].lessonName,
@@ -366,10 +365,14 @@ class UnpublishedPage extends Component {
   }
 
   resetStuff(info) {
+    console.log(';;;;;');
+
+    //this.props.history.push('/home');
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
       session:localStorage.getItem('session'),
+
       // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
@@ -433,7 +436,7 @@ class UnpublishedPage extends Component {
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
   addToDB = (num) => {
     const body_str = JSON.stringify({
-      lesson_id: -1, // unique id for lesson
+      lesson_id: this.state.lesson_id, // unique id for lesson
       published: num, // 1 is true or 0 is false
       creator: -1, // user ID
       datePublished: Date.now(), //UNIX time
@@ -504,6 +507,26 @@ class UnpublishedPage extends Component {
         }
       });
   }
+
+  deleteLesson() {
+    const req = {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+    const session = localStorage.getItem('session');
+    const lesson_id = this.state.lesson_id;
+    const uri = 'http://localhost:8080/' + session + '/deleteLesson/' + lesson_id
+    fetch(uri, req)
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+        this.props.history.push('/home');
+      });
+  }
+
   addMaterial(){
     this.setState(prevState => ({
       materials: [...prevState.materials, { material: "", quantity: "" }]
@@ -538,6 +561,8 @@ class UnpublishedPage extends Component {
        </div>
      ))
   }
+
+
 
   notanumber() {
     console.log("Not a number!")
@@ -744,6 +769,7 @@ class UnpublishedPage extends Component {
             </div>
           </div>
           <div className="footerContainer">
+            <Button onClick={this.deleteLesson.bind(this)} className="deleteButton">Delete</Button>
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
             <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
           </div>
