@@ -367,7 +367,7 @@ class UnpublishedPage extends Component {
   resetStuff(info) {
     console.log(';;;;;');
 
-    //this.props.history.push('/home');
+
     this.setState({
       userMessage:info.message, // TODO inspect
       userError: "", // TODO Style green
