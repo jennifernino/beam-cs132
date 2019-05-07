@@ -56,7 +56,7 @@ class PublishedPage extends Component {
             mainActivity: info.pageInfo[0].mainActivity,
             backupActivity: info.pageInfo[0].backupActivity,
             reflection: info.pageInfo[0].reflection,
-            materials: info.pageInfo[0].materials.map((item)=> <li>{item.quantity + " " + item.material}</li>)
+            materials: info.pageInfo[0].materials.map((item, index)=> <li key={index}>{item.quantity + " " + item.material}</li>)
           });
         });
     }
