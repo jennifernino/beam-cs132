@@ -29,7 +29,7 @@ class UserOption extends Component {
       position:this.props.item.position
     })
 
-    console.log(this.props.item)
+    console.log('componentdidmount ', this.props.item)
   }
 
   adminUpdate = (str) => {
@@ -50,6 +50,25 @@ class UserOption extends Component {
       });
   }
 
+  adminVerifyUpdate = (str) => {
+    const req = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: str
+    }
+    const session = localStorage.getItem('session');
+    const uri = 'http://localhost:8080/' + session + '/adminupdate'
+    fetch(uri, req)
+      .then(res => res.json())
+      .then(info => {
+
+        console.log(info)
+        this.props.ad()
+      });
+  }
   selected(value, event) {
     this.setState({position:value});
   }
@@ -77,6 +96,7 @@ class UserOption extends Component {
       .then(res => res.json())
       .then(info => {
         console.log(info)
+        this.props.ad()
       });
   }
 
@@ -94,7 +114,7 @@ class UserOption extends Component {
       email: this.state.email
     });
 
-    this.adminUpdate(body_str);
+    this.adminVerifyUpdate(body_str);
   }
 
   update() {
