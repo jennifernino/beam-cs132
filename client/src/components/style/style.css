@@ -247,6 +247,14 @@ a{
   /* align-items: center; */
   max-width: 90%;
 }
+.materialList {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.materialList li {
+  list-style-type: circle;
+  padding: 3px;
+}
 /* styling for the navigation bar / menu */
 ul {
   list-style-type: none;
