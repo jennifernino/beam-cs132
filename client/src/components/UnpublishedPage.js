@@ -18,7 +18,7 @@ class UnpublishedPage extends Component {
 
       lesson_id:"",
 
-      // TODO: lesson_id: String, // TODO: unique id for lesson - handle in server
+      // TODO: lesson_id:history String, // TODO: unique id for lesson - handle in server
       published: 0, // 1 is true or 0 is false
       // creator: Number, // TODO: return session number to get user ID - handle in server
       datePublished: "", // Number, UNIX time
@@ -244,7 +244,9 @@ class UnpublishedPage extends Component {
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
     (this.state.mainActivity!=="") && (this.state.backupActivity!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
-      this.postLesson();
+      this.postLesson().then(() => {
+        this.props.history.push('/home');
+      });
     } else {
       document.getElementById("missingFieldMessage").style.visibility = "visible";
       if (this.state.lessonName==="") {
@@ -365,8 +367,6 @@ class UnpublishedPage extends Component {
   }
 
   resetStuff(info) {
-    console.log(';;;;;');
-
 
     this.setState({
       userMessage:info.message, // TODO inspect
@@ -420,7 +420,7 @@ class UnpublishedPage extends Component {
   }
 
   postLesson() {
-    this.addToDB(1);
+    return this.addToDB(1);
   }
 
   saveLesson() {
@@ -490,12 +490,15 @@ class UnpublishedPage extends Component {
     const session = localStorage.getItem('session');
     const uri = 'http://localhost:8080/' + session + '/getpage/' + this.state.lesson_id;
 
-    fetch(uri, req)
+    return fetch(uri, req)
       .then(res => res.json())
       .then(info => {
         if (info.received) {
           if (num > 0) {
-            this.resetStuff(info);
+            return new Promise(function(resolve, reject) {
+              resolve({a:1});
+            });
+            //this.resetStuff(info);
             // TODO write a published message
           } else {
             // TODO write a saved message
