@@ -20,8 +20,7 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn :
-        // (localStorage.getItem('loggedIn') === null) ? false : true,
-        true,
+        (localStorage.getItem('loggedIn') === null) ? false : true,
       session :
         (localStorage.getItem('session') === null) ? null : localStorage.getItem('session'),
       name :
