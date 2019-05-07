@@ -40,13 +40,10 @@ module.exports = [
     mainActivity: String,
     backupActivity: String,
     reflection: String,
-    additionalGame: String,
-    quote: String,
-    materials: String
-    // materials: [{
-    //   item: String,
-    //   quantity: Number
-    // }]
+    materials: [{
+      material: String,
+      quantity: Number
+    }]
   },
   {
     collection : 'lessons'

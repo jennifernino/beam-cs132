@@ -526,3 +526,11 @@ textarea {
   display: flex;
   flex-direction: column;
 }
+
+#scrollForAddMaterials {
+  border-radius: 10px;
+  border: solid 1pt black;
+  height: 150px;
+  max-height: 150px;
+  overflow: scroll;
+}

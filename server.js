@@ -373,12 +373,11 @@ app.post('/:session_id/newPage', (request, response) => {
   console.log('- request received:', request.method.cyan, request.url.underline);
   response.status(200).type('html');
   const session = request.params.session_id;
-
   const user_id = sessions.get(session);
-
   // TODO: Clean input  - consider save VS publish
   const created = request.body;
   created.creator = user_id;
+  console.log(created);
   // unpublished, check if exists
   Lessons.find({}, {lesson_id:1})
     .then((res) => {
@@ -457,12 +456,11 @@ app.post('/', (request, response) => {
       } else {
         return res;
       }
-
     }
   }).then((potentialUser) => {
     if (potentialUser !== null) {
       const hash = potentialUser.password;
-      console.log(potentialUser)
+
       if (bcrypt.compareSync(request.body.password, hash)) {
         if (potentialUser.verified) {
           session(potentialUser.firstName, potentialUser.user_id)
@@ -488,6 +486,8 @@ app.post('/', (request, response) => {
           message:"Passwords do not match."
         })
       }
+    } else {
+      response.json({loggedIn:false, message:"Something is terribly wrong pt.2"})
     }
   })
 });

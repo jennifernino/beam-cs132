@@ -43,11 +43,10 @@ class NewPage extends Component {
       reflection: "",
       additionalGame: "",
       quote: "", // TODO: Not yet implemented
-      materials:
-        [{
-          material: "",
-          quantity: ""
-        }]
+      materials: [{
+        material:"",
+        quantity:""
+      }]
     };
   }
   componentDidMount() {
@@ -141,21 +140,9 @@ class NewPage extends Component {
     });
   }
 
-  handleAdditionalGame(event) {
-    this.setState({
-      userMessage: "",
-      userError: "",
-      additionalGame:event.target.value
-    });
-  }
 
-  handleMaterials(event) {
-    this.setState({
-      userMessage: "",
-      userError: "",
-      materials:event.target.value
-    });
-  }
+
+
 
   selected(type, value, event) {
     if (type === "semester") {
@@ -184,14 +171,22 @@ class NewPage extends Component {
 
   publishLesson() {
     // Verify everything is ok, if not throw error
+    for (let i = 0; i < this.state.materials.length; i += 1) {
+      let value = this.state.materials[i];
+      if (isNaN(parseInt(value.quantity))) {
+        this.notanumber();
+        console.log("Inputted a material that is not a number.")
+        return;
+      }
+    }
+
     if((this.state.lessonName!=="") && (this.state.semester!=="Semester") &&
     (this.state.dayOfWeek!=="Weekday") && (this.state.monthOfLesson!=="Month") &&
     (this.state.yearOfLesson!=="Year") && (this.state.gradeStart!=="Grade Start") &&
     (this.state.gradeEnd!=="Grade End") && (this.state.subject!=="Subject")&&
     (this.state.theme!=="") && (this.state.unit!=="") && (this.state.subunit!=="") &&
     (this.state.goal!=="") && (this.state.introduction!=="") && (this.state.warmup!=="") &&
-    (this.state.mainActivity!=="") && (this.state.backupActivity!=="") &&
-    (this.state.additionalGame!=="")) {
+    (this.state.mainActivity!=="") && (this.state.backupActivity!=="")) {
       document.getElementById("missingFieldMessage").style.visibility = "hidden";
       this.postLesson();
     } else {
@@ -308,13 +303,7 @@ class NewPage extends Component {
         document.getElementById("backupActivityBox").style.borderColor = "black";
         document.getElementById("missingBackupActivity").style.visibility="hidden";
       }
-      if (this.state.additionalGame===""){
-        document.getElementById("additionalGameBox").style.borderColor = "red";
-        document.getElementById("missingGame").style.visibility="visible";
-      } else{
-        document.getElementById("additionalGameBox").style.borderColor = "black";
-        document.getElementById("missingGame").style.visibility="hidden";
-      }
+      // ADD MATERIALS
       console.log("NOT EVERYTHING IS FILLED OUT!")
     }
   }
@@ -348,9 +337,10 @@ class NewPage extends Component {
       mainActivity: "",
       backupActivity: "",
       reflection: "",
-      additionalGame: "",
-      quote: "", // TODO: Not yet implemented
-      materials: "", // TODO: Update as needed (array?)
+      materials: [{
+        material:"",
+        quantity:""
+      }],
     });
   }
 
@@ -362,8 +352,7 @@ class NewPage extends Component {
     (this.state.gradeEnd!=="Grade End") || (this.state.subject!=="Subject") ||
     (this.state.theme!=="") || (this.state.unit!=="") || (this.state.subunit!=="") ||
     (this.state.goal!=="") || (this.state.introduction!=="") || (this.state.warmup!=="") ||
-    (this.state.mainActivity!=="") || (this.state.backupActivity!=="") ||
-    (this.state.additionalGame!=="")){
+    (this.state.mainActivity!=="") || (this.state.backupActivity!=="")){
       return true;
     } else {
       return false;
@@ -374,6 +363,7 @@ class NewPage extends Component {
     // publish 1
     this.addToDB(1);
   }
+
   saveLesson() {
     //publish 0
     if (this.verifySave()) {
@@ -395,16 +385,17 @@ class NewPage extends Component {
   	 const { name, value } = e.target;
      let materials = [...this.state.materials];
      materials[i] = {...materials[i], [name]: value};
-     this.setState({ materials });
+     console.log(this.state.materials)
+     this.setState({ materials: materials });
   }
 
-  removeClick(i){
+  removeClick(i) {
      let materials = [...this.state.materials];
      materials.splice(i, 1);
-     this.setState({ materials });
+     this.setState({ materials: materials });
   }
 
-  createUI(){
+  createUI() {
      return this.state.materials.map((el, i) => (
        <div className="materialsContainer" key={i}>
           <div className="itemContainer">
@@ -418,6 +409,10 @@ class NewPage extends Component {
           <Button id ="materialButton2" className="materialButton" onClick={this.removeClick.bind(this, i)}> Remove </Button>
        </div>
      ))
+  }
+
+  notanumber() {
+    console.log("Not a number!")
   }
 
  //// DO MULTIPLE SUBMITS ACTUALLY UPDATE THE LESSON NAME?
@@ -460,10 +455,10 @@ class NewPage extends Component {
       mainActivity: this.state.mainActivity,
       backupActivity: this.state.backupActivity,
       reflection: this.state.reflection,
-      additionalGame: this.state.additionalGame,
-      quote: "No quote",
-      materials: ""
+      materials: this.state.materials
     });
+
+    console.log(body_str)
 
     const req = {
       method: 'POST',
@@ -684,17 +679,13 @@ class NewPage extends Component {
               <br></br>
               <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
             </div>
-            <div className="box">
-              <label>Additional Game<span id="missingGame" className="asterisk">*</span></label>
-              <br></br>
-              <textarea id="additionalGameBox" value={this.state.additionalGame} onChange={this.handleAdditionalGame.bind(this)}></textarea>
-            </div>
-            <div className="box">
+
+            <div className="box" id="scrollForAddMaterials">
               <label>Materials</label> <div></div>
               <Button className="materialButton" onClick={this.addMaterial.bind(this)}> Add material <div> {console.log(this.state.materials)} </div> </Button>
               <div>{this.createUI()}</div>
-              <br></br>
             </div>
+
           </div>
           <div className="footerContainer">
             <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
