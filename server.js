@@ -280,6 +280,10 @@ app.post('/:session_id/adminupdate', (request, response) => {
    Lessons.find({lesson_id:lesson_id}, (error, data) => {
      if (error) {
        console.log(error.red)
+       response.json({
+         received:false,
+         message: 'Something went terribly wrong'
+       })
      } else {
        response.json({
          pageInfo: data,
@@ -400,6 +404,24 @@ app.post('/:session_id/newPage', (request, response) => {
       }
     })
   })
+app.delete('/:session_id/deleteLesson/:lesson_id', (request, response) => {
+    console.log('- request received:', request.method.cyan, request.url.underline);
+    response.status(200).type('html');
+
+    const session_id = request.params.session_id;
+    const user_id = sessions.get(session_id);
+    const lesson_id = request.params.lesson_id;
+
+    Lessons.findOneAndDelete({lesson_id: lesson_id}, (error, data) => {
+      if (error) {
+        console.log("Error!");
+        response.json({deleted:false})
+      } else {
+        console.log("Deleted!");
+        response.json({deleted:true,data:data});
+      }
+    })
+})
 
 /*
  *******************************************************************************

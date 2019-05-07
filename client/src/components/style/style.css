@@ -296,7 +296,7 @@ ul {
   justify-content: center;
   padding: 5px 10px 10px 20px;
 }
-.searchButton, .saveButton, .submitButton, .addButton, .materialButton, .inspirationButton{
+.searchButton, .saveButton, .submitButton, .addButton, .materialButton, .inspirationButton, .deleteButton{
   height: 30px;
   color: white;
   font-size: 16px;
@@ -307,7 +307,9 @@ ul {
   margin-bottom: 8px;
   background-color: #49009E;
 }
-
+#deleteButton {
+  margin-right: 15px;
+}
 input{
   border-style:none;
   border-radius: 3px;
@@ -438,13 +440,13 @@ textarea {
 .footerContainer{
   display: flex;
   justify-content: flex-end;
-  padding: 10px;
 }
 .userMessage{
   color: green;
   font-size: 18px;
   display: flex;
   justify-content: flex-end;
+  margin-right: 10px;
 }
 .asterisk{
   color: red;

@@ -668,9 +668,6 @@ class NewPage extends Component {
           </div>
           <div className="bottomContainer">
           <div className="footerContainer">
-            <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
-            <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
-          </div>
             {this.state.userMessage ?
               (
                 <p className="userMessage">{this.state.userMessage}</p>
@@ -683,6 +680,10 @@ class NewPage extends Component {
                    null
                  )
               )}
+            <Button onClick={this.saveLesson.bind(this)} className="saveButton">Save</Button>
+            <Button onClick={this.publishLesson.bind(this)} className="submitButton">Submit</Button>
+          </div>
+
           </div>
         </div>
     );
