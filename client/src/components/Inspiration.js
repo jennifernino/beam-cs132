@@ -7,12 +7,6 @@ import '@trendmicro/react-buttons/dist/react-buttons.css';
 import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import { Button } from 'react-bootstrap';
 
-
-
-
-
-
-
 class Inspiration extends Component {
   constructor(props){
     super(props);
@@ -28,11 +22,7 @@ class Inspiration extends Component {
       ],
       started: 0
     };
-
-
   }
-
-
 
   handleGo(){
 
@@ -62,18 +52,16 @@ class Inspiration extends Component {
       });
   }
 
-  createUI() {
-     return
-  }
-
-
   render() {
     return (
       <div className="inspirationContainer">
       <h1> Inspiration </h1>
       <div className="inspirationHeaderContainer">
-
-      <Dropdown className="dropDownContainer">
+        <Button className="inspirationOptionButton" onClick={() => {this.setState({category:"Themes", started: 0});this.handleGo()}}>Themes</Button>
+        <Button className="inspirationOptionButton" onClick={() =>{this.setState({category:"Warmups", started: 0});this.handleGo()}}>Warmups</Button>
+        <Button className="inspirationOptionButton" onClick={() => {this.setState({category:"Main Activites", started: 0});this.handleGo()}}>Main Activities</Button>
+</div>
+      {/* <Dropdown className="dropDownContainer">
         <DropdownToggle btnStyle="flat">{this.state.category}</DropdownToggle>
         <DropdownMenu className="ddMenu">
 
@@ -83,9 +71,9 @@ class Inspiration extends Component {
           <MenuItem onClick={() => {this.setState({category:"Warmups", started: 0});this.handleGo()}}>Warmups</MenuItem>
           <MenuItem onClick={() => {this.setState({category:"Main Activites", started: 0});this.handleGo()}}>Main activities</MenuItem>
         </DropdownMenu>
-      </Dropdown>
+      </Dropdown> */}
       <div>
-      <li>
+      <ul>
       {
         this.state.started ?
           (
@@ -93,13 +81,13 @@ class Inspiration extends Component {
               (
                 this.state.category === "Themes" ?
                   (
-                    this.state.lessons.map(item => <li> {item.theme} </li>)
+                    this.state.lessons.map((item, index) => <li className="inspirationList" key={index}> {item.theme} </li>)
                   ) : this.state.category === "Warmups" ?
                   (
-                    this.state.lessons.map(item => <li> {item.warmup} </li>)
+                    this.state.lessons.map((item, index) => <li className="inspirationList" key={index}> {item.warmup} </li>)
                   ) : this.state.category === "Main Activites" ?
                   (
-                    this.state.lessons.map(item => <li> {item.mainActivity} </li>)
+                    this.state.lessons.map((item, index) => <li className="inspirationList" key={index}> {item.mainActivity} </li>)
                   )
                   : <h3> Please select a category </h3>
 
@@ -107,11 +95,11 @@ class Inspiration extends Component {
               ) : <h3>No results found</h3>
            ): null
       }
-      </li>
+    </ul>
 
       </div>
       </div>
-      </div>
+      // </div>
     );
   }
 }
