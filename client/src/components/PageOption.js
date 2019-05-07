@@ -33,11 +33,7 @@ class PageOption extends Component {
   }
 
   openReflection() {
-
     const url = '/addreflection/'+this.props.item.lesson_id;
-
-
-
   }
  covGrades(v) {
    if (v === 0) {

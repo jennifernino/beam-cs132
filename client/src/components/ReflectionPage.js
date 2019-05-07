@@ -21,7 +21,6 @@ class ReflectionPage extends Component {
         warmup: "",
         mainActivity: "",
         backupActivity: "",
-        additionalGame: "",
         reflection: ""
       }
     }
@@ -83,13 +82,11 @@ class ReflectionPage extends Component {
             warmup: info.pageInfo[0].warmup,
             mainActivity: info.pageInfo[0].mainActivity,
             backupActivity: info.pageInfo[0].backupActivity,
-            additionalGame: info.pageInfo[0].additionalGame,
             reflection: info.pageInfo[0].reflection,
             // inProgress:info.unpublished,
             // published:info.published,
             // isAdmin:true//(info.isAdmin === 1) ? true : false
           });
-          console.log("allInfo: " + info.pageInfo[0])
         });
     }
     // console.log(this.state.item);
@@ -121,8 +118,6 @@ class ReflectionPage extends Component {
           <p>{this.state.mainActivity}</p>
           <h2>Backup Activity: </h2>
           <p>{this.state.backupActivity}</p>
-          <h2>Additional Game: </h2>
-          <p>{this.state.additionalGame}</p>
           <h2>Reflection: </h2>
           <div className="reflectionBox">
             <textarea value={this.state.reflection} onChange={this.handleReflection.bind(this)}></textarea>
