@@ -40,8 +40,6 @@ class Admin extends Component {
   }
 
   render() {
-    console.log('RENDERING: $$$$ \n\t\n\t',this.state)
-
     return (
       <div className="AdminContainer">
         <h1>Manage Activity</h1>

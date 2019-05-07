@@ -347,8 +347,7 @@ class Search extends Component {
               <div>
                 {
                   this.state.loading ?
-                  (<div><BubbleSpinLoader color="#00A9D7"duration="2"/> <CometSpinLoader color="#00A9D7"duration="2"/> 
-<BarLoader color="#00A9D7"duration="0.8"/><BubbleLoader color="#00A9D7"duration="0.8"/></div>):
+                  (<CometSpinLoader color="#00A9D7"duration="2"/>):
                   (
                     this.state.started ?
                       (

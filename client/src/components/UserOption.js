@@ -21,12 +21,14 @@ class UserOption extends Component {
   }
 
   componentDidMount() {
+    console.log('>> ', this.props.item);
     this.setState({
       session:localStorage.getItem('session'),
       name:this.props.item.name,
       email:this.props.item.email,
       verified:this.props.item.verified,
-      position:this.props.item.position
+      position:this.props.item.position,
+      team:this.props.item.group
     })
   }
 
