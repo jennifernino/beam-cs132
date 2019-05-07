@@ -58,32 +58,26 @@ class SignUp extends Component {
     if((this.state.first!=="") && (this.state.last!=="") &&
     (this.state.email!=="") && (this.state.password!=="") &&
     (this.state.retype!=="")) {
-      document.getElementById("missingSignupReqs").style.visibility = "hidden";
+      document.getElementById("passwordError").style.visibility = "hidden";
       if(schema.validate(this.state.password)==false){
-        // alert('Password must consist of at least eight characters');
-        this.setState({error: 'Password must consist of at least eight characters'})
-
-        //change this alert to actual text warning within the div or somethin
+        this.setState({error: 'Password must consist of at least eight characters.'})
+        document.getElementById("passwordError").style.visibility = "visible";
       }
 
       if(this.state.password != this.state.retype){
-        // alert('ERROR: passwords do not match');
-        this.setState({error: 'ERROR: passwords do not match'})
-
-         //change this alert to actual text warning within the div or somethin
+        this.setState({error: 'Passwords do not match.'})
+        document.getElementById("passwordError").style.visibility = "visible";
       }
       if((schema.validate(this.state.password)) && (this.state.password === this.state.retype)){
         this.postSignup();
         alert(this.state.first + ", you have successfully signed up!"
         + " Please wait for administrator approval before logging in.");
       }
-      // return true;
-      // this.postLesson();
     } else {
-      document.getElementById("missingSignupReqs").style.visibility = "visible";
+      this.setState({error: 'Missing field(s).'})
+      document.getElementById("passwordError").style.visibility = "visible";
       if (this.state.first==="") {
         document.getElementById("missingFirst").style.visibility = "visible";
-        this.state.missingFirst = "Please enter your first name"
       } else{
         document.getElementById("missingFirst").style.visibility = "hidden";
       }
@@ -150,10 +144,9 @@ class SignUp extends Component {
     return (
       <div className="SignUpContainer">
         <div> <h1>Create Account</h1> </div>
-        <label id="missingSignupReqs">Missing Field(s)</label>
         <label id="passwordError">{this.state.error}</label>
         <div className="inputItem">
-        <label>First Name <span id="missingFirst" className="asterisk">{this.state.missingFirst}</span>
+        <label>First Name <span id="missingFirst" className="asterisk">*</span>
         <input id="signupInput1" type="text" value={this.state.first} onChange={this.handleFirstChange} />
         </label>
         </div>

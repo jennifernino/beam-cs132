@@ -30,7 +30,6 @@ class Login extends Component {
     this.setState({
       error: message
     });
-    console.log('unable to login');
     document.getElementById("loginError").style.visibility="visible";
   }
 
@@ -69,13 +68,7 @@ class Login extends Component {
         } else {
           console.log("No login")
           console.log("info.message: " + info.message);
-          if(info.message === "User does not exist."){
-            this.throwError(info.message);
-          } else{
-            this.throwError("Email or password are incorrect.");
-          }
-          // document.getElementById("loginError").style.visibility="visible";
-          // this.throwError("Email or password are incorrect.")
+          this.throwError(info.message);
         }
         // TODO create new page
       })
