@@ -204,6 +204,45 @@ app.post('/:session_id/adminupdate', (request, response) => {
       })
     })
  })
+ /*
+ app.get('/:session_id/home', (request, response) => {
+   console.log('- request received:', request.method.cyan, request.url.underline);
+   response.status(200).type('html');
+   const session = request.params.session_id;
+
+   const user_id = sessions.get(session);
+   Users.find({user_id:user_id},{isAdmin:1})
+    .then((res) => {
+      if (res.length < 1) {
+        response.json({
+          published:[],
+          unpublished:[],
+          isAdmin:0,
+          name:names.get(session)
+        });
+        return;
+      }
+      const isAdmin = res[0].isAdmin;
+      Lessons.find({creator:user_id})
+        .then((data) => {
+          let published = [];
+          let unpublished = [];
+          for (let i = 0; i < data.length; i += 1) {
+            if (data[i].published) { // 0 is not published, 1 is published
+              published.push(data[i]);
+            } else {
+              unpublished.push(data[i]);
+            }
+          }
+          let time = Date.now()
+          Lessons.find({published:{ $gte: Date.now() }})
+
+        })
+
+    })
+ })
+
+ */
 /*
  *******************************************************************************
  * Search functionality

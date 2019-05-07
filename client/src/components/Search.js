@@ -7,7 +7,7 @@ import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown';
 import '@trendmicro/react-buttons/dist/react-buttons.css';
 import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import './style/style.css';
-import { BarLoader } from 'react-css-loaders';
+import { BarLoader, BubbleLoader, BubbleSpinLoader, CometSpinLoader, CylinderSpinLoader, ResizeSpinLoader, RotateSpinLoader,SpinLoader } from 'react-css-loaders';
 var Loader = require('react-loaders').Loader;
 
 class Search extends Component {
@@ -129,7 +129,7 @@ class Search extends Component {
             loading: false
           })
         });
-    },3000);
+    },15000);
 
   }
 
@@ -347,7 +347,8 @@ class Search extends Component {
               <div>
                 {
                   this.state.loading ?
-                  (<BarLoader />):
+                  (<div><BubbleSpinLoader color="#00A9D7"duration="2"/> <CometSpinLoader color="#00A9D7"duration="2"/> 
+<BarLoader color="#00A9D7"duration="0.8"/><BubbleLoader color="#00A9D7"duration="0.8"/></div>):
                   (
                     this.state.started ?
                       (
