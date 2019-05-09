@@ -13,7 +13,6 @@ import PublishedPage from './components/PublishedPage';
 import ReflectionPage from './components/ReflectionPage';
 import UnpublishedPage from './components/UnpublishedPage';
 import Inspiration from './components/Inspiration';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {

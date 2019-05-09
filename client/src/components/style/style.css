@@ -574,3 +574,14 @@ textarea {
 .inspirationList:nth-child(odd){
   background-color: #fffae0;
 }
+.emailInput{
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  margin-left: 4%;
+}
+.tooMuchText {
+  word-wrap: break-word;
+  text-align: center;
+  justify-content: center;
+}

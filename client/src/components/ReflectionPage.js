@@ -40,7 +40,7 @@ class ReflectionPage extends Component {
     updateLesson() {
       const session = localStorage.getItem('session');
       const lesson_id = this.props.match.params.lesson_id;
-      const uri = 'http://localhost:8080/' + session + '/updatelesson/' + this.props.match.params.lesson_id;
+      const uri = 'http://localhost:8080/' + session + '/updatelesson/' + lesson_id;
       const body_str = JSON.stringify({
         reflection:this.state.reflection
       });

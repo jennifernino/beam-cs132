@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './style/style.css';
-import { Link, Redirect } from "react-router-dom";
-import PublishedPage from './PublishedPage';
+import { Link } from "react-router-dom";
 
 class PageOption extends Component {
 
@@ -32,9 +31,6 @@ class PageOption extends Component {
     // when opening?
   }
 
-  openReflection() {
-    const url = '/addreflection/'+this.props.item.lesson_id;
-  }
  covGrades(v) {
    if (v === 0) {
      return 'K';
@@ -64,7 +60,7 @@ class PageOption extends Component {
       </div>
     </Link>
     <Link className="link" to={'/addreflection/' + this.props.item.lesson_id}>
-      <button className="addButton" onClick={this.openReflection.bind(this)}>Add Reflection</button>
+      <button className="addButton">Add Reflection</button>
     </Link>
   </div>
     );

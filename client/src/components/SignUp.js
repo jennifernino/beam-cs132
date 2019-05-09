@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
 import './style/style.css';
 
-var validator = require("email-validator");
 var passwordValidator = require('password-validator');
 
 var schema = new passwordValidator();
@@ -59,19 +57,17 @@ class SignUp extends Component {
     (this.state.email!=="") && (this.state.password!=="") &&
     (this.state.retype!=="")) {
       document.getElementById("passwordError").style.visibility = "hidden";
-      if(schema.validate(this.state.password)==false){
+      if(schema.validate(this.state.password)===false){
         this.setState({error: 'Password must consist of at least eight characters.'})
         document.getElementById("passwordError").style.visibility = "visible";
       }
 
-      if(this.state.password != this.state.retype){
+      if(this.state.password !== this.state.retype){
         this.setState({error: 'Passwords do not match.'})
         document.getElementById("passwordError").style.visibility = "visible";
       }
       if((schema.validate(this.state.password)) && (this.state.password === this.state.retype)){
         this.postSignup();
-        alert(this.state.first + ", you have successfully signed up!"
-        + " Please wait for administrator approval before logging in.");
       }
     } else {
       this.setState({error: 'Missing field(s).'})
@@ -105,16 +101,6 @@ class SignUp extends Component {
   }
 
    postSignup() {
-    //alert('credentials'+ this.state.email + this.state.password);
-    // event.preventDefault();
-    // if(validator.validate(this.state.email)==false){
-    //   alert('Please enter a valid email');
-    // }
-    // if((schema.validate(this.state.password)) && (this.state.password === this.state.retype)){
-      // alert(this.state.first + ", you have successfully signed up!"
-      // + " Please wait for administrator approval before logging in.");
-    // }
-    // if()
     const email = this.state.email.toLowerCase();
     const body_str = JSON.stringify({
       first: this.state.first,
@@ -135,9 +121,21 @@ class SignUp extends Component {
     fetch("http://localhost:8080/signup", req)
       .then(res => res.json())
       .then(info => {
-        // TODO print account made if made
-        this.props.history.push('/');
+        console.log(info)
+        if (info.created) {
+          this.props.history.push('/');
+        } else {
+          console.log(this.state);
+          document.getElementById("passwordError").style.visibility = "visible";
+          this.setState({error: 'An account already exists with that email.'})
+          console.log(this.state);
+          document.getElementById("missingEmail").style.visibility = "visible";
+        }
       })
+  }
+
+  goBack() {
+    this.props.history.push('/');
   }
 
   render() {
@@ -171,6 +169,8 @@ class SignUp extends Component {
         </label>
         </div>
         <button id="signupInput" className="submitButton" onClick={this.checkFields}>Sign Up</button>
+        <button id="signupInput" className="submitButton" onClick={this.goBack.bind(this)}>Back to Login</button>
+
       </div>
     );
   }

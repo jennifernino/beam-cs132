@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
+import { CometSpinLoader } from 'react-css-loaders';
 import { Button } from 'react-bootstrap';
 import Dropdown from './Dropdown';
-import PageOption from './PageOption';
 import PublishedOption from './PublishedOption';
 import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown';
 import '@trendmicro/react-buttons/dist/react-buttons.css';
 import '@trendmicro/react-dropdown/dist/react-dropdown.css';
 import './style/style.css';
-import { BarLoader, BubbleLoader, BubbleSpinLoader, CometSpinLoader, CylinderSpinLoader, ResizeSpinLoader, RotateSpinLoader,SpinLoader } from 'react-css-loaders';
-var Loader = require('react-loaders').Loader;
 
 class Search extends Component {
   constructor(props) {
@@ -71,8 +69,6 @@ class Search extends Component {
   }
 
   searchStuff = () => {
-    let filters = false;
-
     const text = this.cleanStr(this.state.searchValue);
     const semester = this.cleanStrFilter(this.state.semester);
     const weekday = this.cleanStrFilter(this.state.dayOfWeek);
@@ -129,7 +125,7 @@ class Search extends Component {
             loading: false
           })
         });
-    },15000);
+    },3000);
 
   }
 

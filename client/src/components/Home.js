@@ -9,7 +9,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: localStorage.getItem('name'),
+      username: '',
       isAdmin:0,
       session: '',
       inProgress:[],
@@ -24,7 +24,7 @@ class Home extends Component {
   homeSetUp = () => {
     const name = localStorage.getItem('name');
     const session = localStorage.getItem('session');
-  
+
     const uri = 'http://localhost:8080/' + session + '/home'
     fetch(uri)
       .then(res => res.json())
@@ -32,7 +32,9 @@ class Home extends Component {
         this.setState({
           inProgress:info.unpublished,
           published:info.published,
-          isAdmin:info.isAdmin
+          isAdmin:info.isAdmin,
+          name:name,
+          session:session
         })
         console.log(info.isAdmin)
       });

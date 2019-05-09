@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import PropTypes from 'prop-types'
 import Dropdown from './Dropdown';
 import { DropdownMenu, MenuItem, DropdownToggle } from './Dropdown'
 import '@trendmicro/react-buttons/dist/react-buttons.css';
@@ -56,7 +55,7 @@ class UnpublishedPage extends Component {
   setUp = () => {
     const session = localStorage.getItem('session');
     const lesson_id = this.props.match.params.lesson_id;
-    const uri = 'http://localhost:8080/' + session + '/getpage/' + this.props.match.params.lesson_id;
+    const uri = 'http://localhost:8080/' + session + '/getpage/' + lesson_id;
     fetch(uri)
       .then(res => res.json())
       .then(info => {
